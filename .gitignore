@@ -1,6 +1,5 @@
+*~*
 bin/
 gen/
 .metadata/
 .settings/
-.classpath
-.project

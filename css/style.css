@@ -1,0 +1,133 @@
+/* General CSS*/
+* {
+	font-family: Arial, sans-serif;
+	color: #000;
+	font-size: 15px;
+	text-decoration: none;
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	background-color: #fff;
+}
+
+#container {
+	width: 1000px;
+	margin: 10px auto;
+}
+
+#header {
+	width: 1000px;
+	height: 100px;
+}
+
+#navigation {
+	float: left;
+	width: 150px;
+	margin-top: 20px;
+	margin-left: 20px;
+	text-align: center;
+}
+
+.navitem {
+	background-image: url("../images/navigation.png");
+	width: 150px;
+	height: 25px;
+	padding-top: 5px;
+}
+
+.navitem a {
+	text-decoration: none ! important;
+}
+
+#content {
+	width: 800px;
+	margin-left: 100px;
+	text-align: left;
+}
+
+#contenttop {
+	background-image: url("../images/contenttop.png");
+	width: 770px;
+	height: 30px;
+	text-align: right;
+	padding-top: 20px;
+	padding-right: 30px;
+}
+
+#contentcenter {
+	background-image: url("../images/contentcenter.png");
+	min-height: 250px;
+	width: 680px;
+	padding-left: 100px;
+	padding-right: 20px;
+}
+
+#contentbottom {
+	background-image: url("../images/contentbottom.png");
+	width: 770px;
+	height: 30px;
+	padding-top: 20px;
+	padding-right: 30px;
+	font-size: 9px ! important;
+	text-align: right;
+}
+
+#contentbottom a {
+	font-size: 9px ! important;
+}
+
+h1 {
+	font-size: 20px;
+	text-decoration: underline;
+	margin: 0px;
+	padding-bottom: 10px;
+}
+
+table td {
+	padding: 5px;
+}
+
+a:link {
+	text-decoration: underline;
+}
+
+a:visited {
+	font-style: italic;
+	text-decoration: underline;
+}
+
+a:active {
+	text-decoration: underline;
+}
+
+a:focus {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a img {
+	border-style: none;
+}
+
+/* Specific CSS */
+.navitem a {
+	color: #000 ! important;
+}
+
+.tr_noborder td {
+	border-style: none;
+}
+
+ul {
+	margin: auto;
+	padding-bottom: 0px;
+}
+
+.navitem a {
+	color: #000 ! important;
+}

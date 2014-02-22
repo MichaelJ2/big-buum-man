@@ -56,5 +56,6 @@ public class ClientThread extends NetworkThread {
 
 	public void sendMessage(String message) {
 		outputStream.println(message);
+		outputStream.flush();
 	}
 }

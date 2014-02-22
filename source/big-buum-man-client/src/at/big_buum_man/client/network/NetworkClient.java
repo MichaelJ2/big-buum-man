@@ -90,6 +90,7 @@ public class NetworkClient {
 	// TODO switch from string to JSON object
 	public void sendMessage(String message) {
 		outputStream.println(message);
+		outputStream.flush();
 	}
 
 	public void processFoundServer(InetAddress address) {

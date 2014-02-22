@@ -14,11 +14,11 @@ import java.net.MulticastSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import at.big_buum_man.android.ClientMethods;
+import at.big_buum_man.android.AndroidMethods;
 
 public class NetworkClient {
 
-	private ClientMethods main;
+	private AndroidMethods main;
 
 	private Socket socketUnicast;
 	private MulticastSocket socketMulticast;
@@ -34,7 +34,7 @@ public class NetworkClient {
 	private AnnounceListenThread announceThread;
 	private ListenThread listenThread;
 
-	public NetworkClient(ClientMethods main) {
+	public NetworkClient(AndroidMethods main) {
 		this.main = main;
 	}
 

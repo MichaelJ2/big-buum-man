@@ -8,7 +8,7 @@ package at.big_buum_man.android;
 import java.net.InetAddress;
 
 // TODO new name for interface
-public interface ClientMethods {
+public interface AndroidMethods {
 
 	// TODO switch from string to JSON object
 	public void processMessage(InetAddress client, String message);

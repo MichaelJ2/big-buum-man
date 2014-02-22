@@ -1,6 +1,23 @@
-big-buum-man
-============
+# Big-Buum-Man
 
-big-buum-man is a multiplayer Bomberman game for computer + mobile devices
+Big-Buum-Man is a multiplayer-Bomberman-game for different platforms and consits of
+a server and a client.
 
-We are still in the startup process, development will start soon!
+
+The server currently supports the following platforms:
+
+
+* Windows
+* Linux
+* Mac OS X
+
+
+The client currently supports the following platforms:
+
+* Windows
+* Linux
+* Mac OS X
+* Android
+
+
+More information, pictures, releases and the imprint can be found at: [http://geraldschreiber.github.io/big-buum-man/](http://geraldschreiber.github.io/big-buum-man/)

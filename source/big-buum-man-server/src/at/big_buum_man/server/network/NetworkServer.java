@@ -75,7 +75,7 @@ public class NetworkServer {
 	}
 
 	// TODO switch from string to JSON object
-	public void processMessage(InetAddress client, String message) {
+	public synchronized void processMessage(InetAddress client, String message) {
 		main.processMessage(client, message);
 	}
 

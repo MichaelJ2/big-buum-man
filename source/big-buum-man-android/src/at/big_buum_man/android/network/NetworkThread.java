@@ -13,7 +13,7 @@ public abstract class NetworkThread extends Thread {
 		runThread = false;
 	}
 
-	public boolean runThread() {
+	protected boolean runThread() {
 		return runThread;
 	}
 

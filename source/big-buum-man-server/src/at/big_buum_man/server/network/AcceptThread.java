@@ -28,7 +28,7 @@ public class AcceptThread extends NetworkThread {
 				Socket client = socket.accept();
 				thread = new ClientThread(client, server);
 				thread.start();
-				server.registerNewClient(socket.getInetAddress(), thread);
+				server.registerNewClient(client.getInetAddress(), thread);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

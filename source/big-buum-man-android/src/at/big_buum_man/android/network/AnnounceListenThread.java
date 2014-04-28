@@ -15,13 +15,13 @@ import at.big_buum_man.common.network.NetworkThread;
 public class AnnounceListenThread extends NetworkThread {
 
 	private MulticastSocket socket;
-	private NetworkClient client;
+	private NetworkClientListener listener;
 
 	private int sleepTime = 10;
 
-	public AnnounceListenThread(MulticastSocket socket, NetworkClient client) {
+	public AnnounceListenThread(MulticastSocket socket, NetworkClientListener listener) {
 		this.socket = socket;
-		this.client = client;
+		this.listener = listener;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class AnnounceListenThread extends NetworkThread {
 				// String packetString = new String(packet.getData(), "UTF-8");
 
 				InetAddress address = packet.getAddress();
-				client.processFoundServer(address);
+				listener.processFoundServer(address);
 
 				packet.setLength(buffer.length);
 

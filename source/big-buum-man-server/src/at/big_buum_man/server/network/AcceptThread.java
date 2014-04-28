@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import at.big_buum_man.common.network.NetworkThread;
+
 public class AcceptThread extends NetworkThread {
 
 	private ServerSocket socket;

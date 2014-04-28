@@ -12,7 +12,7 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.Socket;
 
-import at.big_buum_man.client.ClientMethods;
+import at.big_buum_man.common.network.ClientMethods;
 
 public class NetworkClient {
 

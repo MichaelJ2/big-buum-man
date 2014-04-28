@@ -10,7 +10,7 @@ import java.net.MulticastSocket;
 import java.net.ServerSocket;
 import java.util.HashMap;
 
-import at.big_buum_man.server.ServerMethods;
+import at.big_buum_man.common.network.ServerMethods;
 
 public class NetworkServer {
 

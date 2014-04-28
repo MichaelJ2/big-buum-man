@@ -3,7 +3,7 @@
  * <schreibergerald1@gmail.com>
  */
 
-package at.big_buum_man.client.network;
+package at.big_buum_man.common.network;
 
 import java.util.HashMap;
 

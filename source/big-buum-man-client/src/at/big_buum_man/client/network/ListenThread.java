@@ -8,6 +8,8 @@ package at.big_buum_man.client.network;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import at.big_buum_man.common.network.NetworkThread;
+
 public class ListenThread extends NetworkThread {
 
 	private BufferedReader inputStream;

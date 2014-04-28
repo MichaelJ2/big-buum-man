@@ -12,7 +12,7 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.Socket;
 
-import at.big_buum_man.android.AndroidMethods;
+import at.big_buum_man.common.network.AndroidMethods;
 
 public class NetworkClient {
 

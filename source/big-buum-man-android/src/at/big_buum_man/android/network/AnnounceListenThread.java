@@ -10,6 +10,8 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
+import at.big_buum_man.common.network.NetworkThread;
+
 public class AnnounceListenThread extends NetworkThread {
 
 	private MulticastSocket socket;

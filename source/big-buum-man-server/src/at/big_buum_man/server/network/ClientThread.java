@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import at.big_buum_man.common.network.NetworkThread;
+
 public class ClientThread extends NetworkThread {
 
 	private Socket socket;

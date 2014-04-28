@@ -3,17 +3,17 @@
  * <schreibergerald1@gmail.com>
  */
 
-package at.big_buum_man.server;
+package at.big_buum_man.common.network;
 
 import java.net.InetAddress;
 
 // TODO new name for interface
-public interface ServerMethods {
+public interface AndroidMethods {
 
 	// TODO switch from string to JSON object
 	public void processMessage(InetAddress client, String message);
 
-	public void registerNewClient(InetAddress client);
+	public void processFoundServer(InetAddress address);
 
 	// TODO define other methods called by clients
 }

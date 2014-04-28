@@ -3,7 +3,7 @@
  * <schreibergerald1@gmail.com>
  */
 
-package at.big_buum_man.client;
+package at.big_buum_man.common.network;
 
 import java.net.InetAddress;
 

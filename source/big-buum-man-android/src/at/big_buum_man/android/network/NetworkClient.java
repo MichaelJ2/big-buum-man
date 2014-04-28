@@ -12,11 +12,11 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.Socket;
 
-import at.big_buum_man.common.network.AndroidMethods;
+import at.big_buum_man.common.network.ClientMethods;
 
 public class NetworkClient {
 
-	private AndroidMethods main;
+	private ClientMethods main;
 
 	private Socket socketUnicast;
 	private MulticastSocket socketMulticast;
@@ -35,7 +35,7 @@ public class NetworkClient {
 	private boolean clientConnected = false;
 	private boolean listenAnnounce = false;
 
-	public NetworkClient(AndroidMethods main) {
+	public NetworkClient(ClientMethods main) {
 		this.main = main;
 	}
 

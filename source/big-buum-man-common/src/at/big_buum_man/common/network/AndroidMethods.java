@@ -7,13 +7,21 @@ package at.big_buum_man.common.network;
 
 import java.net.InetAddress;
 
-// TODO new name for interface
-public interface AndroidMethods {
+/**
+ * Deprecated interface, use interface {@link ClientMethods} instead
+ */
+@Deprecated
+public interface AndroidMethods extends ClientMethods {
 
-	// TODO switch from string to JSON object
+	/**
+	 * Deprecated method, use interface {@link ClientMethods} instead
+	 */
+	@Deprecated
 	public void processMessage(InetAddress client, String message);
 
+	/**
+	 * Deprecated method, use interface {@link ClientMethods} instead
+	 */
+	@Deprecated
 	public void processFoundServer(InetAddress address);
-
-	// TODO define other methods called by clients
 }

@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 import at.big_buum_man.common.network.ServerMethods;
 
-public class NetworkServer {
+public class NetworkServer implements NetworkServerListener {
 
 	private ServerMethods main;
 
@@ -35,13 +35,21 @@ public class NetworkServer {
 		this.main = main;
 	}
 
+	/**
+	 * Deprecated method, use startServer(NetworkServerListener listener) instead
+	 */
+	@Deprecated
 	public void startServer() throws Exception {
+		startServer(this);
+	}
+
+	public void startServer(NetworkServerListener listener) throws Exception {
 		if (serverRunning) {
 			throw new Exception("Server already running!");
 		}
 
 		serverUnicast = new ServerSocket(unicastPort);
-		acceptThread = new AcceptThread(serverUnicast, this);
+		acceptThread = new AcceptThread(serverUnicast, this, listener);
 		acceptThread.start();
 
 		serverRunning = true;
@@ -120,6 +128,11 @@ public class NetworkServer {
 
 	public void registerNewClient(InetAddress address, ClientThread thread) {
 		clients.put(address, thread);
+	}
+	
+	@Override
+	@Deprecated
+	public void registerNewClient(InetAddress address) {
 		main.registerNewClient(address);
 	}
 }

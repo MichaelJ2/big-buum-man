@@ -14,7 +14,7 @@ public interface ServerMethods {
 	// TODO define other methods called by clients
 
 	/**
-	 * Deprecated method, use interface NetworkClientListener instead
+	 * Deprecated method, use interface NetworkServerListener instead
 	 */
 	@Deprecated
 	public void registerNewClient(InetAddress client);

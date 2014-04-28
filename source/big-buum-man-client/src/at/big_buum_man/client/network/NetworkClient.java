@@ -14,7 +14,7 @@ import java.net.Socket;
 
 import at.big_buum_man.common.network.ClientMethods;
 
-public class NetworkClient {
+public class NetworkClient implements NetworkClientListener {
 
 	private ClientMethods main;
 
@@ -76,14 +76,22 @@ public class NetworkClient {
 		clientConnected = false;
 	}
 
+	/**
+	 * Deprecated method, use startListenAnnounce(NetworkClientListener listener) instead
+	 */
+	@Deprecated
 	public void startListenAnnounce() throws Exception {
+		startListenAnnounce(this);
+	}
+	
+	public void startListenAnnounce(NetworkClientListener listener) throws Exception {
 		if (listenAnnounce) {
 			throw new Exception("Listen announce already started!");
 		}
 
 		socketMulticast = new MulticastSocket(multicastPort);
 		socketMulticast.joinGroup(InetAddress.getByName(multicastAddress));
-		announceThread = new AnnounceListenThread(socketMulticast, this);
+		announceThread = new AnnounceListenThread(socketMulticast, listener);
 		announceThread.start();
 
 		listenAnnounce = true;
@@ -119,6 +127,8 @@ public class NetworkClient {
 		outputStream.flush();
 	}
 
+	@Override
+	@Deprecated
 	public void processFoundServer(InetAddress address) {
 		main.processFoundServer(address);
 	}

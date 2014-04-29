@@ -1,5 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Big-Buum-Man</string>
-
+    <string name="app_name">Big-Bumm-Bang_Client</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="up">UP</string>
+    <string name="right">RIGHT</string>
+    <string name="left">LEFT</string>
+    <string name="down">DOWN</string>
+    <string name="power1">A</string>
+    <string name="power2">B</string>
+    <string name="ip">IP: 192.168.1.0</string>
+    
+    <string name="setting1">Settings</string>
+    <string name="setting2">Verbinden</string>
+    <string name="setting4">Über Big-Buum-Bang</string>
+    <string name="setting5">zurück zum Spiel</string>
 </resources>

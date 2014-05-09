@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/setting1"/>
+    <item
+        android:id="@+id/action_new"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/setting2"/>
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/setting4"/>
+    <item
+        android:id="@+id/action_main"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/setting5"/>
+
+</menu>

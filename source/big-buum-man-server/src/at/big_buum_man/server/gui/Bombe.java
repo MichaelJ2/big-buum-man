@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
  * @author Michael Januschek
  * @category 
  * 
- * Beschreibung: Dies ist die Bombe mit der Wï¿½nde und Spieler zerstï¿½rt werden.
+ * Beschreibung: Dies ist die Bombe mit der Wände und Spieler zerstört werden.
  */
 public class Bombe extends SpielObjekt
 {
@@ -16,6 +16,8 @@ public class Bombe extends SpielObjekt
 	private Player besitzer;
 	private int sprungx;
 	private int sprungy;
+	private Integer anfangx;
+	private Integer anfangy;
 	private int range;
 	private String powerup;
 	private String powerdown;
@@ -116,5 +118,15 @@ public class Bombe extends SpielObjekt
 	public void setPowerup(String powerup) 
 	{
 		this.powerup = powerup;
+	}
+	
+	public void setAnfangx(int x)
+	{
+		anfangx=x;
+	}
+	
+	public void setAnfangy(int y)
+	{
+		anfangy=y;
 	}
 }

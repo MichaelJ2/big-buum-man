@@ -43,6 +43,17 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		this.x=x;
 	}
 	
+	/***
+	 * 	Beschreibung: Position setzen
+	 */
+	public void setposition(int x,int y,int virx,int viry)
+	{
+		this.y=y;
+		this.x=x;
+		this.virx=virx;
+		this.viry=viry;
+	}
+	
 	@Override
 	public void update(int delta)
 	{
@@ -79,7 +90,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	}
 	
 	/***
-	 * 	Beschreibung: Hï¿½he eines Feldes setzen
+	 * 	Beschreibung: Höhe eines Feldes setzen
 	 */
 	public void setSprungY(Integer sprung)
 	{
@@ -104,7 +115,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	}
 	
 	/***
-	 * 	Beschreibung: Gibt Namen zurï¿½ck
+	 * 	Beschreibung: Gibt Namen zurück
 	 */
 	public String getName()
 	{
@@ -128,7 +139,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	}
 	
 	/***
-	 * 	Beschreibung: Gibt Punkte zurï¿½ck
+	 * 	Beschreibung: Gibt Punkte zurück
 	 */
 	public Integer getPunkte()
 	{
@@ -164,12 +175,20 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void up() 
 	{
-		System.out.println("1:"+(((this.y-anfangy)/sprungy*1)-1)+" 2:"+(((this.x-anfangx)/sprungx*1)-3));
+		//System.out.println("x:"+(((this.x-anfangx)/sprungx*1))+" y:"+(((this.y-anfangy)/sprungy*1)-1));
+		System.out.println(this.getName()+"->up: "+this.getVirx()+"/"+this.getViry()+"->"+this.getVirx()+"/"+(this.getViry()-1));
 		
-		if(mapn.get(((this.y-anfangy)/sprungy*1)-1).get(((this.x-anfangx)/sprungx*1)-3).getStein().equals("0"))
+		
+		if(mapn.get(((this.y-anfangy)/sprungy*1)-1).get(((this.x-anfangx)/sprungx*1)).getStein().equals("0"))
+		{
 			this.y=this.y;
+			this.viry=this.viry;
+		}
 		else
+		{
 			this.y-=sprungy;
+			this.viry--;
+		}
 		
 		try 
 		{
@@ -186,10 +205,20 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void down() 
 	{
-		if(mapn.get(((this.y-anfangy)/sprungy*1)+1).get(((this.x-anfangx)/sprungx*1)-3).getStein().equals("0"))
+		//System.out.println("x:"+(((this.x-anfangx)/sprungx*1))+" y:"+(((this.y-anfangy)/sprungy*1)+1));
+		System.out.println(this.getName()+"->down: "+this.getVirx()+"/"+this.getViry()+"->"+this.getVirx()+"/"+(this.getViry()+1));
+		
+		
+		if(mapn.get(((this.y-anfangy)/sprungy*1)+1).get(((this.x-anfangx)/sprungx*1)).getStein().equals("0"))
+		{
 			this.y=this.y;
+			this.viry=this.viry;
+		}
 		else
+		{
 			this.y+=sprungy;
+			this.viry++;
+		}
 		
 		try 
 		{
@@ -206,10 +235,19 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void right() 
 	{
-		if(mapn.get(((this.y-anfangy)/sprungy*1)).get(((this.x-anfangx)/sprungx*1)-2).getStein().equals("0"))
+		//System.out.println("x:"+(((this.x-anfangx)/sprungx*1)+1)+" y:"+((this.y-anfangy)/sprungy*1));
+		System.out.println(this.getName()+"->right: "+this.getVirx()+"/"+this.getViry()+"->"+(this.getVirx()+1)+"/"+this.getViry());
+		
+		if(mapn.get(((this.y-anfangy)/sprungy*1)).get(((this.x-anfangx)/sprungx*1)+1).getStein().equals("0"))
+		{
 			this.x=this.x;
+			this.virx=this.virx;
+		}
 		else
+		{
 			this.x+=sprungx;
+			this.virx++;
+		}
 		
 		try 
 		{
@@ -226,12 +264,19 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void left() 
 	{
-		//System.out.println("1:"+(((this.y-anfangy)/sprungy*1))+" 2:"+(((this.x-anfangx)/sprungx*1)-4));
+		//System.out.println("x:"+(((this.x-anfangx)/sprungx*1)-1)+" y:"+(((this.y-anfangy)/sprungy*1)));
+		System.out.println(this.getName()+"->left: "+this.getVirx()+"/"+this.getViry()+"->"+(this.getVirx()-1)+"/"+this.getViry());
 		
-		if(mapn.get(((this.y-anfangy)/sprungy*1)).get(((this.x-anfangx)/sprungx*1)-4).getStein().equals("0"))
+		if(mapn.get(((this.y-anfangy)/sprungy*1)).get(((this.x-anfangx)/sprungx*1)-1).getStein().equals("0"))
+		{
 			this.x=this.x;
+			this.virx=this.virx;
+		}
 		else
+		{
 			this.x-=sprungx;
+			this.virx--;
+		}
 		
 		try 
 		{
@@ -250,7 +295,10 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		try 
 		{
-			bbm.addBombe(this.x,this.sprungx,this.y,this.sprungy,this);
+			//System.out.println("px:"+this.virx+" py:"+this.viry);
+			System.out.println(this.getName()+"->Bombe: "+this.getVirx()+"/"+this.getViry());
+			bbm.addBombe(this.x,this.virx,this.sprungx,this.y,this.viry,this.sprungy,this);
+			//bbm.addBombe((((this.x-anfangx)/sprungx*1)),this.sprungx,(((this.y-anfangy)/sprungy*1)),this.sprungy,this);
 		} 
 		catch (SlickException e) 
 		{

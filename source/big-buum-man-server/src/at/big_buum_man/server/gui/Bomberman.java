@@ -314,7 +314,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 			ns.startServer();
 			System.out.println("start Server");
 		} 
-		catch (IOException e) 
+		catch (Exception e) 
 		{
 			e.printStackTrace();
 		}
@@ -324,7 +324,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 			ns.startAnnounce();
 			System.out.println("start Announce");
 		} 
-		catch (IOException e) 
+		catch (Exception e) 
 		{
 			e.printStackTrace();
 		}

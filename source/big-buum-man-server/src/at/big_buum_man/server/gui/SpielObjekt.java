@@ -11,30 +11,17 @@ public abstract class SpielObjekt {
 
 	protected int x;
 	protected int y;
-	protected int virx;
-	protected int viry;
 	protected Image image;
+	public String objectName;
 
 	public abstract void draw(Graphics g);
 	public void update(int delta){};
 
-	public SpielObjekt(int x, int y, int virx, int viry, Image image) {
-		this(x, y, virx, viry);
-		this.image = image;
-	}
-	
 	public SpielObjekt(int x, int y, Image image) {
 		this(x, y);
 		this.image = image;
 	}
 
-	public SpielObjekt(int x, int y, int virx, int viry) {
-		this.x = x;
-		this.y = y;
-		this.virx = virx;
-		this.viry = viry;
-	}
-	
 	public SpielObjekt(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -63,25 +50,19 @@ public abstract class SpielObjekt {
 		this.y = y;
 	}
 	
-	public int getViry() {
-		return viry;
-	}
-	
-	public void setViry(int viry) {
-		this.viry = viry;
-	}
-	
-	public int getVirx() {
-		return virx;
-	}
-	
-	public void setVirx(int virx) {
-		this.virx = virx;
-	}
-	
 	public void setImage(Image image)
 	{
 		this.image=image;
+	}
+	
+	public void setObjectName(String objectname)
+	{
+		this.objectName=objectname;		
+	}
+	
+	public String getObjectName()
+	{
+		return this.objectName;		
 	}
 
 }

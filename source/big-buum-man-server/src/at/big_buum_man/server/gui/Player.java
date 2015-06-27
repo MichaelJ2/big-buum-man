@@ -1,10 +1,15 @@
 package at.big_buum_man.server.gui;
 
+import org.newdawn.slick.Color;
+
+import java.awt.Font;
 import java.net.InetAddress;
 import java.util.ArrayList;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 
 
 /***
@@ -25,13 +30,16 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	private String name="";
 	private Integer punkte=0;
 	private InetAddress adresse;
-
+	private Color farbe=Color.green;
+	private TrueTypeFont trueTypeFont = new TrueTypeFont(new Font("Arial", Font.BOLD, 20), true);
+	
 	/***
 	 * 	Beschreibung: Konstruktor mit Bild
 	 */
 	public Player(Image image) 
 	{
 		super(image);
+		super.setObjectName("Player");
 	}
 	
 	/***
@@ -41,17 +49,6 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		this.y=y;
 		this.x=x;
-	}
-	
-	/***
-	 * 	Beschreibung: Position setzen
-	 */
-	public void setposition(int x,int y,int virx,int viry)
-	{
-		this.y=y;
-		this.x=x;
-		this.virx=virx;
-		this.viry=viry;
 	}
 	
 	@Override
@@ -70,7 +67,10 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	@Override
 	public void draw(Graphics g) 
 	{
-		image.drawCentered(x, y);
+		//image.drawCentered(x, y);
+		image.draw(x, y, farbe);
+		trueTypeFont.drawString(x, y, getObjectName()+":"+getName(), Color.red);
+		System.out.println(getName()+": x"+x+" y:"+y);
 	}
 
 	/***
@@ -175,20 +175,12 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void up() 
 	{
-		//System.out.println("x:"+(((this.x-anfangx)/sprungx*1))+" y:"+(((this.y-anfangy)/sprungy*1)-1));
-		System.out.println(this.getName()+"->up: "+this.getVirx()+"/"+this.getViry()+"->"+this.getVirx()+"/"+(this.getViry()-1));
-		
+		System.out.println("x:"+(((this.x-anfangx)/sprungx*1))+" y:"+(((this.y-anfangy)/sprungy*1)-1));
 		
 		if(mapn.get(((this.y-anfangy)/sprungy*1)-1).get(((this.x-anfangx)/sprungx*1)).getStein().equals("0"))
-		{
 			this.y=this.y;
-			this.viry=this.viry;
-		}
 		else
-		{
 			this.y-=sprungy;
-			this.viry--;
-		}
 		
 		try 
 		{
@@ -205,20 +197,11 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void down() 
 	{
-		//System.out.println("x:"+(((this.x-anfangx)/sprungx*1))+" y:"+(((this.y-anfangy)/sprungy*1)+1));
-		System.out.println(this.getName()+"->down: "+this.getVirx()+"/"+this.getViry()+"->"+this.getVirx()+"/"+(this.getViry()+1));
-		
-		
+		System.out.println("x:"+(((this.x-anfangx)/sprungx*1))+" y:"+(((this.y-anfangy)/sprungy*1)+1));
 		if(mapn.get(((this.y-anfangy)/sprungy*1)+1).get(((this.x-anfangx)/sprungx*1)).getStein().equals("0"))
-		{
 			this.y=this.y;
-			this.viry=this.viry;
-		}
 		else
-		{
 			this.y+=sprungy;
-			this.viry++;
-		}
 		
 		try 
 		{
@@ -235,19 +218,11 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void right() 
 	{
-		//System.out.println("x:"+(((this.x-anfangx)/sprungx*1)+1)+" y:"+((this.y-anfangy)/sprungy*1));
-		System.out.println(this.getName()+"->right: "+this.getVirx()+"/"+this.getViry()+"->"+(this.getVirx()+1)+"/"+this.getViry());
-		
+		System.out.println("x:"+(((this.x-anfangx)/sprungx*1)+1)+" y:"+((this.y-anfangy)/sprungy*1));
 		if(mapn.get(((this.y-anfangy)/sprungy*1)).get(((this.x-anfangx)/sprungx*1)+1).getStein().equals("0"))
-		{
 			this.x=this.x;
-			this.virx=this.virx;
-		}
 		else
-		{
 			this.x+=sprungx;
-			this.virx++;
-		}
 		
 		try 
 		{
@@ -264,19 +239,12 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void left() 
 	{
-		//System.out.println("x:"+(((this.x-anfangx)/sprungx*1)-1)+" y:"+(((this.y-anfangy)/sprungy*1)));
-		System.out.println(this.getName()+"->left: "+this.getVirx()+"/"+this.getViry()+"->"+(this.getVirx()-1)+"/"+this.getViry());
+		System.out.println("x:"+(((this.x-anfangx)/sprungx*1)-1)+" y:"+(((this.y-anfangy)/sprungy*1)));
 		
 		if(mapn.get(((this.y-anfangy)/sprungy*1)).get(((this.x-anfangx)/sprungx*1)-1).getStein().equals("0"))
-		{
 			this.x=this.x;
-			this.virx=this.virx;
-		}
 		else
-		{
 			this.x-=sprungx;
-			this.virx--;
-		}
 		
 		try 
 		{
@@ -295,9 +263,8 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		try 
 		{
-			//System.out.println("px:"+this.virx+" py:"+this.viry);
-			System.out.println(this.getName()+"->Bombe: "+this.getVirx()+"/"+this.getViry());
-			bbm.addBombe(this.x,this.virx,this.sprungx,this.y,this.viry,this.sprungy,this);
+			System.out.println("px:"+this.x+" py:"+this.y);
+			bbm.addBombe(this.x,this.sprungx,this.y,this.sprungy,this);
 			//bbm.addBombe((((this.x-anfangx)/sprungx*1)),this.sprungx,(((this.y-anfangy)/sprungy*1)),this.sprungy,this);
 		} 
 		catch (SlickException e) 
@@ -319,6 +286,11 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		System.out.println("Powerup gesetzt.");
 	}
 	
+	public void addPowerdown(Powerdown p) 
+	{
+		System.out.println("Powerdown gesetzt.");
+	}
+	
 	public void setAnfangx(int x)
 	{
 		anfangx=x;
@@ -329,6 +301,14 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		anfangy=y;
 	}
 	 
+	public void setColor(Color farbe)
+	{
+		this.farbe=farbe;
+	}
 	
+	public Color getColor()
+	{
+		return this.farbe;
+	}
 	
 }

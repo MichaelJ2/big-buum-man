@@ -12,6 +12,11 @@ public class Extra extends SpielObjekt
 		super(image);
 	}
 	
+	public Extra() 
+	{
+		
+	}
+	
 	@Override
 	public void draw(Graphics g) 
 	{

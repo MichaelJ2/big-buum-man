@@ -25,6 +25,7 @@ public class Bombe extends SpielObjekt
 	public Bombe(Image image, int zeit) 
 	{
 		super(image);
+		super.setObjectName("Bombe");
 		this.zeit=zeit;
 	}
 	

@@ -11,6 +11,13 @@ public class Powerup extends Extra
 	public Powerup(Image image) 
 	{
 		super(image);
+		super.setObjectName("Powerup");
+		this.zeit=10000;
+	}
+	
+	public Powerup() 
+	{
+		setObjectName("Powerup");
 		this.zeit=10000;
 	}
 	

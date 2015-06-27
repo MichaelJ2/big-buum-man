@@ -16,12 +16,14 @@ public class Wand extends SpielObjekt
 	public Wand(Image image, String stein) 
 	{
 		super(image);
+		super.setObjectName("Wand");
 		this.stein=stein;
 	}
 	
 	public Wand(String stein)
 	{
 		this.stein=stein;
+		setObjectName("Wand");
 	}
 	
 	@Override

@@ -53,6 +53,9 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private int rows=ml.getMap().size();
 	private int cols=15;
 	
+	private long starttime; // startzeit vom Spiel
+	private long currenttime; //aktuelle zeit vom Spiel
+	
 	private int ytop=(HEIGHT/2)-(rows*50/2);
 	private int xleft=(WIDTH/100*20)+((WIDTH-(WIDTH/100*20))/2)-(cols*50/2);
 	
@@ -101,6 +104,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	public static void main(String[] args) throws SlickException 
 	{
 		Bomberman bm = new Bomberman();
+		
 		AppGameContainer container = new AppGameContainer(bm);
 		Thread t = new Thread(bm);
 		t.start();
@@ -118,7 +122,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	@Override
 	public synchronized void render(GameContainer container, Graphics g) throws SlickException 
 	{
-		//Linke Sidebar
+		//Linke Sidebar : Spielerliste
 		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, WIDTH/100*20+1 ,HEIGHT);
 		
@@ -213,6 +217,13 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		}
 		//animation zeichnen *Test*
 		//animation.draw(300,300);
+		
+		currenttime = System.currentTimeMillis();
+		String time = timeconvert(starttime,currenttime);
+		//String time = ((currenttime - starttime)/1000)+"";
+		//trueTypeFont.drawString(20, 40,"Spielezeit: "+time+" Sekunden", Color.black);
+		trueTypeFont.drawString(20, 40,"Spielezeit ("+time+")", Color.black);
+		
 	}
 
 	/**
@@ -221,6 +232,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	@Override
 	public synchronized void init(GameContainer container) throws SlickException 
 	{
+		starttime = System.currentTimeMillis();
 		//Testplayer1 init
 		Player player = new Player(new Image("res/player.png"));
 		player.setName("Michael");
@@ -800,4 +812,31 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		System.out.println(client.getHostAddress());
 		
 	}
+
+	private String timeconvert(long start, long current)
+	{
+		String time;
+		long timestamp = ((currenttime - starttime)/1000);
+		if(timestamp>=60)
+		{
+			if(timestamp%60==0)
+			{
+				time = (timestamp/60)+":00";
+			}
+			else
+			{
+				if(timestamp%60>0&&timestamp%60<10)
+					time = (timestamp/60)+":0"+(timestamp%60);
+				else
+					time = (timestamp/60)+":"+(timestamp%60);
+			}
+			time= time +" Minuten";
+		}
+		else
+		{
+			time=""+((currenttime - starttime)/1000)+" Sekunden";
+		}
+		return time;
+	}
+
 }

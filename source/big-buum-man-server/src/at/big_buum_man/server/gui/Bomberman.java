@@ -89,9 +89,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private int ytop=(HEIGHT/2)-(rows*blockheight/2);
 	private int xleft=sidebarwidth+((WIDTH-sidebarwidth)/2)-(cols*blockheight/2);
 	
-	
-	//private Animation animation;
-	
+
 	/***
 	 * 	Bomberman Konstruktor
 	 */
@@ -821,7 +819,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private String timeconvert(long start, long current)
 	{
 		String time;
-		long timestamp = ((currenttime - starttime)/1000);
+		long timestamp = ((current - start)/1000);
 		if(timestamp>=60)
 		{
 			if(timestamp%60==0)
@@ -839,7 +837,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		}
 		else
 		{
-			time=""+((currenttime - starttime)/1000)+" Sekunden";
+			time=""+((current - start)/1000)+" Sekunden";
 		}
 		return time;
 	}

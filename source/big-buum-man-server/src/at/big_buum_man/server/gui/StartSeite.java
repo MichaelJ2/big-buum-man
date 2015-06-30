@@ -153,6 +153,7 @@ public class StartSeite extends BasicGame
 	public void update(GameContainer container, int delta) throws SlickException 
 	{
 		Input input=container.getInput();
+		int keyjump=100;
 		
 		if(state==STATE.GAME) //Game Status -> Spiel update
 		{
@@ -185,7 +186,7 @@ public class StartSeite extends BasicGame
 			{
 				if (input.isKeyPressed(Input.KEY_DOWN)) 
 				{
-					yw=yw+100;
+					yw=yw+keyjump;
 					pos++;
 				}
 			}
@@ -194,7 +195,7 @@ public class StartSeite extends BasicGame
 			{
 				if (input.isKeyPressed(Input.KEY_UP)) 
 				{
-					yw=yw-100;
+					yw=yw-keyjump;
 					pos--;
 				}
 			}
@@ -428,6 +429,8 @@ public class StartSeite extends BasicGame
 		int oben=200;
 		int breite_10 = (WIDTH/100*10);
 		int hoehe_10 = (HEIGHT/100*10);
+		int valueadd = 50;
+		int valuelinksadd = 200;
 		
 		g.setColor(Color.white);
 		g.fillRect(breite_10+1, hoehe_10+1, WIDTH/100*80 ,HEIGHT/100*80);
@@ -440,44 +443,42 @@ public class StartSeite extends BasicGame
 		//field2 = new TextField(gc,null,links+200,oben, 300 ,trueTypeFont.getHeight());
 		//field2.render(gc, g);
 		//field2.setBounds(links+200,oben, 300 ,trueTypeFont.getHeight());
-		oben+=50;
+		oben+=valueadd;
 		
 		trueTypeFont.drawString(links, oben, "Map:", Color.black);
 		
 		if (cursorv!=1) g.setColor(Color.black);
 		else g.setColor(Color.red);
-		g.fillRect(links+200,oben, 300 ,trueTypeFont.getHeight());
-		trueTypeFont.drawString(links+200, oben, maps.get(einstellung[0]).getName(), Color.white);
+		g.fillRect(links+valuelinksadd,oben, 300 ,trueTypeFont.getHeight());
+		trueTypeFont.drawString(links+valuelinksadd, oben, maps.get(einstellung[0]).getName(), Color.white);
 		
-		oben+=50;
+		oben+=valueadd;
 		
 		trueTypeFont.drawString(links, oben, "Powerups/Powerdowns:", Color.black);
 		
 		if (cursorv!=2) g.setColor(Color.black);
 		else g.setColor(Color.red);
-		g.fillRect(links+200,oben, 300 ,trueTypeFont.getHeight());
-		trueTypeFont.drawString(links+200, oben, powerdowns.get(einstellung[1]).getName(), Color.white);
+		g.fillRect(links+valuelinksadd,oben, 300 ,trueTypeFont.getHeight());
+		trueTypeFont.drawString(links+valuelinksadd, oben, powerdowns.get(einstellung[1]).getName(), Color.white);
 		
-		oben+=50;
+		oben+=valueadd;
 		
 		trueTypeFont.drawString(links, oben, "Gamemode:", Color.black);
 		
 		if (cursorv!=3) g.setColor(Color.black);
 		else g.setColor(Color.red);
-		g.fillRect(links+200,oben, 300 ,trueTypeFont.getHeight());
-		trueTypeFont.drawString(links+200, oben, GAMEMODE.values()[einstellung[2]].toString(), Color.white);
-		oben+=50;
+		g.fillRect(links+valuelinksadd,oben, 300 ,trueTypeFont.getHeight());
+		trueTypeFont.drawString(links+valuelinksadd, oben, GAMEMODE.values()[einstellung[2]].toString(), Color.white);
+		oben+=valueadd;
 		
 
 		if (cursorv!=4) g.setColor(Color.black);
 		else g.setColor(Color.red);
-		g.fillRect(links+200,oben, 300 ,trueTypeFont.getHeight());
-		trueTypeFont.drawString(links+200, oben, "Start Game", Color.white);
-		oben+=50;
+		g.fillRect(links+valuelinksadd,oben, 300 ,trueTypeFont.getHeight());
+		trueTypeFont.drawString(links+valuelinksadd, oben, "Start Game", Color.white);
+		oben+=valueadd;
 
 		drawvorschaumap(g,maps.get(einstellung[0]),1000,200,500,500,1);
-	
-		
 	}
 	
 	/**
@@ -510,18 +511,18 @@ public class StartSeite extends BasicGame
 		int ya=0;
 		vl=new ArrayList<ArrayList<Wand>>();
 		for(String[] s:ml.getMap())
-        {
-		   hl=new ArrayList<Wand>();
-		   int xa=0;
-     	   for(String o:s)
-     	   {
-     		  Wand wa=new Wand(o);
-     		  xa=xa+2;
-     		  hl.add(wa);
-     	   }
-     	   ya=ya+2;
-     	   vl.add(hl);
-        }
+        	{
+			hl=new ArrayList<Wand>();
+		   	int xa=0;
+     	   		for(String o:s)
+     	   		{
+     		  		Wand wa=new Wand(o);
+     		  		xa=xa+2;
+     		  		hl.add(wa);
+     	   		}
+     	   		ya=ya+2;
+     	   		vl.add(hl);
+        	}
 		
 		float breite=(w-20)/vl.get(1).size();
 		System.out.println("breite:"+breite+" anzahl:"+vl.get(1).size() + " w:"+(w-20));
@@ -627,18 +628,18 @@ public class StartSeite extends BasicGame
 		int ya=0;
 		vl=new ArrayList<ArrayList<Wand>>();
 		for(String[] s:k.getKarte())
-        {
-		   hl=new ArrayList<Wand>();
-		   int xa=0;
-     	   for(String o:s)
-     	   {
-     		  Wand wa=new Wand(o);
-     		  xa=xa+2;
-     		  hl.add(wa);
-     	   }
-     	   ya=ya+2;
-     	   vl.add(hl);
-        }
+	        {
+			hl=new ArrayList<Wand>();
+			int xa=0;
+		     	for(String o:s)
+		     	{
+				Wand wa=new Wand(o);
+		     		xa=xa+2;
+		     		hl.add(wa);
+		     	}
+		     	ya=ya+2;
+		     	vl.add(hl);
+	        }
 		
 		float breite=(w-20)/vl.get(1).size();
 		System.out.println("breite:"+breite+" anzahl:"+vl.get(1).size() + " w:"+(w-20));

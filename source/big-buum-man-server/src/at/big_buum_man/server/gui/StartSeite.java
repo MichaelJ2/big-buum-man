@@ -20,7 +20,7 @@ import org.newdawn.slick.gui.TextField;
 public class StartSeite extends BasicGame
 {
 	public static final int WIDTH = Display.getDesktopDisplayMode().getWidth();	//Bildschirm breite
-	public static final int HEIGHT = Display.getDesktopDisplayMode().getHeight(); //Bildschirm höhe
+	public static final int HEIGHT = Display.getDesktopDisplayMode().getHeight(); //Bildschirm hÃ¶he
 	private int xw;
 	private int yw;
 	private int pos=1;
@@ -41,7 +41,7 @@ public class StartSeite extends BasicGame
 	
 	
 	/**
-	 * 	Startseite - wird als Hauptmenü gestartet
+	 * 	Startseite - wird als HauptmenÃ¼ gestartet
 	 * 
 	 */
 	public StartSeite() 
@@ -106,17 +106,19 @@ public class StartSeite extends BasicGame
 		if(state==STATE.PAUSE)
 		{
 			drawWindow(g,"Pause");
+			int sideposition = (WIDTH/2)-200;
+			int haelftehoehe = (HEIGHT/2);
 			
-			if(ppos==1)trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2)-100,"Resume", Color.black);
-			else trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2)-100,"Resume", Color.red);
-			if(ppos==2)trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2)-50,"Einstellungen", Color.black);
-			else trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2)-50,"Einstellungen", Color.red);
-			if(ppos==3)trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2),"Help", Color.black);
-			else trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2),"Help", Color.red);
-			if(ppos==4)trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2)+50,"Hauptmenü", Color.black);
-			else trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2)+50,"Hauptmenü", Color.red);
-			if(ppos==5)trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2)+100,"Spiel beenden", Color.black);
-			else trueTypeFont.drawString((WIDTH/2)-200, (HEIGHT/2)+100,"Spiel beenden", Color.red);
+			if(ppos==1)trueTypeFont.drawString(sideposition, haelftehoehe-100,"Resume", Color.black);
+			else trueTypeFont.drawString(sideposition, haelftehoehe-100,"Resume", Color.red);
+			if(ppos==2)trueTypeFont.drawString(sideposition, haelftehoehe-50,"Einstellungen", Color.black);
+			else trueTypeFont.drawString(sideposition, haelftehoehe-50,"Einstellungen", Color.red);
+			if(ppos==3)trueTypeFont.drawString(sideposition, haelftehoehe,"Help", Color.black);
+			else trueTypeFont.drawString(sideposition, haelftehoehe,"Help", Color.red);
+			if(ppos==4)trueTypeFont.drawString(sideposition, haelftehoehe+50,"HauptmenÃ¼", Color.black);
+			else trueTypeFont.drawString(sideposition, haelftehoehe+50,"HauptmenÃ¼", Color.red);
+			if(ppos==5)trueTypeFont.drawString(sideposition, haelftehoehe+100,"Spiel beenden", Color.black);
+			else trueTypeFont.drawString(sideposition, haelftehoehe+100,"Spiel beenden", Color.red);
 		}
 		
 		if(state==STATE.SETTINGS)
@@ -177,7 +179,7 @@ public class StartSeite extends BasicGame
 			}
 		}
 		
-		if(state==STATE.MENU) //Menu Status -> Menü wird ausgeben
+		if(state==STATE.MENU) //Menu Status -> MenÃ¼ wird ausgeben
 		{
 			if(pos<5)
 			{
@@ -268,7 +270,7 @@ public class StartSeite extends BasicGame
 			}
 		}
 		
-		if(state==STATE.GAMECONFIGURATION) //GameConfiguration Status -> Gamemaker wird geöffnet damit ein Spiel gestartet werden kann
+		if(state==STATE.GAMECONFIGURATION) //GameConfiguration Status -> Gamemaker wird geÃ¶ffnet damit ein Spiel gestartet werden kann
 		{
 			if (input.isKeyPressed(Input.KEY_ESCAPE)) 
 			{
@@ -310,11 +312,11 @@ public class StartSeite extends BasicGame
 				if(cursorv==4)
 				{
 					state=STATE.GAME;
-					// werte werden nun übergeben von den einstellungen 
-					// Bomberman.setMap(einstellung[0]); hier wird die Map ausgewählt
-					// Bomberman.setPowerupPowerdowns(einstellung[1]); hier werden die Powerups und Powerdowns übergeben die erlaubt sind
-					// Bomberman.setGamemode(einstellung[2]); hier wird der gamemode ausgewählt
-					// Bomberman.setTeammode(einstellung[3]); hier wird der teammodus ausgewählt
+					// werte werden nun Ã¼bergeben von den einstellungen 
+					// Bomberman.setMap(einstellung[0]); hier wird die Map ausgewÃ¤hlt
+					// Bomberman.setPowerupPowerdowns(einstellung[1]); hier werden die Powerups und Powerdowns Ã¼bergeben die erlaubt sind
+					// Bomberman.setGamemode(einstellung[2]); hier wird der gamemode ausgewÃ¤hlt
+					// Bomberman.setTeammode(einstellung[3]); hier wird der teammodus ausgewÃ¤hlt
 					//bm.update(container, delta);
 					//bm.init(container);
 				}
@@ -331,67 +333,78 @@ public class StartSeite extends BasicGame
 	 */
 	public void drawWindow(Graphics g, String text)
 	{
+		int haelftebreite = (WIDTH/2);
+		int haelftehoehe = (HEIGHT/2);
+		
 		g.setColor(Color.red);
-		g.fillRoundRect((WIDTH/2)-250, (HEIGHT/2)-150, 500, 300, 20);
+		g.fillRoundRect(haelftebreite-250, haelftehoehe-150, 500, 300, 20);
 		
 		g.setColor(Color.white);
-		g.fillRoundRect((WIDTH/2)-240, (HEIGHT/2)-140, 480, 280, 20);
+		g.fillRoundRect(haelftebreite-240, haelftehoehe-140, 480, 280, 20);
 		
-		trueTypeFont.drawString((WIDTH/2)-trueTypeFont.getWidth(text)/2, (HEIGHT/2)-140+trueTypeFont.getHeight()/2, text, Color.black);
+		trueTypeFont.drawString(haelftebreite-trueTypeFont.getWidth(text)/2, haelftehoehe-140+trueTypeFont.getHeight()/2, text, Color.black);
 	}
 	
 	/**
-	 * 	Hauptmenü wird gezeichnet
+	 * 	HauptmenÃ¼ wird gezeichnet
 	 * 
 	 * 	@param g
 	 */
 	public void drawHauptmenue(Graphics g)
 	{
+		int positionleft = 300-5-20;
+		int positiontop = 130;
+		int valueadd = 100;
+		int breite_10 = (WIDTH/100*10);
+		int hoehe_10 = (HEIGHT/100*10);
+		
 		g.setColor(Color.white);
-		g.fillRect((WIDTH/100*10)+1, (HEIGHT/100*10)+1, WIDTH/100*80 ,HEIGHT/100*80);
+		g.fillRect(breite_10+1, hoehe_10+1, WIDTH/100*80 ,HEIGHT/100*80);
 		
 		g.setColor(Color.red);
-		g.fillRoundRect(300-5-20, 130-5, 150, 40, 10);
+		g.fillRoundRect(positionleft, positiontop-5, 150, 40, 10);
 		
 		g.setColor(Color.red);
-		g.fillRoundRect(300-5-20, 230-5, 150, 40, 10);
+		g.fillRoundRect(positionleft, positiontop+(valueadd*1)-5, 150, 40, 10);
 		
 		g.setColor(Color.red);
-		g.fillRoundRect(300-5-20, 330-5, 150, 40, 10);
+		g.fillRoundRect(positionleft, positiontop+(valueadd*2)-5, 150, 40, 10);
 		
 		g.setColor(Color.red);
-		g.fillRoundRect(300-5-20, 430-5, 150, 40, 10);
+		g.fillRoundRect(positionleft, positiontop+(valueadd*3)-5, 150, 40, 10);
 		
 		g.setColor(Color.red);
-		g.fillRoundRect(300-5-20, 530-5, 150, 40, 10);
+		g.fillRoundRect(positionleft, positiontop+(valueadd*4)-5, 150, 40, 10);
 		
-
+		positionleft = 310-20;
+		positiontop = 132;
 		g.setColor(Color.black);
-		trueTypeFont.drawString(310-20, 132,"Spiel Start", Color.black);
-		trueTypeFont.drawString(310-20, 232,"Einstellungen", Color.black);
-		trueTypeFont.drawString(310-20, 332,"Impressum", Color.black);
-		trueTypeFont.drawString(310-20, 432,"Help", Color.black);
-		trueTypeFont.drawString(310-20, 532,"Spiel beenden", Color.black);
+		trueTypeFont.drawString(positionleft, positiontop,"Spiel Start", Color.black);
+		trueTypeFont.drawString(positionleft, positiontop+valueadd,"Einstellungen", Color.black);
+		trueTypeFont.drawString(positionleft, positiontop+valueadd*2,"Impressum", Color.black);
+		trueTypeFont.drawString(positionleft, positiontop+valueadd*3,"Help", Color.black);
+		trueTypeFont.drawString(positionleft, positiontop+valueadd*4,"Spiel beenden", Color.black);
 		
 		g.setColor(Color.red);
 		g.fillRoundRect(500-20, 130-5, 600, 440, 10);
 		
+		positionleft = 510-20;
 		switch(pos)
 		{
 			case 1:
-				trueTypeFont.drawString(510-20, 132, "Hauptmenü von Big-Bum-Bang", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "HauptmenÃ¼ von Big-Bum-Bang", Color.black);
 			break;
 			case 2:
-				trueTypeFont.drawString(510-20, 132, "Extras", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "Extras", Color.black);
 			break;
 			case 3:
-				trueTypeFont.drawString(510-20, 132, "Impressum zum Spiel", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "Impressum zum Spiel", Color.black);
 			break;
 			case 4:
-				trueTypeFont.drawString(510-20, 132, "Über das Spiel und die Steurung", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "Ãœber das Spiel und die Steurung", Color.black);
 			break;
 			case 5:
-				trueTypeFont.drawString(510-20, 132, "Spiel beenden", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "Spiel beenden", Color.black);
 			break;
 		}
 		
@@ -413,8 +426,11 @@ public class StartSeite extends BasicGame
 		
 		int links=200;
 		int oben=200;
+		int breite_10 = (WIDTH/100*10);
+		int hoehe_10 = (HEIGHT/100*10);
+		
 		g.setColor(Color.white);
-		g.fillRect((WIDTH/100*10)+1, (HEIGHT/100*10)+1, WIDTH/100*80 ,HEIGHT/100*80);
+		g.fillRect(breite_10+1, hoehe_10+1, WIDTH/100*80 ,HEIGHT/100*80);
 		trueTypeFont.drawString(links, oben, "Spielmodus:", Color.black);
 		
 		//g.setColor(Color.black);
@@ -465,7 +481,7 @@ public class StartSeite extends BasicGame
 	}
 	
 	/**
-	 * 	Vorschaumap wird gezeichnet für Gamemaker
+	 * 	Vorschaumap wird gezeichnet fÃ¼r Gamemaker
 	 * 	noch statisch
 	 * 	@param g
 	 * 	@param x
@@ -587,7 +603,7 @@ public class StartSeite extends BasicGame
 	}
 	
 	/**
-	 * 	Vorschaumap wird gezeichnet für Gamemaker
+	 * 	Vorschaumap wird gezeichnet fÃ¼r Gamemaker
 	 * 	dynamisch mit Karte
 	 */
 	private void drawvorschaumap(Graphics g,Karte k,float x, float y, int w, int h, int i)
@@ -706,7 +722,7 @@ public class StartSeite extends BasicGame
 	
 	
 	
-	//Hier die Dummieklassen - Testklassen für Testobjekte
+	//Hier die Dummieklassen - Testklassen fÃ¼r Testobjekte
 	
 	/**
 	 * 	Dummie Maps werden geladen

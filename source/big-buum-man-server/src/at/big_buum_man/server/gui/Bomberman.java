@@ -92,7 +92,11 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private static Bomberman instance == null;
 	
 	/***
+	 * 	Summary:
 	 * 	Bomberman Konstruktor
+	 * 
+	 * 	Description:
+	 * 
 	 */
 	private Bomberman() 
 	{
@@ -100,10 +104,12 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 	
 	/***
+	 * 	Summary:
 	 * 	getInstance
 	 * 
+	 * 	Description:
 	 * 	
-	 * 	@return Bomberman Instance
+	 * 	@return Bomberman
 	 */
 	public static synchronized Bomberman getInstance () 
 	{
@@ -115,7 +121,10 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	 }
 
 	/***
+	 * 	Summary:
 	 * 	Hauptklasse zum starten vom Spiel
+	 * 
+	 * 	Description:
 	 * 
 	 * 	@param args
 	 * 	@throws SlickException
@@ -139,7 +148,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	 * 	In dieser Funktion werden alle Resourcen und Grafiken neu gezeichnet in einem bestimmten Intervall
 	 * 
 	 * 	Description:
-	 * 	
 	 * 
 	 * 	@param container = 
 	 * 	@param g = 

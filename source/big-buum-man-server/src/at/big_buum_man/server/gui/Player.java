@@ -26,7 +26,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	private Integer anfangy;
 	private Integer sprungx;
 	private Integer sprungy;
-	private Bomberman bbm;
+	private static Bomberman bbm=Bomberman.getInstance();
 	private String name="";
 	private Integer punkte=0;
 	private InetAddress adresse;
@@ -90,20 +90,23 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	}
 	
 	/***
-	 * 	Beschreibung: Höhe eines Feldes setzen
+	 * 	Beschreibung: HÃ¶he eines Feldes setzen
 	 */
 	public void setSprungY(Integer sprung)
 	{
 		this.sprungy=sprung;
 	}
 	
+	
 	/***
 	 * 	Beschreibung: Main setzen
 	 */
+	 /*
 	public void setBomberman(Bomberman bbm)
 	{
 		this.bbm=bbm;
 	}
+	*/
 	
 	/***
 	 * 	Beschreibung: Namen setzen
@@ -115,7 +118,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	}
 	
 	/***
-	 * 	Beschreibung: Gibt Namen zurück
+	 * 	Beschreibung: Gibt Namen zurÃ¼ck
 	 */
 	public String getName()
 	{
@@ -139,7 +142,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	}
 	
 	/***
-	 * 	Beschreibung: Gibt Punkte zurück
+	 * 	Beschreibung: Gibt Punkte zurÃ¼ck
 	 */
 	public Integer getPunkte()
 	{

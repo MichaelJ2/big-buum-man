@@ -89,15 +89,30 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private int ytop=(HEIGHT/2)-(rows*blockheight/2);
 	private int xleft=sidebarwidth+((WIDTH-sidebarwidth)/2)-(cols*blockheight/2);
 	
-
+	private static Bomberman instance == null;
+	
 	/***
 	 * 	Bomberman Konstruktor
 	 */
-	public Bomberman() 
+	private Bomberman() 
 	{
-		//Bomberman Window Title
-		super("Bomberman");
+		super("Bomberman"); //Window Title
 	}
+	
+	/***
+	 * 	getInstance
+	 * 
+	 * 	
+	 * 	@return Bomberman Instance
+	 */
+	public static synchronized Bomberman getInstance () 
+	{
+	    if (Bomberman.instance == null) 
+	    {
+	      	Bomberman.instance = new Bomberman ();
+	    }
+	    return Bomberman.instance;
+	 }
 
 	/***
 	 * 	Hauptklasse zum starten vom Spiel
@@ -108,7 +123,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	public static void main(String[] args) throws SlickException 
 	{
 		Bomberman bm = new Bomberman();
-		
 		AppGameContainer container = new AppGameContainer(bm);
 		Thread t = new Thread(bm);
 		t.start();
@@ -246,7 +260,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		player.setAnfangy(ytop+25);
 		player.setSprungX(blockwidth);
 		player.setSprungY(blockheight);
-		player.setBomberman(this);
+		//player.setBomberman(this);
 		player.setMapn(vl);
 		
 		try 
@@ -349,7 +363,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		for(Player p:playerliste)
 		{
 			p.setSprungX(blockwidth);
-			p.setBomberman(this);
+			//p.setBomberman(this);
 			p.setSprungY(blockheight);
 			p.setMapn(vl);
 		}
@@ -729,7 +743,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 			//System.out.println("Anfangx:"+((WIDTH/100*20)+((WIDTH-(WIDTH/100*20))/2)-(cols*50/2)+50));
 			p.setAnfangy(ytop+25);
 			//System.out.println("Anfangy:"+((HEIGHT/2)-(rows*50/2)+25));
-			p.setBomberman(this);
+			//p.setBomberman(this);
 			//p.setSprungY(HEIGHT/rows);
 			p.setMapn(vl);
 			//p.setXPos(1);

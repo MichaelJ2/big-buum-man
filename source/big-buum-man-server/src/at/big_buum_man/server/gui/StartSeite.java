@@ -84,7 +84,7 @@ public class StartSeite extends BasicGame
 		{
 			if(bm==null)
 			{
-				bm= new Bomberman();
+				bm= Bomberman.getInstance();
 				bm.init(container);
 			}
 			

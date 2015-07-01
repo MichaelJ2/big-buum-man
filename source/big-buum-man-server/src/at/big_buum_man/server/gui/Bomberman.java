@@ -134,8 +134,17 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		container.start();
 	}
 	
-	/**
+	/**	
+	 * 	Summary: 
 	 * 	In dieser Funktion werden alle Resourcen und Grafiken neu gezeichnet in einem bestimmten Intervall
+	 * 
+	 * 	Description:
+	 * 	
+	 * 
+	 * 	@param container = 
+	 * 	@param g = 
+	 * 
+	 * 	
 	 */
 	@Override
 	public synchronized void render(GameContainer container, Graphics g) throws SlickException 
@@ -244,7 +253,13 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 
 	/**
+	 * 	Summary:
 	 * 	Initial wird das Spiel hier erstellt und alle Resourcen geladen
+	 * 	
+	 * 	Description:
+	 * 
+	 * 	@param container = 
+	 * 	
 	 */
 	@Override
 	public synchronized void init(GameContainer container) throws SlickException 
@@ -387,7 +402,14 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 	
 	/**
+	 * 	Summary:
 	 * 	Hier wird das Spiel geupdated und resourcen verwaltet - Spiellogik
+	 * 
+	 * 	Description:
+	 * 
+	 * 	@param container =
+	 * 	@param delta = 
+	 * 	
 	 */
 	@Override
 	public synchronized void update(GameContainer container, int delta) throws SlickException 
@@ -574,7 +596,10 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 	
 	/***
+	 * 	Summary:
 	 * 	Hier wird eine Bombe hinzugefügt in das Spiel
+	 * 
+	 * 	Description:
 	 * 
 	 * 	@param x = X Coordinate
 	 * 	@param y = Y Coordinate
@@ -598,7 +623,14 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 
 	/***
+	 * 	Summary:
 	 * 	Bombe wird gesetzt
+	 * 
+	 * 	Description:
+	 * 
+	 * 	@param x = 
+	 * 	@param y =
+	 * 	@param b =
 	 * 
 	 * */
 	public synchronized void setbombe(int x, int y,Bombe b) 
@@ -718,7 +750,10 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 
 	/***
+	 * 	Summary:
 	 * 	Neuer Spieler wird dem Spiel hinzugefügt
+	 * 
+	 * 	Description:
 	 * 
 	 * 	@param adresse = InetAddress wird übergeben für den Player
 	 * 	@return Player
@@ -765,8 +800,13 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 
 	/**
+	 * 	Summary:
 	 * 	Nachricht wird von Spieler erhalten und Spieler wird bewegt/verändert
+	 * 	
+	 * 	Description:
 	 * 
+	 * 	@param client =
+	 * 	@param message =
 	 */
 	@Override
 	public void processMessage(InetAddress client, String message) {
@@ -814,7 +854,12 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 
 	/**
-	 *  neuer Client hinzufügen in Liste und ins Spiel
+	 * 	Summary:
+	 *  	neuer Client hinzufügen in Liste und ins Spiel
+	 * 
+	 * 	Description:
+	 * 
+	 * 	@param client
 	 */
 	@Override
 	public void registerNewClient(InetAddress client) 
@@ -824,6 +869,15 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		//System.out.println(client.getHostAddress());
 	}
 
+	/**
+	 * 	Summary:
+	 *  	Hier wird die Zeit erreichnet die verstrichen ist.
+	 * 
+	 * 	Description:
+	 * 
+	 * 	@param start
+	 * 	@param current
+	 */
 	private String timeconvert(long start, long current)
 	{
 		String time;

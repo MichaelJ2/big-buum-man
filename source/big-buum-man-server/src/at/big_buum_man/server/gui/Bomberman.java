@@ -89,6 +89,17 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private int ytop=(HEIGHT/2)-(rows*blockheight/2);
 	private int xleft=sidebarwidth+((WIDTH-sidebarwidth)/2)-(cols*blockheight/2);
 	
+	private Color gray=Color.gray;
+	private Color green=Color.green;
+	private Color red=Color.red;
+	private Color blue=Color.blue;
+	private Color white=Color.white;
+	private Color yellow=Color.yellow;
+	private Color magenta=Color.magenta;
+	private Color darkGray=Color.darkGray;
+	private Color lightGray=Color.lightGray;
+	private Color black=Color.black;
+	
 	private static Bomberman instance == null;
 	
 	/***
@@ -158,15 +169,15 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	public synchronized void render(GameContainer container, Graphics g) throws SlickException 
 	{
 		//Linke Sidebar : Spielerliste
-		g.setColor(Color.lightGray);
+		g.setColor(lightGray);
 		g.fillRect(0, 0, sidebarwidth+1 ,HEIGHT);
 		
-		trueTypeFont.drawString(20, 100,"Spielerliste:", Color.black);
+		trueTypeFont.drawString(20, 100,"Spielerliste:", black);
 		
 		for(int i=0; i<playerliste.size(); i++) 
 		{
 			if (i < pliste.size())
-			pliste.get(i).drawString(30, 120+20*i,"-"+playerliste.get(i).getName(), Color.black);
+			pliste.get(i).drawString(30, 120+20*i,"-"+playerliste.get(i).getName(), black);
 		}
 
 		//Karte laden und zeichnen
@@ -179,32 +190,32 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	     	   for(Wand h:v)
 	     	   {
 	     		  if(h.getStein().equals("0"))
-	     			  g.setColor(Color.gray);
+	     			  g.setColor(gray);
 	     		  else if(h.getStein().equals("1"))
-	     			  g.setColor(Color.green);
+	     			  g.setColor(green);
 	     		  else if(h.getStein().equals("2"))
-	     			  g.setColor(Color.red);
+	     			  g.setColor(red);
 	     		  else if(h.getStein().equals("3"))
-	     			  g.setColor(Color.blue);
+	     			  g.setColor(blue);
 	     		  else if(h.getStein().equals("4"))
-	     			  g.setColor(Color.white);
+	     			  g.setColor(white);
 	     		  else if(h.getStein().equals("5"))
-	     			  g.setColor(Color.yellow);
+	     			  g.setColor(yellow);
 	     		  else if(h.getStein().equals("6"))
-	     			  g.setColor(Color.white);
+	     			  g.setColor(white);
 	     		  else if(h.getStein().equals("7"))
-	    			  g.setColor(Color.magenta);
+	    			  g.setColor(magenta);
 	     		  else if(h.getStein().equals("8"))
-	    			  g.setColor(Color.blue);
+	    			  g.setColor(blue);
 	     		  else if(h.getStein().equals("9"))
-	   			  g.setColor(Color.red);
+	   			  g.setColor(red);
 	     		 else if(h.getStein().equals("x"))
 	     		 {
-	      			  g.setColor(Color.green);
+	      			  g.setColor(green);
 	      			  //System.out.print("(x:"+x+"/y:"+y+")");
 	     		 }
      		   	else
-     			  g.setColor(Color.darkGray);
+     			  g.setColor(darkGray);
      		   
 	     		  //g.fillRect(WIDTH/100*20+x+1+50, y+50, 50 ,50);
 	     		  h.setX(x+1+blockwidth);
@@ -217,7 +228,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	        }
 		
 		
-		g.setColor(Color.red);
+		g.setColor(red);
 		
 		//Player zeichnen
 		for(Player p:playerliste)
@@ -256,7 +267,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		
 		currenttime = System.currentTimeMillis();
 		String time = timeconvert(starttime,currenttime);
-		trueTypeFont.drawString(20, 40,"Spielezeit ("+time+")", Color.black);
+		trueTypeFont.drawString(20, 40,"Spielezeit ("+time+")", black);
 		
 	}
 
@@ -296,7 +307,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		//Testplayer1 init
 		Player player = new Player(new Image("res/player.png"));
 		player.setName("Michael");
-		player.setColor(Color.red);
+		player.setColor(red);
 		//player.setposition(1375+50, 540+50);
 		player.setposition(980, 300 );
 		player.setAnfangx(xleft+blockwidth);
@@ -318,7 +329,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		//Testplayer2 init
 		Player player1 = new Player(new Image("res/player2.png"));
 		player1.setName("Gerald");
-		player1.setColor(Color.green);
+		player1.setColor(green);
 		try 
 		{
 			player1.setAdresse(InetAddress.getByName("192.168.1.1"));

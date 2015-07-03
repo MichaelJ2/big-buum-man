@@ -100,6 +100,9 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private Color lightGray=Color.lightGray;
 	private Color black=Color.black;
 	
+	private Font font=Font.BOLD;
+	private String letter="Arial";
+
 	private static Bomberman instance == null;
 	
 	/***
@@ -294,8 +297,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		//Powerdownsliste erstellen
 		powerdowns=new ArrayList<Powerdown>();
 		
-		trueTypeFont = new TrueTypeFont(new Font("Arial", Font.BOLD, charsize), true);
-		trueTypeFont3 = new TrueTypeFont(new Font("Arial", Font.BOLD, charsize), true);
+		trueTypeFont = new TrueTypeFont(new Font(letter, font, charsize), true);
+		trueTypeFont3 = new TrueTypeFont(new Font(letter, font, charsize), true);
 		
 		//Playerliste erstellen
 		playerliste =new ArrayList<Player>();
@@ -348,7 +351,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		
 		//Drei Fontlisten erstellen *Test*
 		for(int i=0;i<8;i++)
-			pliste.add(new TrueTypeFont(new Font("Arial", Font.BOLD, charsize), true));
+			pliste.add(new TrueTypeFont(new Font(letter, font, charsize), true));
 
 		
 		//Map in eine ArrayList laden

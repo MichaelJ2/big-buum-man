@@ -11,6 +11,13 @@ public class Powerdown extends Extra
 	public Powerdown(Image image) 
 	{
 		super(image);
+		super.setObjectName("Powerdown");
+		this.zeit=10000;
+	}
+	
+	public Powerdown() 
+	{
+		setObjectName("Powerdown");
 		this.zeit=10000;
 	}
 	

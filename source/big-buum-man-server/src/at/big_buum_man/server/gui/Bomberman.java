@@ -1,5 +1,7 @@
 package at.big_buum_man.server.gui;
 
+import at.big_buum_man.server.ServerMethods;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -8,13 +10,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-
 import java.awt.Font;
 
 import at.big_buum_man.server.network.NetworkServer;
 
 import org.lwjgl.opengl.Display;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -26,7 +26,12 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.SlickException;
 
-import at.big_buum_man.server.ServerMethods;
+import at.big_buum_man.server.gui.Bombe;
+import at.big_buum_man.server.gui.GAMEMODE;
+import at.big_buum_man.server.gui.Player;
+import at.big_buum_man.server.gui.Powerdown;
+import at.big_buum_man.server.gui.Powerup;
+import at.big_buum_man.server.gui.Wand;
 
 /***
  * @version 1.0
@@ -38,14 +43,19 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private NetworkServer ns;
 	private ArrayList<InetAddress> adressen = new ArrayList<InetAddress>();
 	
+	private GAMEMODE gamemode; //Game mode für die bestimmten Spielearten
+	
 	public static final int WIDTH = Display.getDesktopDisplayMode().getWidth();
 	public static final int HEIGHT = Display.getDesktopDisplayMode().getHeight();
 	
 	private MapListe ml = new MapListe();
 	
-	private int rows=10;
+	private int rows=ml.getMap().size();
 	private int cols=15;
 	
+	private long starttime; // startzeit vom Spiel
+	private long currenttime; //aktuelle zeit vom Spiel
+
 	private TrueTypeFont trueTypeFont;
 	private TrueTypeFont trueTypeFont3;
 	
@@ -54,11 +64,11 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private ArrayList<Player> punkteliste;
 	
 	private ArrayList<Wand> hl;
-	private ArrayList<ArrayList<Wand>> vl;
+	private ArrayList<ArrayList<Wand>> vl; 
 	
-	private ArrayList<Bombe> bomben;
-	private ArrayList<Powerup> powerups;
-	private ArrayList<Powerdown> powerdowns;
+	private ArrayList<Bombe> bomben; //Bomben auf dem Feld
+	private ArrayList<Powerup> powerups; //Powerups auf dem Feld
+	private ArrayList<Powerdown> powerdowns; //Powerdowns auf dem Feld
 	
 	private Image spriteSheetImage;
 	private Image bomb;
@@ -71,21 +81,67 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private int spritesPerRow=4;
 	private int spritesPerColumn=4;
 	private SpriteSheet spriteSheet;
-	//private Animation animation;
+	
+	private int charsize=20;
+	private int blockwidth=50;
+	private int blockheight=50;
+	private int sidebarwidth=WIDTH/100*20;
+	private int ytop=(HEIGHT/2)-(rows*blockheight/2);
+	private int xleft=sidebarwidth+((WIDTH-sidebarwidth)/2)-(cols*blockheight/2);
+	
+	private Color gray=Color.gray;
+	private Color green=Color.green;
+	private Color red=Color.red;
+	private Color blue=Color.blue;
+	private Color white=Color.white;
+	private Color yellow=Color.yellow;
+	private Color magenta=Color.magenta;
+	private Color darkGray=Color.darkGray;
+	private Color lightGray=Color.lightGray;
+	private Color black=Color.black;
+	
+	private Font font=Font.BOLD;
+	private String letter="Arial";
+
+	private static Bomberman instance == null;
 	
 	/***
+	 * 	Summary:
 	 * 	Bomberman Konstruktor
+	 * 
+	 * 	Description:
+	 * 
 	 */
-	public Bomberman() 
+	private Bomberman() 
 	{
-		//Bomberman Window Title
-		super("Bomberman");
+		super("Bomberman"); //Window Title
 	}
+	
+	/***
+	 * 	Summary:
+	 * 	getInstance
+	 * 
+	 * 	Description:
+	 * 	
+	 * 	@return Bomberman
+	 */
+	public static synchronized Bomberman getInstance () 
+	{
+	    if (Bomberman.instance == null) 
+	    {
+	      	Bomberman.instance = new Bomberman ();
+	    }
+	    return Bomberman.instance;
+	 }
 
 	/***
+	 * 	Summary:
+	 * 	Hauptklasse zum starten vom Spiel
 	 * 
-	 * @param args
-	 * @throws SlickException
+	 * 	Description:
+	 * 
+	 * 	@param args
+	 * 	@throws SlickException
 	 */
 	public static void main(String[] args) throws SlickException 
 	{
@@ -101,76 +157,81 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		container.start();
 	}
 	
+	/**	
+	 * 	Summary: 
+	 * 	In dieser Funktion werden alle Resourcen und Grafiken neu gezeichnet in einem bestimmten Intervall
+	 * 
+	 * 	Description:
+	 * 
+	 * 	@param container = 
+	 * 	@param g = 
+	 * 
+	 * 	
+	 */
 	@Override
 	public synchronized void render(GameContainer container, Graphics g) throws SlickException 
 	{
-		//Linke Sidebar
-		g.setColor(Color.lightGray);
-		g.fillRect(0, 0, WIDTH/100*20+1 ,HEIGHT);
+		//Linke Sidebar : Spielerliste
+		g.setColor(lightGray);
+		g.fillRect(0, 0, sidebarwidth+1 ,HEIGHT);
 		
-		trueTypeFont.drawString(20, 100,"Spielerliste:", Color.black);
+		trueTypeFont.drawString(20, 100,"Spielerliste:", black);
 		
-		for(int i=0; i<playerliste.size(); i++) {
+		for(int i=0; i<playerliste.size(); i++) 
+		{
 			if (i < pliste.size())
-			pliste.get(i).drawString(30, 120+20*i,"-"+playerliste.get(i).getName(), Color.black);
+			pliste.get(i).drawString(30, 120+20*i,"-"+playerliste.get(i).getName(), black);
 		}
 
 		//Karte laden und zeichnen
-		int y=0+(HEIGHT/2)-((rows*spriteHeight)/2);
-		int indexy=0;
-	//  System.out.println(y+"="+(HEIGHT/2)+"-"+((rows*spriteHeight)/2));
+		int y=0+ytop;
 		//System.out.println("Y:"+(HEIGHT/2)+"-"+(rows*50/2)+"="+((HEIGHT/2)-(rows*50/2)));
 		for(ArrayList<Wand> v: vl)
-        {
-		   int x=0+(WIDTH/100*20)+(((WIDTH/100*80)/2)-((cols*spriteWidth)/2));
-		   int indexx=0;
-		  // System.out.println(x+"="+(WIDTH/100*20)+"+"+((WIDTH/100*80)/2)+"-"+((cols*spriteWidth)/2));
+        	{
+		   int x=0+xleft;
 		   //System.out.println("X:"+(WIDTH/100*20)+"+"+(WIDTH-(WIDTH/100*20))/2+"-"+(cols*50/2)+"="+x);
-     	   for(Wand h:v)
-     	   {
-     		   h.setVirx(indexx);
-     		   h.setViry(indexy);
-     		  if(h.getStein().equals("0"))
-     			  g.setColor(Color.gray);
-     		  else if(h.getStein().equals("1"))
-     			  g.setColor(Color.green);
-     		  else if(h.getStein().equals("2"))
-     			  g.setColor(Color.red);
-     		  else if(h.getStein().equals("3"))
-     			  g.setColor(Color.blue);
-     		  else if(h.getStein().equals("4"))
-     			  g.setColor(Color.white);
-     		  else if(h.getStein().equals("5"))
-     			  g.setColor(Color.yellow);
-     		  else if(h.getStein().equals("6"))
-     			  g.setColor(Color.white);
-     		  else if(h.getStein().equals("7"))
-    			  g.setColor(Color.magenta);
-     		  else if(h.getStein().equals("8"))
-    			  g.setColor(Color.blue);
-     		  else if(h.getStein().equals("9"))
-   			  g.setColor(Color.red);
-     		 else if(h.getStein().equals("x"))
-     		 {
-      			  g.setColor(Color.green);
-     		 }
-     		   else
-     			  g.setColor(Color.darkGray);
+	     	   for(Wand h:v)
+	     	   {
+	     		  if(h.getStein().equals("0"))
+	     			  g.setColor(gray);
+	     		  else if(h.getStein().equals("1"))
+	     			  g.setColor(green);
+	     		  else if(h.getStein().equals("2"))
+	     			  g.setColor(red);
+	     		  else if(h.getStein().equals("3"))
+	     			  g.setColor(blue);
+	     		  else if(h.getStein().equals("4"))
+	     			  g.setColor(white);
+	     		  else if(h.getStein().equals("5"))
+	     			  g.setColor(yellow);
+	     		  else if(h.getStein().equals("6"))
+	     			  g.setColor(white);
+	     		  else if(h.getStein().equals("7"))
+	    			  g.setColor(magenta);
+	     		  else if(h.getStein().equals("8"))
+	    			  g.setColor(blue);
+	     		  else if(h.getStein().equals("9"))
+	   			  g.setColor(red);
+	     		 else if(h.getStein().equals("x"))
+	     		 {
+	      			  g.setColor(green);
+	      			  //System.out.print("(x:"+x+"/y:"+y+")");
+	     		 }
+     		   	else
+     			  g.setColor(darkGray);
      		   
-     		  //g.fillRect(WIDTH/100*20+x+1+50, y+50, 50 ,50);
-     		  h.setX(x+1+spriteWidth);
-     		  h.setY(y+(spriteHeight/2));
-     		  h.draw(g);
-     		  
-     		  x=x+spriteWidth;
-     		  indexx++;
-     	   }
-     	   y=y+spriteHeight;
-     	   indexy++;
-        }
+	     		  //g.fillRect(WIDTH/100*20+x+1+50, y+50, 50 ,50);
+	     		  h.setX(x+1+blockwidth);
+	     		  h.setY(y+blockheight/2);
+	     		  h.draw(g);
+	     		  
+	     		  x=x+blockwidth;
+	     	   }
+	     	   y=y+blockheight;
+	        }
 		
 		
-		g.setColor(Color.red);
+		g.setColor(red);
 		
 		//Player zeichnen
 		for(Player p:playerliste)
@@ -206,14 +267,59 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		}
 		//animation zeichnen *Test*
 		//animation.draw(300,300);
+		
+		currenttime = System.currentTimeMillis();
+		String time = timeconvert(starttime,currenttime);
+		trueTypeFont.drawString(20, 40,"Spielezeit ("+time+")", black);
+		
 	}
 
+	/**
+	 * 	Summary:
+	 * 	Initial wird das Spiel hier erstellt und alle Resourcen geladen
+	 * 	
+	 * 	Description:
+	 * 
+	 * 	@param container = 
+	 * 	
+	 */
 	@Override
 	public synchronized void init(GameContainer container) throws SlickException 
 	{
+		starttime = System.currentTimeMillis();
+		
+		//Bombenliste erstellen
+		bomben=new ArrayList<Bombe>();
+		
+		//Powerupsliste erstellen
+		powerups=new ArrayList<Powerup>();
+		
+		//Powerdownsliste erstellen
+		powerdowns=new ArrayList<Powerdown>();
+		
+		trueTypeFont = new TrueTypeFont(new Font(letter, font, charsize), true);
+		trueTypeFont3 = new TrueTypeFont(new Font(letter, font, charsize), true);
+		
+		//Playerliste erstellen
+		playerliste =new ArrayList<Player>();
+		
+		//Fontliste erstellen
+		pliste=new ArrayList<TrueTypeFont>();
+		
+		//TestPlayer 
 		//Testplayer1 init
 		Player player = new Player(new Image("res/player.png"));
 		player.setName("Michael");
+		player.setColor(red);
+		//player.setposition(1375+50, 540+50);
+		player.setposition(980, 300 );
+		player.setAnfangx(xleft+blockwidth);
+		player.setAnfangy(ytop+25);
+		player.setSprungX(blockwidth);
+		player.setSprungY(blockheight);
+		//player.setBomberman(this);
+		player.setMapn(vl);
+		
 		try 
 		{
 			player.setAdresse(InetAddress.getByName("192.168.1.1"));
@@ -222,10 +328,11 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		{
 			e1.printStackTrace();
 		}
-		
+
 		//Testplayer2 init
 		Player player1 = new Player(new Image("res/player2.png"));
 		player1.setName("Gerald");
+		player1.setColor(green);
 		try 
 		{
 			player1.setAdresse(InetAddress.getByName("192.168.1.1"));
@@ -238,60 +345,42 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		//Testplayer1 punkt schenken
 		player1.plus();
 		
-		//Bombenliste erstellen
-		bomben=new ArrayList<Bombe>();
-		
-		//Powerupsliste erstellen
-		powerups=new ArrayList<Powerup>();
-		
-		//Powerdownsliste erstellen
-		powerdowns=new ArrayList<Powerdown>();
-		
-		trueTypeFont = new TrueTypeFont(new Font("Arial", Font.BOLD, 20), true);
-		trueTypeFont3 = new TrueTypeFont(new Font("Arial", Font.BOLD, 20), true);
-		
-		//Playerliste erstellen
-		playerliste =new ArrayList<Player>();
-		
-		//Fontliste erstellen
-		pliste=new ArrayList<TrueTypeFont>();
-		
-		//player hinzuf�gen zu Playerliste
+		//player hinzufügen zu Playerliste
 		playerliste.add(player);
 		playerliste.add(player1);
 		
 		//Drei Fontlisten erstellen *Test*
 		for(int i=0;i<8;i++)
-			pliste.add(new TrueTypeFont(new Font("Arial", Font.BOLD, 20), true));
+			pliste.add(new TrueTypeFont(new Font(letter, font, charsize), true));
 
 		
 		//Map in eine ArrayList laden
 		int y=0;
 		vl=new ArrayList<ArrayList<Wand>>();
 		for(String[] s:ml.getMap())
-        {
-		   hl=new ArrayList<Wand>();
-		   int x=0;
-     	   for(String o:s)
-     	   {
-     		  Wand w=new Wand(o);
-     		  x=x+spriteWidth;
-     		 if(o.equals("x"))
-      		 {
-      			  for(Player p:playerliste)
-      				  p.setposition(WIDTH/100*20+x-spriteWidth,y+spriteHeight);
-      		 }
-     		   hl.add(w);
-     	   }
-     	   y=y+spriteHeight;
-     	   vl.add(hl);
-        }
+        	{
+        		hl=new ArrayList<Wand>();
+		   	int x=0;
+     	   		for(String o:s)
+     	   		{
+     		  		Wand w=new Wand(o);
+     		  		x=x+blockwidth;
+     				if(o.equals("x"))
+      		 		{
+      			  		for(Player p:playerliste)
+      					p.setposition(sidebarwidth+x-blockwidth,y+blockheight);
+      		 		}
+     			 	hl.add(w);
+     	   		}
+     	   		y=y+blockheight;
+     	   		vl.add(hl);
+        	}
 		
 		ns=new NetworkServer(this);
 		try 
 		{
 			ns.startServer();
-			System.out.println("start Server");
+			//System.out.println("start Server");
 		} 
 		catch (Exception e) 
 		{
@@ -301,7 +390,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		try 
 		{
 			ns.startAnnounce();
-			System.out.println("start Announce");
+			//System.out.println("start Announce");
 		} 
 		catch (Exception e) 
 		{
@@ -312,56 +401,79 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		//Playersetzen aus liste
 		for(Player p:playerliste)
 		{
-			p.setSprungX(spriteWidth);
-			p.setBomberman(this);
-			p.setSprungY(spriteHeight);
+			p.setSprungX(blockwidth);
+			//p.setBomberman(this);
+			p.setSprungY(blockheight);
 			p.setMapn(vl);
 		}
-		
 		
 		//tests
 		 spriteSheetImage = new Image("res/p.png");
 		 bomb = new Image("res/bomb.png");
 		 ipower = new Image("res/Powerup.png");
 		 iminder = new Image("res/Powerdown.png");
-	    //Enlarge the sprite sheet.
-	    Image temp = spriteSheetImage.getScaledCopy(300,300);
-	    spriteSheetImage = temp;
-
-	    //Get, save, and display the width and the height
-	    // of the sprite sheet.
-	    spriteSheetWidth = spriteSheetImage.getWidth();
-	    spriteSheetHeight = spriteSheetImage.getHeight();
-	    
-		//Compute the width and height of the individual 
-		// sprite images.
-	    int spriteWidtha = (int)(spriteSheetWidth/spritesPerRow);
-	    int spriteHeighta =(int)(spriteSheetHeight/spritesPerColumn);
-		
-	    spriteSheet = new SpriteSheet(spriteSheetImage,spriteWidtha, spriteHeighta);
+	    	
+	    	//Enlarge the sprite sheet.
+	    	Image temp = spriteSheetImage.getScaledCopy(300,300);
+	    	spriteSheetImage = temp;
+	    	spriteSheetWidth = spriteSheetImage.getWidth();
+	    	spriteSheetHeight = spriteSheetImage.getHeight();
+	    	spriteWidth = (int)(spriteSheetWidth/spritesPerRow);
+	    	spriteHeight =(int)(spriteSheetHeight/spritesPerColumn);
+	    	spriteSheet = new SpriteSheet(spriteSheetImage,spriteWidth, spriteHeight);
 	}
 	
+	/**
+	 * 	Summary:
+	 * 	Hier wird das Spiel geupdated und resourcen verwaltet - Spiellogik
+	 * 
+	 * 	Description:
+	 * 
+	 * 	@param container =
+	 * 	@param delta = 
+	 * 	
+	 */
 	@Override
 	public synchronized void update(GameContainer container, int delta) throws SlickException 
 	{
-		
 		// Eingabe abfragen
+		int pl=0;
 		Input input=container.getInput();
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
 		{
 			container.exit();
 		}
-		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) 
+		
+		if (input.isKeyPressed(Input.KEY_LEFT)) 
 		{
-			System.out.println("Mouse: x:"+input.getMouseX()+"y:"+input.getMouseY());
+			//System.out.println(playerliste.get(pl).getName());
+			playerliste.get(pl).left();
 		}
 		
+		if (input.isKeyPressed(Input.KEY_RIGHT)) 
+		{
+			playerliste.get(pl).right();
+		}
+		
+		if (input.isKeyPressed(Input.KEY_UP)) 
+		{
+			playerliste.get(pl).up();
+		}
+		
+		if (input.isKeyPressed(Input.KEY_DOWN)) 
+		{
+			playerliste.get(pl).down();
+		}
+		
+		if (input.isKeyPressed(Input.KEY_SPACE)) 
+		{
+			playerliste.get(pl).buttonA();
+		}
 		
 		//Player updaten
 		for(Player p:playerliste)
 		{
 			p.update(delta);
-			//System.out.println(p.getName()+": "+p.getVirx()+"/"+p.getViry());
 		}
 		
 		//Bomben updaten
@@ -372,7 +484,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 				Bombe b = bomben.get(i);
 				if(b.getZeit()+b.getSystemZeit()<System.currentTimeMillis())
 				{
-					setbombe(b.getVirx(),b.getViry(),b);
+					//System.out.println("x:"+b.getX()+" / sprungx:"+b.getSprungX()+" | y:"+b.getY()+" / sprungy:"+b.getSprungY());
+					setbombe(((b.getX()-(xleft))/b.getSprungX()),((b.getY()-(ytop))/b.getSprungY()),b);
 					bomben.remove(b);
 				}	
 			}
@@ -392,6 +505,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 					if(up.getX()==u.getX() && up.getY()==u.getY())
 					{
 						u.addPowerup(up);
+						//System.out.println(u.getName()+" hat ein Powerup aufgenommen");
 						//setbombe((up.getX()/up.getSprungX()-3),up.getY()/up.getSprungY(),up);
 						powerups.remove(up);
 					}	
@@ -428,8 +542,9 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 					powerup.setSystemZeit(System.currentTimeMillis());
 					
 					//System.out.println("Down --x"+rx+" - y"+ry+"--");
-					powerup.setX((WIDTH/100*20)+((WIDTH/100*80)/2)-(cols*spriteWidth/2)+rx*spriteWidth+spriteWidth);
-					powerup.setY((HEIGHT/2)-(rows*spriteHeight/2)+ry*spriteHeight+25);
+					powerup.setX(xleft+rx*blockwidth+blockwidth);
+					powerup.setY(ytop+ry*blockheight+25);
+					//System.out.println(powerup.getX()/blockwidth+"<-x | y->"+powerup.getY()/blockheight);
 					powerups.add(powerup);
 				}
 			}
@@ -442,6 +557,24 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		//Powerdowns updaten
 		if(!(powerdowns.isEmpty()))
 		{
+			for (int i=0;i<powerdowns.size();i++) 
+			{
+				Powerdown down = powerdowns.get(i);
+				for (int j=0;j<playerliste.size();j++) 
+				{
+					Player u = playerliste.get(j);
+					//System.out.println("Player "+j+":"+u.getX()+" - "+u.getY());
+					//System.out.println("Powerup "+i+":"+up.getX()+" - "+up.getY());
+					if(down.getX()==u.getX() && down.getY()==u.getY())
+					{
+						u.addPowerdown(down);
+						//System.out.println(u.getName()+" hat ein Powerdown aufgenommen");
+						//setbombe((up.getX()/up.getSprungX()-3),up.getY()/up.getSprungY(),up);
+						powerdowns.remove(down);
+					}	
+				}
+			}
+			
 			for (int i=0;i<powerdowns.size();i++) 
 			{
 				Powerdown down = powerdowns.get(i);
@@ -471,8 +604,9 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 					powerdown.setSystemZeit(System.currentTimeMillis());
 					
 					//System.out.println("Power --x"+rx+" - y"+ry+"--");
-					powerdown.setX((WIDTH/100*20)+((WIDTH/100*80)/2)-(cols*spriteWidth/2)+rx*spriteWidth+spriteWidth);
-					powerdown.setY((HEIGHT/2)-(rows*spriteHeight/2)+ry*spriteHeight+25);
+					powerdown.setX(xleft+rx*blockwidth+blockwidth);
+					powerdown.setY(ytop+ry*blockheight+25);
+					///System.out.println(powerdown.getX()/blockwidth+"<-x | y->"+powerdown.getY()/blockheight);
 					powerdowns.add(powerdown);
 				}
 			}
@@ -484,36 +618,47 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 	
 	/***
+	 * 	Summary:
+	 * 	Hier wird eine Bombe hinzugefügt in das Spiel
+	 * 
+	 * 	Description:
+	 * 
 	 * 	@param x = X Coordinate
 	 * 	@param y = Y Coordinate
-	 * 	@param sprungy = H�he eines Feldes
+	 * 	@param sprungy = Höhe eines Feldes
 	 * 	@param sprungx = Breite eines Feldes
 	 * 	@param p = Player der diese Bombe setzt
 	 * */
-	public synchronized void addBombe(int x,int virx,int sprungx, int y,int viry,int sprungy, Player p) throws SlickException
+	public synchronized void addBombe(int x,int sprungx, int y,int sprungy, Player p) throws SlickException
 	{
 		Bombe bombe=new Bombe(bomb, 2000);
 		bombe.setSystemZeit(System.currentTimeMillis());
 		bombe.setBesitzer(p);
 		bombe.setX(x);
 		bombe.setY(y);
-		bombe.setVirx(virx);
-		bombe.setViry(viry);
 		bombe.setRange(2);
 		bombe.setSprungX(sprungx);
 		bombe.setSprungY(sprungy);
-		bombe.setAnfangx((WIDTH/100*20)+((WIDTH/100*8)/2)-(cols*spriteWidth/2)+spriteWidth);
-		bombe.setAnfangy((HEIGHT/2)-(rows*spriteHeight/2)+25);
+		bombe.setAnfangx(xleft+blockwidth);
+		bombe.setAnfangy(ytop+25);
 		bomben.add(bombe);
 	}
 
 	/***
+	 * 	Summary:
+	 * 	Bombe wird gesetzt
 	 * 
+	 * 	Description:
+	 * 
+	 * 	@param x = 
+	 * 	@param y =
+	 * 	@param b =
 	 * 
 	 * */
 	public synchronized void setbombe(int x, int y,Bombe b) 
 	{
-		System.out.println();
+		x=x-1;
+		//System.out.println(b.getBesitzer().getName()+": x"+x+" | "+"y:"+y);
 		int side1=0;
 		int side2=0;
 		int side3=0;
@@ -525,12 +670,10 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					//int px=((playerliste.get(p).getX()-WIDTH/100*20)/(WIDTH/100*60/15));
-					//int py=(playerliste.get(p).getY()/(HEIGHT/10));
-					int px=(playerliste.get(p).getVirx());
-					int py=(playerliste.get(p).getViry());
+					int px=((playerliste.get(p).getX()-sidebarwidth)/(WIDTH/100*60/15));
+					int py=(playerliste.get(p).getY()/(HEIGHT/10));
 					
-					//System.out.println(b.getBesitzer().getName()+": px:"+px+" py:"+py+" x:"+x+" y:"+y);
+					//System.out.println("px:"+px+" py:"+py+" x:"+x+" y:"+y);
 					if(px==x&&py==y-i-1&&side1==0)
 					{
 						b.getBesitzer().plus();
@@ -551,11 +694,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					//int px=((playerliste.get(p).getX()-WIDTH/100*20)/(WIDTH/100*60/15));
-					//int py=(playerliste.get(p).getY()/(HEIGHT/10));
-					int px=(playerliste.get(p).getVirx());
-					int py=(playerliste.get(p).getViry());
-					
+					int px=((playerliste.get(p).getX()-sidebarwidth)/(WIDTH/100*60/15));
+					int py=(playerliste.get(p).getY()/(HEIGHT/10));
 					if(px==x&&py==y+i+1&&side2==0)
 					{
 						b.getBesitzer().plus();
@@ -576,12 +716,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					//int px=((playerliste.get(p).getX()-WIDTH/100*20)/(WIDTH/100*60/15));
-					//int py=(playerliste.get(p).getY()/(HEIGHT/10));
-					int px=(playerliste.get(p).getVirx());
-					int py=(playerliste.get(p).getViry());
-					
-					
+					int px=((playerliste.get(p).getX()-sidebarwidth)/(WIDTH/100*60/15));
+					int py=(playerliste.get(p).getY()/(HEIGHT/10));
 					if(px==x-i-1&&py==y&&side3==0)
 					{
 						b.getBesitzer().plus();
@@ -602,11 +738,9 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					//int px=((playerliste.get(p).getX()-WIDTH/100*20)/(WIDTH/100*60/15));
-					//int py=(playerliste.get(p).getY()/(HEIGHT/10));
+					int px=((playerliste.get(p).getX()-sidebarwidth)/(WIDTH/100*60/15));
+					int py=(playerliste.get(p).getY()/(HEIGHT/10));
 					//int py=(playerliste.get(p).getY()-((HEIGHT/2)-(rows*50/2))/50);
-					int px=(playerliste.get(p).getVirx());
-					int py=(playerliste.get(p).getViry());
 					
 					if(px==x+i+1&&py==y&&side4==0)
 					{
@@ -638,9 +772,13 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	}
 
 	/***
+	 * 	Summary:
+	 * 	Neuer Spieler wird dem Spiel hinzugefügt
 	 * 
-	 * @param adresse = InetAddress wird �bergeben f�r den Player
-	 * @return Player
+	 * 	Description:
+	 * 
+	 * 	@param adresse = InetAddress wird übergeben für den Player
+	 * 	@return Player
 	 */
 	private synchronized Player neuerSpieler(InetAddress adresse)  {
 		
@@ -650,15 +788,14 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		{
 			p = new Player(new Image("res/player.png"));
 			p.setAdresse(adresse);
-			
 			//p.setSprungX((WIDTH-WIDTH/100*40)/cols);
-			p.setSprungX(50);
-			p.setSprungY(50);
-			p.setAnfangx((WIDTH/100*20)+((WIDTH/100*80)/2)-(cols*spriteWidth/2)+spriteWidth);
+			p.setSprungX(blockwidth);
+			p.setSprungY(blockheight);
+			p.setAnfangx(xleft+blockwidth);
 			//System.out.println("Anfangx:"+((WIDTH/100*20)+((WIDTH-(WIDTH/100*20))/2)-(cols*50/2)+50));
-			p.setAnfangy((HEIGHT-rows*spriteHeight)/2+25);
+			p.setAnfangy(ytop+25);
 			//System.out.println("Anfangy:"+((HEIGHT/2)-(rows*50/2)+25));
-			p.setBomberman(this);
+			//p.setBomberman(this);
 			//p.setSprungY(HEIGHT/rows);
 			p.setMapn(vl);
 			//p.setXPos(1);
@@ -669,11 +806,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 					if(vl.get(py).get(px).getStein().equals("x"))
 						{
 						
-						p.setposition(	(WIDTH/100*20)+((WIDTH/100*80)/2)-(cols*spriteWidth/2)+px*spriteWidth+spriteWidth, 
-										(HEIGHT-rows*spriteHeight)/2+py*spriteHeight+25,
-										vl.get(py).get(px).virx,
-										vl.get(py).get(px).viry
-										);
+						p.setposition(	xleft+px*blockwidth+blockwidth, 
+										ytop+py*blockheight+25);
 						//System.out.println("Position:"+((WIDTH/100*20)+((WIDTH-(WIDTH/100*20))/2)-(cols*50/2)+px*50+50)+" | "+((HEIGHT/2)-(rows*50/2)+py*50+25));
 						}
 		} 
@@ -687,6 +821,15 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		return p;
 	}
 
+	/**
+	 * 	Summary:
+	 * 	Nachricht wird von Spieler erhalten und Spieler wird bewegt/verändert
+	 * 	
+	 * 	Description:
+	 * 
+	 * 	@param client =
+	 * 	@param message =
+	 */
 	@Override
 	public void processMessage(InetAddress client, String message) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
@@ -732,12 +875,54 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		}
 	}
 
+	/**
+	 * 	Summary:
+	 *  	neuer Client hinzufügen in Liste und ins Spiel
+	 * 
+	 * 	Description:
+	 * 
+	 * 	@param client
+	 */
 	@Override
 	public void registerNewClient(InetAddress client) 
 	{
 		adressen.add(client);
 		neuerSpieler(client);
-		System.out.println(client.getHostAddress());
-		
+		//System.out.println(client.getHostAddress());
+	}
+
+	/**
+	 * 	Summary:
+	 *  	Hier wird die Zeit erreichnet die verstrichen ist.
+	 * 
+	 * 	Description:
+	 * 
+	 * 	@param start
+	 * 	@param current
+	 */
+	private String timeconvert(long start, long current)
+	{
+		String time;
+		long timestamp = ((current - start)/1000);
+		if(timestamp>=60)
+		{
+			if(timestamp%60==0)
+			{
+				time = (timestamp/60)+":00";
+			}
+			else
+			{
+				if(timestamp%60>0&&timestamp%60<10)
+					time = (timestamp/60)+":0"+(timestamp%60);
+				else
+					time = (timestamp/60)+":"+(timestamp%60);
+			}
+			time= time +" Minuten";
+		}
+		else
+		{
+			time=""+((current - start)/1000)+" Sekunden";
+		}
+		return time;
 	}
 }

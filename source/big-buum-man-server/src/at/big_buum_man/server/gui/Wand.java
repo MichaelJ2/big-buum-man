@@ -16,22 +16,26 @@ public class Wand extends SpielObjekt
 	public Wand(Image image, String stein) 
 	{
 		super(image);
+		super.setObjectName("Wand");
 		this.stein=stein;
 	}
 	
 	public Wand(String stein)
 	{
 		this.stein=stein;
+		setObjectName("Wand");
 	}
 	
 	@Override
 	public void draw(Graphics g) 
 	{
+		int blockwidth=50;
+		int blockheight=50;
 		if(this.getStein().equals("0"))
 		{
 			try 
 			{
-				super.setImage(new Image("res/walls.png").getSubImage(0,0,50,50));
+				super.setImage(new Image("res/walls.png").getSubImage(0,0,blockwidth,blockheight));
 			} 
 			catch (SlickException e) 
 			{
@@ -42,7 +46,7 @@ public class Wand extends SpielObjekt
 		{
 			try 
 			{
-				super.setImage(new Image("res/walls.png").getSubImage(375,0,50,50));
+				super.setImage(new Image("res/walls.png").getSubImage(375,0,blockwidth,blockheight));
 			} 
 			catch (SlickException e) 
 			{
@@ -53,7 +57,7 @@ public class Wand extends SpielObjekt
 		{
 			try 
 			{
-				super.setImage(new Image("res/saeule.png").getSubImage(0,0,50,50));
+				super.setImage(new Image("res/saeule.png").getSubImage(0,0,blockwidth,blockheight));
 			} 
 			catch (SlickException e) 
 			{

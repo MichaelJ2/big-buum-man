@@ -1,6 +1,7 @@
 package at.big_buum_man.android.gui;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
@@ -79,6 +80,8 @@ public class MainActivity extends Activity implements AndroidMethods, OnNavigati
 										String dp = "up";
 										try {
 											nc.stopListenAnnounce();
+										} catch (UnknownHostException e) {
+											e.printStackTrace();
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
@@ -99,6 +102,8 @@ public class MainActivity extends Activity implements AndroidMethods, OnNavigati
 										String dp = "right";
 										try {
 											nc.stopListenAnnounce();
+										} catch (UnknownHostException e) {
+											e.printStackTrace();
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
@@ -119,6 +124,8 @@ public class MainActivity extends Activity implements AndroidMethods, OnNavigati
 										String dp = "left";
 										try {
 											nc.stopListenAnnounce();
+										} catch (UnknownHostException e) {
+											e.printStackTrace();
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
@@ -139,6 +146,8 @@ public class MainActivity extends Activity implements AndroidMethods, OnNavigati
 										String dp = "down";
 										try {
 											nc.stopListenAnnounce();
+										} catch (UnknownHostException e) {
+											e.printStackTrace();
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
@@ -159,6 +168,8 @@ public class MainActivity extends Activity implements AndroidMethods, OnNavigati
 										String dp = "a";
 										try {
 											nc.stopListenAnnounce();
+										} catch (UnknownHostException e) {
+											e.printStackTrace();
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
@@ -179,6 +190,8 @@ public class MainActivity extends Activity implements AndroidMethods, OnNavigati
 										String dp = "b";
 										try {
 											nc.stopListenAnnounce();
+										} catch (UnknownHostException e) {
+											e.printStackTrace();
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
@@ -268,7 +281,7 @@ public class MainActivity extends Activity implements AndroidMethods, OnNavigati
 	public boolean onNavigationItemSelected(int arg0, long arg1) {
 		Log.d("Selected","item");
 		String address = aAdpt.getItem(arg0);
-		// TODO hï¿½bscher machen
+		// TODO hübscher machen
 		if ("Serverliste".equals(address)) {
 			return false;
 		}

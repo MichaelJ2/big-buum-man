@@ -1,2 +1,2 @@
-Json-Objekt speichert auch HashMap mit einzelnen Objekttypen
-Parsen des Json-Obkejts erlaubt dann genaue Identifikation der Methode anhand Objekttypen
+JSON-Object saves HashMap with object types
+Parsing of JSON-Object allows to identify called method because of saved object types

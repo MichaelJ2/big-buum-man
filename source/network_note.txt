@@ -1,0 +1,2 @@
+Json-Objekt speichert auch HashMap mit einzelnen Objekttypen
+Parsen des Json-Obkejts erlaubt dann genaue Identifikation der Methode anhand Objekttypen

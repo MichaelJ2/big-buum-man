@@ -34,11 +34,12 @@ public class AnnounceListenThread extends NetworkThread {
 			try {
 				socket.receive(packet);
 
-				// TODO check if server is a BigBuumManServer
-				// String packetString = new String(packet.getData(), "UTF-8");
+				String packetString = new String(packet.getData(), "UTF-8");
 
-				InetAddress address = packet.getAddress();
-				listener.processFoundServer(address);
+				if ("BigBuumManServer".equals(packetString)) {
+					InetAddress address = packet.getAddress();
+					listener.processFoundServer(address);
+				}
 
 				packet.setLength(buffer.length);
 

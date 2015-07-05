@@ -54,6 +54,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	@Override
 	public void update(int delta)
 	{
+		System.out.println("Update: x:"+(x)+" >< y:"+(y));
 		try 
 		{
 			super.setImage(new Image("res/p.png").getSubImage(0,0,95,116));
@@ -68,9 +69,11 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	public void draw(Graphics g) 
 	{
 		//image.drawCentered(x, y);
+		System.out.println("Render: x:"+(x)+" >< y:"+(y));
 		image.draw(x, y, farbe);
 		trueTypeFont.drawString(x, y, getObjectName()+":"+getName(), Color.red);
-		System.out.println(getName()+": x"+x+" y:"+y);
+		
+		//System.out.println(getName()+": x"+x+" y:"+y);
 	}
 
 	/***
@@ -178,9 +181,12 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void up() 
 	{
-		System.out.println("x:"+(((this.x-anfangx)/sprungx*1))+" y:"+(((this.y-anfangy)/sprungy*1)-1));
+		int ya=((this.y-anfangy)/sprungy*1)-1;
+		int xa=((this.x-anfangx)/sprungx*1);
 		
-		if(mapn.get(((this.y-anfangy)/sprungy*1)-1).get(((this.x-anfangx)/sprungx*1)).getStein().equals("0"))
+		System.out.println("UP: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
+		
+		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.y=this.y;
 		else
 			this.y-=sprungy;
@@ -200,8 +206,12 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void down() 
 	{
-		System.out.println("x:"+(((this.x-anfangx)/sprungx*1))+" y:"+(((this.y-anfangy)/sprungy*1)+1));
-		if(mapn.get(((this.y-anfangy)/sprungy*1)+1).get(((this.x-anfangx)/sprungx*1)).getStein().equals("0"))
+		int ya=((this.y-anfangy)/sprungy*1)+1;
+		int xa=((this.x-anfangx)/sprungx*1);
+		
+		System.out.println("DOWN: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
+		
+		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.y=this.y;
 		else
 			this.y+=sprungy;
@@ -221,8 +231,12 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void right() 
 	{
-		System.out.println("x:"+(((this.x-anfangx)/sprungx*1)+1)+" y:"+((this.y-anfangy)/sprungy*1));
-		if(mapn.get(((this.y-anfangy)/sprungy*1)).get(((this.x-anfangx)/sprungx*1)+1).getStein().equals("0"))
+		int ya=((this.y-anfangy)/sprungy*1);
+		int xa=((this.x-anfangx)/sprungx*1)+1;
+		
+		System.out.println("RIGHT: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
+		
+		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.x=this.x;
 		else
 			this.x+=sprungx;
@@ -242,9 +256,10 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void left() 
 	{
-		System.out.println("x:"+(((this.x-anfangx)/sprungx*1)-1)+" y:"+(((this.y-anfangy)/sprungy*1)));
-		
-		if(mapn.get(((this.y-anfangy)/sprungy*1)).get(((this.x-anfangx)/sprungx*1)-1).getStein().equals("0"))
+		int ya=((this.y-anfangy)/sprungy*1);
+		int xa=((this.x-anfangx)/sprungx*1)-1;
+		System.out.println("LEFT: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
+		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.x=this.x;
 		else
 			this.x-=sprungx;
@@ -266,7 +281,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		try 
 		{
-			System.out.println("px:"+this.x+" py:"+this.y);
+			//System.out.println("px:"+this.x+" py:"+this.y);
 			bbm.addBombe(this.x,this.sprungx,this.y,this.sprungy,this);
 			//bbm.addBombe((((this.x-anfangx)/sprungx*1)),this.sprungx,(((this.y-anfangy)/sprungy*1)),this.sprungy,this);
 		} 

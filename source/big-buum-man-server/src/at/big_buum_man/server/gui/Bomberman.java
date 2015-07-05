@@ -87,7 +87,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private int blockheight=50;														//Feldhöhe
 	private int sidebarwidth=WIDTH/100*20;											//Startposition vom Spielfeld
 	private int ytop=(HEIGHT/2)-(rows*blockheight/2);								
-	private int xleft=sidebarwidth+((WIDTH-sidebarwidth)/2)-(cols*blockwidth/2);
+	private int xleft=sidebarwidth+(((WIDTH-sidebarwidth)/2)-(cols*blockwidth/2));
 	
 	private Color gray=Color.gray;
 	private Color green=Color.green;
@@ -218,11 +218,10 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		player.setColor(red);
 		//player.setposition(1375+50, 540+50);
 		player.setposition(980, 300);
-		player.setAnfangx(xleft+blockwidth);
-		player.setAnfangy(ytop+25);
+		player.setAnfangx(xleft);
+		player.setAnfangy(ytop);
 		player.setSprungX(blockwidth);
 		player.setSprungY(blockheight);
-		//player.setBomberman(this);
 		player.setMapn(vl);
 		
 		try 
@@ -790,8 +789,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
  		  		x=x+blockwidth;
  				if(o.equals("x"))
   		 		{
-  			  		for(Player p:playerliste)
-  			  			p.setposition(sidebarwidth+x-blockwidth,y+blockheight);
+  			  		//for(Player p:playerliste)
+  			  			//p.setposition(sidebarwidth+x-blockwidth,y+blockheight);
   		 		}
  			 	hl.add(w);
  	   		}

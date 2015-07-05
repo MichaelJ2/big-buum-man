@@ -21,12 +21,12 @@ import org.newdawn.slick.TrueTypeFont;
  */
 public class Player extends SpielObjekt implements Comparable<Player>
 {
+	private static Bomberman bbm=Bomberman.getInstance();
 	private ArrayList<ArrayList<Wand>> mapn;
 	private Integer anfangx;
 	private Integer anfangy;
 	private Integer sprungx;
 	private Integer sprungy;
-	private static Bomberman bbm=Bomberman.getInstance();
 	private String name="";
 	private Integer punkte=0;
 	private InetAddress adresse;

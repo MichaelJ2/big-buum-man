@@ -100,10 +100,10 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private Color lightGray=Color.lightGray;
 	private Color black=Color.black;
 	
-	private Font font=Font.BOLD;
+	private int font=Font.BOLD;
 	private String letter="Arial";
 
-	private static Bomberman instance == null;
+	private static Bomberman instance = null;
 	
 	/***
 	 * 	Summary:
@@ -288,23 +288,17 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	{
 		starttime = System.currentTimeMillis();
 		
-		//Bombenliste erstellen
-		bomben=new ArrayList<Bombe>();
 		
-		//Powerupsliste erstellen
-		powerups=new ArrayList<Powerup>();
-		
-		//Powerdownsliste erstellen
-		powerdowns=new ArrayList<Powerdown>();
+		bomben=new ArrayList<Bombe>(); //Bombenliste erstellen
+		powerups=new ArrayList<Powerup>(); //Powerupsliste erstellen
+		powerdowns=new ArrayList<Powerdown>(); //Powerdownsliste erstellen
 		
 		trueTypeFont = new TrueTypeFont(new Font(letter, font, charsize), true);
 		trueTypeFont3 = new TrueTypeFont(new Font(letter, font, charsize), true);
 		
-		//Playerliste erstellen
-		playerliste =new ArrayList<Player>();
+		playerliste =new ArrayList<Player>(); //Playerliste erstellen
+		pliste=new ArrayList<TrueTypeFont>(); //Fontliste erstellen
 		
-		//Fontliste erstellen
-		pliste=new ArrayList<TrueTypeFont>();
 		
 		//TestPlayer 
 		//Testplayer1 init
@@ -312,7 +306,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		player.setName("Michael");
 		player.setColor(red);
 		//player.setposition(1375+50, 540+50);
-		player.setposition(980, 300 );
+		player.setposition(980, 300);
 		player.setAnfangx(xleft+blockwidth);
 		player.setAnfangy(ytop+25);
 		player.setSprungX(blockwidth);
@@ -321,7 +315,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		player.setMapn(vl);
 		
 		try 
-		{
+		{ 
 			player.setAdresse(InetAddress.getByName("192.168.1.1"));
 		} 
 		catch (UnknownHostException e1) 

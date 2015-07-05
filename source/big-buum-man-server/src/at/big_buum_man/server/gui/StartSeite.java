@@ -1,7 +1,6 @@
 package at.big_buum_man.server.gui;
 
 import java.awt.Font;
-import java.awt.Polygon;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
@@ -14,8 +13,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.gui.TextField;
 
 public class StartSeite extends BasicGame
 {

@@ -4,3 +4,5 @@ gen/
 .metadata/
 .settings/
 .recommenders/
+*log.txt
+**/target/*

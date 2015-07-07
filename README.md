@@ -20,4 +20,4 @@ The client currently supports the following platforms:
 * Android
 
 
-More information, pictures, releases and the imprint can be found at: [http://geraldschreiber.github.io/big-buum-man/](http://geraldschreiber.github.io/big-buum-man/)
+More information, pictures, releases and the imprint can be found at: [http://michaelj2.github.io/big-buum-man/](http://michaelj2.github.io/big-buum-man/)

@@ -17,7 +17,6 @@
    version="1.0"
    sodipodi:docname="content.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/srv/http/Ebendorfer_Jugend/images/home.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -80,7 +79,6 @@
        height="50"
        x="0"
        y="0"
-       inkscape:export-filename="/home/geraldschreiber/Projekte/big-buum-man/gh-pages/images/contenttop.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -90,7 +88,6 @@
        height="50"
        x="0"
        y="549"
-       inkscape:export-filename="/home/geraldschreiber/Projekte/big-buum-man/gh-pages/images/contentbottom.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -100,7 +97,6 @@
        height="10"
        x="0"
        y="213.06773"
-       inkscape:export-filename="/home/geraldschreiber/Projekte/big-buum-man/gh-pages/images/contentcenter.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>

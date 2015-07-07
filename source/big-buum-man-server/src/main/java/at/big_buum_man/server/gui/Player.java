@@ -54,7 +54,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	@Override
 	public void update(int delta)
 	{
-		System.out.println("Update: x:"+(x)+" >< y:"+(y));
+		//System.out.println("Update: x:"+(x)+" >< y:"+(y));
 		try 
 		{
 			super.setImage(new Image("res/p.png").getSubImage(0,0,95,116));
@@ -69,8 +69,8 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	public void draw(Graphics g) 
 	{
 		//image.drawCentered(x, y);
-		System.out.println("Render: x:"+(x)+" >< y:"+(y));
-		image.draw(x, y, farbe);
+		//System.out.println("Render: x:"+(x)+" >< y:"+(y));
+		image.draw(x, y-sprungy, farbe);
 		trueTypeFont.drawString(x, y, getObjectName()+":"+getName(), Color.red);
 		
 		//System.out.println(getName()+": x"+x+" y:"+y);
@@ -184,7 +184,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		int ya=((this.y-anfangy)/sprungy*1)-1;
 		int xa=((this.x-anfangx)/sprungx*1);
 		
-		System.out.println("UP: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
+		//System.out.println("UP: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
 		
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.y=this.y;
@@ -209,7 +209,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		int ya=((this.y-anfangy)/sprungy*1)+1;
 		int xa=((this.x-anfangx)/sprungx*1);
 		
-		System.out.println("DOWN: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
+		//System.out.println("DOWN: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
 		
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.y=this.y;
@@ -234,7 +234,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		int ya=((this.y-anfangy)/sprungy*1);
 		int xa=((this.x-anfangx)/sprungx*1)+1;
 		
-		System.out.println("RIGHT: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
+		//System.out.println("RIGHT: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
 		
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.x=this.x;
@@ -258,7 +258,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		int ya=((this.y-anfangy)/sprungy*1);
 		int xa=((this.x-anfangx)/sprungx*1)-1;
-		System.out.println("LEFT: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
+		//System.out.println("LEFT: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.x=this.x;
 		else
@@ -279,11 +279,13 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void buttonA() 
 	{
+		int ya=((this.y-anfangy)/sprungy*1);
+		int xa=((this.x-anfangx)/sprungx*1);
 		try 
 		{
 			//System.out.println("px:"+this.x+" py:"+this.y);
-			bbm.addBombe(this.x,this.sprungx,this.y,this.sprungy,this);
-			//bbm.addBombe((((this.x-anfangx)/sprungx*1)),this.sprungx,(((this.y-anfangy)/sprungy*1)),this.sprungy,this);
+			//bbm.addBombe(this.x,this.sprungx,this.y,this.sprungy,this);
+			bbm.addBombe(xa,this.sprungx,ya,this.sprungy,this);
 		} 
 		catch (SlickException e) 
 		{

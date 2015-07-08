@@ -6,3 +6,5 @@ gen/
 .recommenders/
 *log.txt
 **/target/*
+source/big-buum-man-server/.project
+source/big-buum-man-server/.classpath

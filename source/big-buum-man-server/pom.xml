@@ -12,7 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<main.class>at.big_buum_man.server.gui.StartSeite</main.class>
+		<main.class>at.big_buum_man.server.gui.Main</main.class>
 	</properties>
 
 	<dependencies>

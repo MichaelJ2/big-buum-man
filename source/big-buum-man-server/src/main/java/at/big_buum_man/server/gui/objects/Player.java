@@ -1,4 +1,4 @@
-package at.big_buum_man.server.gui;
+package at.big_buum_man.server.gui.objects;
 
 import org.newdawn.slick.Color;
 
@@ -11,6 +11,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+import at.big_buum_man.server.gui.Bomberman;
+
 
 /***
  * @version 1.0
@@ -21,7 +23,7 @@ import org.newdawn.slick.TrueTypeFont;
  */
 public class Player extends SpielObjekt implements Comparable<Player>
 {
-	private static Bomberman bbm=Bomberman.getInstance();
+	private Bomberman bbm;
 	private ArrayList<ArrayList<Wand>> mapn;
 	private Integer anfangx;
 	private Integer anfangy;
@@ -40,6 +42,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		super(image);
 		super.setObjectName("Player");
+		bbm = Bomberman.getInstance();
 	}
 	
 	/***
@@ -70,8 +73,12 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		//image.drawCentered(x, y);
 		//System.out.println("Render: x:"+(x)+" >< y:"+(y));
-		image.draw(x, y-sprungy, farbe);
+		
+		image.draw(x-sprungx/2, y-sprungy, farbe);
 		trueTypeFont.drawString(x, y, getObjectName()+":"+getName(), Color.red);
+		
+		g.setColor(Color.green);
+		g.drawRect(x-1,y-1, sprungx+1, sprungy+1);
 		
 		//System.out.println(getName()+": x"+x+" y:"+y);
 	}
@@ -279,13 +286,13 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void buttonA() 
 	{
-		int ya=((this.y-anfangy)/sprungy*1);
-		int xa=((this.x-anfangx)/sprungx*1);
+		//int ya=((this.y-anfangy)/sprungy*1);
+		//int xa=((this.x-anfangx)/sprungx*1);
 		try 
 		{
 			//System.out.println("px:"+this.x+" py:"+this.y);
-			//bbm.addBombe(this.x,this.sprungx,this.y,this.sprungy,this);
-			bbm.addBombe(xa,this.sprungx,ya,this.sprungy,this);
+			bbm.addBombe(this.x,this.sprungx,this.y,this.sprungy,this);
+			//bbm.addBombe(xa,this.sprungx,ya,this.sprungy,this);
 		} 
 		catch (SlickException e) 
 		{

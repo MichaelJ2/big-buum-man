@@ -1,6 +1,8 @@
-package at.big_buum_man.server.gui;
+package at.big_buum_man.server.gui.dummies;
 
 import java.util.ArrayList;
+
+import at.big_buum_man.server.gui.objects.Powerup;
 
 public class Powerupdummie 
 {

@@ -1,4 +1,4 @@
-package at.big_buum_man.server.gui;
+package at.big_buum_man.server.gui.objects;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

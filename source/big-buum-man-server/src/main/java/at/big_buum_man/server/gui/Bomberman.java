@@ -2,13 +2,9 @@ package at.big_buum_man.server.gui;
 
 import at.big_buum_man.server.ServerMethods;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 import java.awt.Font;
 
@@ -260,8 +256,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		bombe.setRange(2);
 		bombe.setSprungX(sprungx);
 		bombe.setSprungY(sprungy);
-		bombe.setAnfangx(xleft+blockwidth);
-		bombe.setAnfangy(ytop+25);
+		bombe.setAnfangx(xleft);
+		bombe.setAnfangy(ytop);
 		bomben.add(bombe);
 	}
 
@@ -278,115 +274,112 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	 * */
 	public synchronized void setbombe(int x, int y,Bombe b) 
 	{
-		x=x-1;
-		//System.out.println("Bomb set: "+b.getBesitzer().getName()+": x:"+x+" | "+"y:"+y);
+		//System.out.println("Bomb set: "+b.getBesitzer().getName()+": x:"+x+" | "+"y:"+y +" -> limits "+ml.getMap().size()+"/"+cols);
 		int side1=0;
 		int side2=0;
 		int side3=0;
 		int side4=0;
 		
-		for(int i=0;i<b.getRange();i++)
+		for(int i=0;i<=b.getRange();i++)
 		{
-			if(y-i-1>0) 
+			if(y-i>0) 
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					//int px=((playerliste.get(p).getX()-sidebarwidth)/(WIDTH/100*60/15));
-					//int xv=sidebarwidth+(((WIDTH-sidebarwidth)/2)-(cols*blockwidth));
-					//System.out.println(sidebarwidth+" + "+((WIDTH-sidebarwidth)/2)+"- "+(cols*blockwidth));
-					//System.out.println(playerliste.get(p).getX()+" - "+xv);
 					int px=((playerliste.get(p).getX()-xleft)/blockwidth);
-					//int py=(playerliste.get(p).getY()/(HEIGHT/10));
 					int py=((playerliste.get(p).getY()-ytop)/blockheight);
 					
-					if(px==x&&py==y-i-1&&side1==0)
+					if(px==x&&py==y-i&&side1==0)
 					{
 						b.getBesitzer().plus();
 						side1=1;
+						//System.out.println("1 Bomb find: X:"+((b.getX()-xleft)/blockwidth)+" Y:"+(((b.getY()-ytop)/blockheight)-i)+" - Player "+playerliste.get(p).getName()+" X:"+((playerliste.get(p).getX()-xleft)/blockwidth)+" Y:"+(((playerliste.get(p).getY()-ytop)/blockheight)));
 						playerliste.remove(p);
 					}
 				}
 				
-				if(vl.get(y-i-1).get(x).getStein().equals("0")&&side1==0) 
+				if(vl.get(y-i).get(x).getStein().equals("0")&&side1==0) 
 				{
 					b.getBesitzer().plus();
 					side1=1;
-					vl.get(y-i-1).get(x).setStein(1+"");
+					//System.out.println("2 Bomb find: X:"+((b.getX()-xleft)/blockwidth)+" Y:"+(((b.getY()-ytop)/blockheight)-i));
+					vl.get(y-i).get(x).setStein(1+"");
 				}
 			}
 			
-			if(y+i+1<ml.getMap().size()-1) 
+			if(y+i<ml.getMap().size()-1) 
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					//int px=((playerliste.get(p).getX()-sidebarwidth)/(WIDTH/100*60/15));
 					int px=((playerliste.get(p).getX()-xleft)/blockwidth);
-					//int py=(playerliste.get(p).getY()/(HEIGHT/10));
 					int py=((playerliste.get(p).getY()-ytop)/blockheight);
 					
-					if(px==x&&py==y+i+1&&side2==0)
+					if(px==x&&py==y+i&&side2==0)
 					{
+						//System.out.println("PX:"+px+" x:"+x+" PY:"+py+" y:"+(y+i));
 						b.getBesitzer().plus();
 						side2=1;
+						//System.out.println("3 Bomb find: X:"+((b.getX()-xleft)/blockwidth)+" Y:"+(((b.getY()-ytop)/blockheight)+i) +" - Player "+playerliste.get(p).getName()+" X:"+((playerliste.get(p).getX()-xleft)/blockwidth)+" Y:"+(((playerliste.get(p).getY()-ytop)/blockheight)));
 						playerliste.remove(p);
 					}
 				}
 				
-				if(vl.get(y+i+1).get(x).getStein().equals("0")&&side2==0)
+				if(vl.get(y+i).get(x).getStein().equals("0")&&side2==0)
 				{
 					b.getBesitzer().plus();
 					side2=1;
-					vl.get(y+i+1).get(x).setStein(1+"");
+					//System.out.println("4 Bomb find: X:"+((b.getX()-xleft)/blockwidth)+" Y:"+(((b.getY()-ytop)/blockheight)+i));
+					vl.get(y+i).get(x).setStein(1+"");
 				}
 			}
 			
-			if(x-i-1>0) 
+			if(x-i>0) 
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					//int px=((playerliste.get(p).getX()-sidebarwidth)/(WIDTH/100*60/15));
 					int px=((playerliste.get(p).getX()-xleft)/blockwidth);
-					//int py=(playerliste.get(p).getY()/(HEIGHT/10));
 					int py=((playerliste.get(p).getY()-ytop)/blockheight);
 					
-					if(px==x-i-1&&py==y&&side3==0)
+					if(px==x-i&&py==y&&side3==0)
 					{
 						b.getBesitzer().plus();
 						side3=1;
+						//System.out.println("5 Bomb find: X:"+(((b.getX()-xleft)/blockwidth)-i)+" Y:"+((b.getY()-ytop)/blockheight)+" - Player "+playerliste.get(p).getName()+" X:"+((playerliste.get(p).getX()-xleft)/blockwidth)+" Y:"+(((playerliste.get(p).getY()-ytop)/blockheight)));
 						playerliste.remove(p);
 					}
 				}
 				
-				if(vl.get(y).get(x-i-1).getStein().equals("0")&&side3==0)
+				if(vl.get(y).get(x-i).getStein().equals("0")&&side3==0)
 				{
 					b.getBesitzer().plus();
 					side3=1;
-					vl.get(y).get(x-i-1).setStein(1+"");
+					//System.out.println("6 Bomb find: X:"+(((b.getX()-xleft)/blockwidth)-i)+" Y:"+((b.getY()-ytop)/blockheight));
+					vl.get(y).get(x-i).setStein(1+"");
 				}
 			}
 			
-			if(x+i+1<ml.getMap().size()-1) 
+			if(x+i<cols-1) 
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					//int px=((playerliste.get(p).getX()-sidebarwidth)/(WIDTH/100*60/15));
 					int px=((playerliste.get(p).getX()-xleft)/blockwidth);
-					//int py=(playerliste.get(p).getY()/(HEIGHT/10));
 					int py=((playerliste.get(p).getY()-ytop)/blockheight);
 					
-					if(px==x+i+1&&py==y&&side4==0)
+					if(px==x+i&&py==y&&side4==0)
 					{
 						b.getBesitzer().plus();
 						side4=1;
+						//System.out.println("7 Bomb find: X:"+(((b.getX()-xleft)/blockwidth)+i)+" Y:"+((b.getY()-ytop)/blockheight)+" - Player "+playerliste.get(p).getName()+" X:"+((playerliste.get(p).getX()-xleft)/blockwidth)+" Y:"+(((playerliste.get(p).getY()-ytop)/blockheight)));
 						playerliste.remove(p);
 					}
 				}
 				
-				if(vl.get(y).get(x+i+1).getStein().equals("0")&&side4==0)
+				if(vl.get(y).get(x+i).getStein().equals("0")&&side4==0)
 				{
 					b.getBesitzer().plus();
 					side4=1;
-					vl.get(y).get(x+i+1).setStein(1+"");
+					//System.out.println("8 Bomb find: X:"+(((b.getX()-xleft)/blockwidth)+i)+" Y:"+((b.getY()-ytop)/blockheight));
+					vl.get(y).get(x+i).setStein(1+"");
 				}
 			}			
 		}
@@ -584,6 +577,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		for(Player p:playerliste)
 		{
 			p.update(delta);
+			//System.out.println("Player "+p.getName()+"| X:"+((p.getX()-xleft)/blockwidth)+" Y:"+((p.getY()-ytop)/blockheight));
 		}
 	}
 	
@@ -596,6 +590,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 				Bombe b = bomben.get(i);
 				if(b.getZeit()+b.getSystemZeit()<System.currentTimeMillis())
 				{
+					//System.out.println(((b.getX()-(xleft))/b.getSprungX())+" | "+((b.getY()-(ytop))/b.getSprungY()));
 					setbombe(((b.getX()-(xleft))/b.getSprungX()),((b.getY()-(ytop))/b.getSprungY()),b);
 					//createExplosions();
 					bomben.remove(b);
@@ -648,8 +643,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 				{
 					Powerup powerup=new Powerup(ipower);
 					powerup.setSystemZeit(System.currentTimeMillis());
-					powerup.setX(xleft+rx*blockwidth+blockwidth);
-					powerup.setY(ytop+ry*blockheight+25);
+					powerup.setX(xleft+rx*blockwidth);
+					powerup.setY(ytop+ry*blockheight);
 					powerups.add(powerup);
 				}
 			}
@@ -703,8 +698,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 				{
 					Powerdown powerdown=new Powerdown(iminder);
 					powerdown.setSystemZeit(System.currentTimeMillis());
-					powerdown.setX(xleft+rx*blockwidth+blockwidth);
-					powerdown.setY(ytop+ry*blockheight+25);
+					powerdown.setX(xleft+rx*blockwidth);
+					powerdown.setY(ytop+ry*blockheight);
 					powerdowns.add(powerdown);
 				}
 			}
@@ -777,7 +772,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		Player player = new Player(new Image("res/player.png"));
 		player.setName("Michael");
 		player.setColor(red);
-		player.setposition(980, 350);
+		player.setposition(975, 340);
 		player.setAnfangx(xleft);
 		player.setAnfangy(ytop);
 		player.setSprungX(blockwidth);
@@ -792,7 +787,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		Player player1 = new Player(new Image("res/player2.png"));
 		player1.setName("Gerald");
 		player1.setColor(green);
-		player1.setposition(980, 450);
+		player1.setposition(975, 440);
 		player1.setAnfangx(xleft);
 		player1.setAnfangy(ytop);
 		player1.setSprungX(blockwidth);
@@ -842,6 +837,9 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	/////////////////////////////////////////////////
 	private void RenderMap(Graphics g)
 	{
+		g.setColor(green);
+		g.drawRect(xleft-5,ytop-5, (cols*blockwidth)+10, (rows*blockheight)+10);
+		
 		int y=0+ytop;
 		for(ArrayList<Wand> v: vl)
 	    	{
@@ -875,8 +873,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	 		   		else
 		 			  g.setColor(darkGray);
 		     		  
-		     		  h.setX(x+1+blockwidth);
-		     		  h.setY(y+blockheight/2);
+		     		  h.setX(x);//+blockwidth);
+		     		  h.setY(y);//+blockheight/2);
 		     		  h.draw(g);
 		     		  
 		     		  x=x+blockwidth;
@@ -901,6 +899,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 			for(Bombe bo:bomben)
 			{
 				bo.draw(g);
+				//System.out.println("Bombe X:"+(bo.getX()-xleft)/blockwidth+" Y:"+(bo.getY()-ytop)/blockheight);
 			}
 		}
 	}
@@ -936,7 +935,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		{
 			if (i < pliste.size())
 				pliste.get(i).drawString(30, 120+20*i,"-"+playerliste.get(i).getName(), black);
-			System.out.println("X:"+(playerliste.get(i).getX()-xleft)/blockwidth+" Y:"+(playerliste.get(i).getY()-ytop)/blockheight);
+			//System.out.println("Player X:"+(playerliste.get(i).getX()-xleft)/blockwidth+" Y:"+(playerliste.get(i).getY()-ytop)/blockheight);
 		}
 	}
 	

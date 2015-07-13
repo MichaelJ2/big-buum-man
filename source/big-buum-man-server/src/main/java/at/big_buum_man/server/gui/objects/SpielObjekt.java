@@ -2,6 +2,8 @@ package at.big_buum_man.server.gui.objects;
 
 import org.newdawn.slick.*;
 
+import at.big_buum_man.server.gui.helper.Point;
+
 /***
  * @version 1.0
  * @author Michael Januschek
@@ -11,6 +13,7 @@ public abstract class SpielObjekt {
 
 	protected int x;
 	protected int y;
+	//protected Point point;
 	protected Image image;
 	public String objectName;
 

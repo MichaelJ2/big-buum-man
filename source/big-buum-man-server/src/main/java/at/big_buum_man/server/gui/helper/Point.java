@@ -6,6 +6,8 @@ public class Point
 	private int y;
 	private int anfangx;
 	private int anfangy;
+	private int blockwidth=50;
+	private int blockheight=50;
 	
 	public Point() 
 	{
@@ -39,13 +41,13 @@ public class Point
 	
 	public void setBrettX(int brettx)
 	{
-		this.x=this.anfangx+(brettx*50);
+		this.x=this.anfangx+(brettx*blockwidth);
 		// TODO Auto-generated constructor stub
 	}
 	
 	public void setBrettY(int bretty)
 	{
-		this.y=this.anfangy+(bretty*50);
+		this.y=this.anfangy+(bretty*blockheight);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -72,13 +74,13 @@ public class Point
 	
 	public int getBrettX()
 	{
-		return (this.x-this.anfangx)/50;
+		return (this.x-this.anfangx)/blockwidth;
 		// TODO Auto-generated constructor stub
 	}
 	
 	public int getBrettY()
 	{
-		return (this.y-this.anfangy)/50;
+		return (this.y-this.anfangy)/blockheight;
 		// TODO Auto-generated constructor stub
 	}
 	

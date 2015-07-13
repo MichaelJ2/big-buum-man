@@ -1,4 +1,5 @@
-package at.big_buum_man.server.gui;
+package at.big_buum_man.server.gui.objects;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -7,7 +8,7 @@ import org.newdawn.slick.Image;
  * @author Michael Januschek
  * @category 
  * 
- * Beschreibung: Dies ist die Bombe mit der Wände und Spieler zerstört werden.
+ * Beschreibung: Dies ist die Bombe mit der Wï¿½nde und Spieler zerstï¿½rt werden.
  */
 public class Bombe extends SpielObjekt
 {
@@ -32,7 +33,9 @@ public class Bombe extends SpielObjekt
 	@Override
 	public void draw(Graphics g) 
 	{
-		image.drawCentered(x, y);
+		image.draw(x-sprungx/2, y-sprungy/2);
+		g.setColor(Color.green);
+		g.drawRect(x-1,y-1, 50+1, 50+1);
 	}
 
 	@Override

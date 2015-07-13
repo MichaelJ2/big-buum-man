@@ -1,4 +1,5 @@
-package at.big_buum_man.server.gui;
+package at.big_buum_man.server.gui.objects;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -64,7 +65,9 @@ public class Wand extends SpielObjekt
 				e.printStackTrace();
 			}
 		}
-		image.drawCentered(x,y);
+		image.draw(x,y);
+		g.setColor(Color.green);
+		g.drawRect(x,y, 50, 50);
 	}
 	
 	@Override

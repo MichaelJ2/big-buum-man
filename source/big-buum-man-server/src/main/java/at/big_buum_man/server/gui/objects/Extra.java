@@ -1,4 +1,4 @@
-package at.big_buum_man.server.gui;
+package at.big_buum_man.server.gui.objects;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -20,7 +20,7 @@ public class Extra extends SpielObjekt
 	@Override
 	public void draw(Graphics g) 
 	{
-		image.drawCentered(x, y);
+		image.draw(x, y);
 	}
 	
 	public String getName() 

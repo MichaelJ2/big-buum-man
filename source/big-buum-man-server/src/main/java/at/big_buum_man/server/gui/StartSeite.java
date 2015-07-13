@@ -14,6 +14,17 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+import at.big_buum_man.server.gui.dummies.Mapdummie;
+import at.big_buum_man.server.gui.dummies.Powerdowndummie;
+import at.big_buum_man.server.gui.dummies.Powerupdummie;
+import at.big_buum_man.server.gui.enums.GAMEMODE;
+import at.big_buum_man.server.gui.enums.STATE;
+import at.big_buum_man.server.gui.objects.Karte;
+import at.big_buum_man.server.gui.objects.MapListe;
+import at.big_buum_man.server.gui.objects.Powerdown;
+import at.big_buum_man.server.gui.objects.Powerup;
+import at.big_buum_man.server.gui.objects.Wand;
+
 public class StartSeite extends BasicGame
 {
 	public static final int WIDTH = Display.getDesktopDisplayMode().getWidth();	//Bildschirm breite
@@ -30,13 +41,22 @@ public class StartSeite extends BasicGame
 	private STATE state; //Status
 	private Image bomb;
 	
-	Bomberman bm; 
+	private Bomberman bm; 
 	
 	private ArrayList<Karte> maps= new ArrayList<Karte>(); //kartenliste
 	private ArrayList<Powerup> powerups= new ArrayList<Powerup>(); //Powerupliste
 	private ArrayList<Powerdown> powerdowns= new ArrayList<Powerdown>(); //Powerdownliste
 	
-	
+	private Color gray=Color.gray;
+	private Color green=Color.green;
+	private Color red=Color.red;
+	private Color blue=Color.blue;
+	private Color white=Color.white;
+	private Color yellow=Color.yellow;
+	private Color magenta=Color.magenta;
+	private Color darkGray=Color.darkGray;
+	private Color lightGray=Color.lightGray;
+	private Color black=Color.black;
 	/**
 	 * 	Startseite - wird als Hauptmenü gestartet
 	 * 
@@ -54,6 +74,7 @@ public class StartSeite extends BasicGame
 	 * 	@param args
 	 * 	@throws SlickException
 	 */
+	/*
 	public static void main(String[] args) throws SlickException 
 	{
 		StartSeite ss = new StartSeite();
@@ -65,7 +86,8 @@ public class StartSeite extends BasicGame
 		container.setShowFPS(true);
 		container.start();
 	}
-
+	*/
+	
 	/**
 	 * 	Hier werden alle Grafiken neu geladen und in einem bestimmten Intervall gezeichnet
 	 */
@@ -79,14 +101,7 @@ public class StartSeite extends BasicGame
 		
 		if(state==STATE.GAME)
 		{
-			if(bm==null)
-			{
-				bm= Bomberman.getInstance();
-				bm.init(container);
-			}
-			
-			bm.render(container, g);
-			//drawWindow(g,"Game");
+			RenderStateGame(container, g);
 		}
 		
 		if(state==STATE.HELP)
@@ -102,20 +117,7 @@ public class StartSeite extends BasicGame
 		
 		if(state==STATE.PAUSE)
 		{
-			drawWindow(g,"Pause");
-			int sideposition = (WIDTH/2)-200;
-			int haelftehoehe = (HEIGHT/2);
-			
-			if(ppos==1)trueTypeFont.drawString(sideposition, haelftehoehe-100,"Resume", Color.black);
-			else trueTypeFont.drawString(sideposition, haelftehoehe-100,"Resume", Color.red);
-			if(ppos==2)trueTypeFont.drawString(sideposition, haelftehoehe-50,"Einstellungen", Color.black);
-			else trueTypeFont.drawString(sideposition, haelftehoehe-50,"Einstellungen", Color.red);
-			if(ppos==3)trueTypeFont.drawString(sideposition, haelftehoehe,"Help", Color.black);
-			else trueTypeFont.drawString(sideposition, haelftehoehe,"Help", Color.red);
-			if(ppos==4)trueTypeFont.drawString(sideposition, haelftehoehe+50,"Hauptmenü", Color.black);
-			else trueTypeFont.drawString(sideposition, haelftehoehe+50,"Hauptmenü", Color.red);
-			if(ppos==5)trueTypeFont.drawString(sideposition, haelftehoehe+100,"Spiel beenden", Color.black);
-			else trueTypeFont.drawString(sideposition, haelftehoehe+100,"Spiel beenden", Color.red);
+			RenderStatePause(g);
 		}
 		
 		if(state==STATE.SETTINGS)
@@ -154,172 +156,39 @@ public class StartSeite extends BasicGame
 		
 		if(state==STATE.GAME) //Game Status -> Spiel update
 		{
-			bm.update(container, delta);
-			if (input.isKeyPressed(Input.KEY_P)) 
-			{
-				state=STATE.PAUSE;
-			}
+			UpdateStateGame(container,delta,input);
 		}
 		
 		if(state==STATE.HELP) //Help Status -> Hilfe wird ausgegeben
 		{
-			if (input.isKeyPressed(Input.KEY_ESCAPE)) 
-			{
-				state=STATE.MENU;
-			}
+			UpdateStateHelp(input);
 		}
 		
 		if(state==STATE.IMPRESS) //Impress Status -> Impressum wird ausgegeben
 		{
-			if (input.isKeyPressed(Input.KEY_ESCAPE)) 
-			{
-				state=STATE.MENU;
-			}
+			UpdateStateImpress(input);
 		}
 		
 		if(state==STATE.MENU) //Menu Status -> Menü wird ausgeben
 		{
-			if(pos<5)
-			{
-				if (input.isKeyPressed(Input.KEY_DOWN)) 
-				{
-					yw=yw+keyjump;
-					pos++;
-				}
-			}
-			
-			if(pos>1)
-			{
-				if (input.isKeyPressed(Input.KEY_UP)) 
-				{
-					yw=yw-keyjump;
-					pos--;
-				}
-			}
-			
-			if (input.isKeyPressed(Input.KEY_ENTER)) 
-			{
-				if(pos==5)
-					container.exit();
-				if(pos==1)
-					state=STATE.GAMECONFIGURATION;
-				if(pos==2)
-					state=STATE.SETTINGS;
-				if(pos==3)
-					state=STATE.IMPRESS;
-				if(pos==4)
-					state=STATE.HELP;
-			}
-			
-			if (input.isKeyPressed(Input.KEY_ESCAPE)) 
-			{
-				container.exit();
-			}
+			UpdateStateMenu(input,keyjump,container);
 		}
 		
 		if(state==STATE.PAUSE) //Pause Status -> Spiel wird angehalten
 		{
-			if(ppos<5)
-			{
-				if (input.isKeyPressed(Input.KEY_DOWN)) 
-				{
-					ppos++;
-				}
-			}
-			
-			if(ppos>1)
-			{
-				if (input.isKeyPressed(Input.KEY_UP)) 
-				{
-					ppos--;
-				}
-			}
-			
-			if (input.isKeyPressed(Input.KEY_ENTER)) 
-			{
-				if(ppos==1)
-					state=STATE.GAME;
-				if(ppos==2)
-					state=STATE.SETTINGS;
-				if(ppos==3)
-					state=STATE.HELP;
-				if(ppos==4)
-					state=STATE.MENU;
-				if(ppos==5)
-					container.exit();
-			}
-			
-			if (input.isKeyPressed(Input.KEY_ESCAPE)) 
-			{
-				state=STATE.GAME;
-			}
-			
-			if (input.isKeyPressed(Input.KEY_P)) 
-			{
-				state=STATE.GAME;
-			}
+			UpdateStatePause(input,container);
 		}
 		
 		if(state==STATE.SETTINGS) //Settings Status -> Einstellungen werden angezeigt
 		{
-			if (input.isKeyPressed(Input.KEY_ESCAPE)) 
-			{
-				state=STATE.MENU;
-			}
+			UpdateStateSettings(input);
 		}
 		
 		if(state==STATE.GAMECONFIGURATION) //GameConfiguration Status -> Gamemaker wird geöffnet damit ein Spiel gestartet werden kann
 		{
-			if (input.isKeyPressed(Input.KEY_ESCAPE)) 
-			{
-				state=STATE.MENU;
-			}
-
-			if(input.isKeyPressed(Input.KEY_UP))
-			{
-				if(cursorv>1)
-					cursorv--;
-			}
-			
-			if(input.isKeyPressed(Input.KEY_DOWN))
-			{
-				if(cursorv<5)
-					cursorv++;
-			}
-			
-			if(input.isKeyPressed(Input.KEY_LEFT))
-			{
-				if(cursorh>0)
-				{
-					cursorh--;
-					einstellung[cursorv-1]--;
-				}
-			}
-			
-			if(input.isKeyPressed(Input.KEY_RIGHT))
-			{
-				if(cursorh<5)
-				{
-					cursorh++;
-					einstellung[cursorv-1]++;
-				}
-			}
-			
-			if(input.isKeyPressed(Input.KEY_ENTER))
-			{
-				if(cursorv==4)
-				{
-					state=STATE.GAME;
-					// werte werden nun übergeben von den einstellungen 
-					// Bomberman.setMap(einstellung[0]); hier wird die Map ausgewählt
-					// Bomberman.setPowerupPowerdowns(einstellung[1]); hier werden die Powerups und Powerdowns übergeben die erlaubt sind
-					// Bomberman.setGamemode(einstellung[2]); hier wird der gamemode ausgewählt
-					// Bomberman.setTeammode(einstellung[3]); hier wird der teammodus ausgewählt
-					//bm.update(container, delta);
-					//bm.init(container);
-				}
-			}
+			UpdateStateGameconfiguration(input);
 		}
+		
 		input.clearKeyPressedRecord();
 	}
 
@@ -334,13 +203,13 @@ public class StartSeite extends BasicGame
 		int haelftebreite = (WIDTH/2);
 		int haelftehoehe = (HEIGHT/2);
 		
-		g.setColor(Color.red);
+		g.setColor(red);
 		g.fillRoundRect(haelftebreite-250, haelftehoehe-150, 500, 300, 20);
 		
-		g.setColor(Color.white);
+		g.setColor(white);
 		g.fillRoundRect(haelftebreite-240, haelftehoehe-140, 480, 280, 20);
 		
-		trueTypeFont.drawString(haelftebreite-trueTypeFont.getWidth(text)/2, haelftehoehe-140+trueTypeFont.getHeight()/2, text, Color.black);
+		trueTypeFont.drawString(haelftebreite-trueTypeFont.getWidth(text)/2, haelftehoehe-140+trueTypeFont.getHeight()/2, text, black);
 	}
 	
 	/**
@@ -355,54 +224,57 @@ public class StartSeite extends BasicGame
 		int valueadd = 100;
 		int breite_10 = (WIDTH/100*10);
 		int hoehe_10 = (HEIGHT/100*10);
+		int buttonbreite = 150;
+		int buttonhoehe = 40;
+		int buttonround = 10;
 		
-		g.setColor(Color.white);
+		g.setColor(white);
 		g.fillRect(breite_10+1, hoehe_10+1, WIDTH/100*80 ,HEIGHT/100*80);
 		
-		g.setColor(Color.red);
-		g.fillRoundRect(positionleft, positiontop-5, 150, 40, 10);
+		g.setColor(red);
+		g.fillRoundRect(positionleft, positiontop-5, buttonbreite, buttonhoehe, buttonround);
 		
-		g.setColor(Color.red);
-		g.fillRoundRect(positionleft, positiontop+(valueadd*1)-5, 150, 40, 10);
+		g.setColor(red);
+		g.fillRoundRect(positionleft, positiontop+(valueadd*1)-5, buttonbreite, buttonhoehe, buttonround);
 		
-		g.setColor(Color.red);
-		g.fillRoundRect(positionleft, positiontop+(valueadd*2)-5, 150, 40, 10);
+		g.setColor(red);
+		g.fillRoundRect(positionleft, positiontop+(valueadd*2)-5, buttonbreite, buttonhoehe, buttonround);
 		
-		g.setColor(Color.red);
-		g.fillRoundRect(positionleft, positiontop+(valueadd*3)-5, 150, 40, 10);
+		g.setColor(red);
+		g.fillRoundRect(positionleft, positiontop+(valueadd*3)-5, buttonbreite, buttonhoehe, buttonround);
 		
-		g.setColor(Color.red);
-		g.fillRoundRect(positionleft, positiontop+(valueadd*4)-5, 150, 40, 10);
+		g.setColor(red);
+		g.fillRoundRect(positionleft, positiontop+(valueadd*4)-5, buttonbreite, buttonhoehe, buttonround);
 		
 		positionleft = 310-20;
 		positiontop = 132;
-		g.setColor(Color.black);
-		trueTypeFont.drawString(positionleft, positiontop,"Spiel Start", Color.black);
-		trueTypeFont.drawString(positionleft, positiontop+valueadd,"Einstellungen", Color.black);
-		trueTypeFont.drawString(positionleft, positiontop+valueadd*2,"Impressum", Color.black);
-		trueTypeFont.drawString(positionleft, positiontop+valueadd*3,"Help", Color.black);
-		trueTypeFont.drawString(positionleft, positiontop+valueadd*4,"Spiel beenden", Color.black);
+		g.setColor(black);
+		trueTypeFont.drawString(positionleft, positiontop,"Spiel Start", black);
+		trueTypeFont.drawString(positionleft, positiontop+valueadd,"Einstellungen", black);
+		trueTypeFont.drawString(positionleft, positiontop+valueadd*2,"Impressum", black);
+		trueTypeFont.drawString(positionleft, positiontop+valueadd*3,"Help", black);
+		trueTypeFont.drawString(positionleft, positiontop+valueadd*4,"Spiel beenden", black);
 		
-		g.setColor(Color.red);
+		g.setColor(red);
 		g.fillRoundRect(500-20, 130-5, 600, 440, 10);
 		
 		positionleft = 510-20;
 		switch(pos)
 		{
 			case 1:
-				trueTypeFont.drawString(positionleft, positiontop, "Hauptmenü von Big-Bum-Bang", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "Hauptmenü von Big-Bum-Bang", black);
 			break;
 			case 2:
-				trueTypeFont.drawString(positionleft, positiontop, "Extras", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "Extras", black);
 			break;
 			case 3:
-				trueTypeFont.drawString(positionleft, positiontop, "Impressum zum Spiel", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "Impressum zum Spiel", black);
 			break;
 			case 4:
-				trueTypeFont.drawString(positionleft, positiontop, "Über das Spiel und die Steurung", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "Über das Spiel und die Steurung", black);
 			break;
 			case 5:
-				trueTypeFont.drawString(positionleft, positiontop, "Spiel beenden", Color.black);
+				trueTypeFont.drawString(positionleft, positiontop, "Spiel beenden", black);
 			break;
 		}
 		
@@ -429,9 +301,9 @@ public class StartSeite extends BasicGame
 		int valueadd = 50;
 		int valuelinksadd = 200;
 		
-		g.setColor(Color.white);
+		g.setColor(white);
 		g.fillRect(breite_10+1, hoehe_10+1, WIDTH/100*80 ,HEIGHT/100*80);
-		trueTypeFont.drawString(links, oben, "Spielmodus:", Color.black);
+		trueTypeFont.drawString(links, oben, "Spielmodus:", black);
 		
 		//g.setColor(Color.black);
 		//g.fillRect(links+200,oben, 300 ,trueTypeFont.getHeight());
@@ -442,37 +314,36 @@ public class StartSeite extends BasicGame
 		//field2.setBounds(links+200,oben, 300 ,trueTypeFont.getHeight());
 		oben+=valueadd;
 		
-		trueTypeFont.drawString(links, oben, "Map:", Color.black);
+		trueTypeFont.drawString(links, oben, "Map:", black);
 		
-		if (cursorv!=1) g.setColor(Color.black);
-		else g.setColor(Color.red);
+		if (cursorv!=1) g.setColor(black);
+		else g.setColor(red);
 		g.fillRect(links+valuelinksadd,oben, 300 ,trueTypeFont.getHeight());
-		trueTypeFont.drawString(links+valuelinksadd, oben, maps.get(einstellung[0]).getName(), Color.white);
+		trueTypeFont.drawString(links+valuelinksadd, oben, maps.get(einstellung[0]).getName(), white);
 		
 		oben+=valueadd;
 		
-		trueTypeFont.drawString(links, oben, "Powerups/Powerdowns:", Color.black);
+		trueTypeFont.drawString(links, oben, "Powerups/Powerdowns:", black);
 		
-		if (cursorv!=2) g.setColor(Color.black);
-		else g.setColor(Color.red);
+		if (cursorv!=2) g.setColor(black);
+		else g.setColor(red);
 		g.fillRect(links+valuelinksadd,oben, 300 ,trueTypeFont.getHeight());
-		trueTypeFont.drawString(links+valuelinksadd, oben, powerdowns.get(einstellung[1]).getName(), Color.white);
+		trueTypeFont.drawString(links+valuelinksadd, oben, powerdowns.get(einstellung[1]).getName(), white);
 		
 		oben+=valueadd;
 		
-		trueTypeFont.drawString(links, oben, "Gamemode:", Color.black);
+		trueTypeFont.drawString(links, oben, "Gamemode:", black);
 		
-		if (cursorv!=3) g.setColor(Color.black);
-		else g.setColor(Color.red);
+		if (cursorv!=3) g.setColor(black);
+		else g.setColor(red);
 		g.fillRect(links+valuelinksadd,oben, 300 ,trueTypeFont.getHeight());
-		trueTypeFont.drawString(links+valuelinksadd, oben, GAMEMODE.values()[einstellung[2]].toString(), Color.white);
+		trueTypeFont.drawString(links+valuelinksadd, oben, GAMEMODE.values()[einstellung[2]].toString(), white);
 		oben+=valueadd;
 		
-
-		if (cursorv!=4) g.setColor(Color.black);
-		else g.setColor(Color.red);
+		if (cursorv!=4) g.setColor(black);
+		else g.setColor(red);
 		g.fillRect(links+valuelinksadd,oben, 300 ,trueTypeFont.getHeight());
-		trueTypeFont.drawString(links+valuelinksadd, oben, "Start Game", Color.white);
+		trueTypeFont.drawString(links+valuelinksadd, oben, "Start Game", white);
 		oben+=valueadd;
 
 		drawvorschaumap(g,maps.get(einstellung[0]),1000,200,500,500,1);
@@ -490,13 +361,13 @@ public class StartSeite extends BasicGame
 	 */
 	private void drawvorschaumap(Graphics g,float x, float y, int w, int h, int i)
 	{
-		g.setColor(Color.black);
+		g.setColor(black);
 		g.fillRect(x,y,w ,h);
 		
-		g.setColor(Color.white);
+		g.setColor(white);
 		g.fillRect(x+5,y+5,w-10 ,h-10);
 		
-		g.setColor(Color.black);
+		g.setColor(black);
 		g.fillRect(x+10,y+10,w-20 ,h-20);
 			
 		MapListe ml = new MapListe();
@@ -522,10 +393,7 @@ public class StartSeite extends BasicGame
         	}
 		
 		float breite=(w-20)/vl.get(1).size();
-		System.out.println("breite:"+breite+" anzahl:"+vl.get(1).size() + " w:"+(w-20));
-	
 		float hoehe=(h-20)/vl.size();
-		System.out.println("hoehe:"+hoehe+" anzahl:"+vl.size()+" h:"+(h-20));
 
 		y=y+10-hoehe+((h-20-hoehe*vl.size())/2);
 		x=x+10-breite+((w-20-breite*vl.get(1).size())/2);
@@ -536,62 +404,62 @@ public class StartSeite extends BasicGame
      	   {
      		  if(b.getStein().equals("0"))
      		  {
-     			 g.setColor(Color.gray);
+     			 g.setColor(gray);
      			 g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		     			  
      		  }
      		  else if(b.getStein().equals("1"))
      		  {
-     			 g.setColor(Color.green);
+     			 g.setColor(green);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);			  
      		  }
      		  else if(b.getStein().equals("2"))
      		  {
-     			 g.setColor(Color.red);
+     			 g.setColor(red);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		    			  
      		  }
      		  else if(b.getStein().equals("3"))
      		  {
-     			 g.setColor(Color.blue);
+     			 g.setColor(blue);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);					  
      		  }
      		  else if(b.getStein().equals("4"))
      		  {
-     			 g.setColor(Color.white);
+     			 g.setColor(white);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);					  
      		  }
      		  else if(b.getStein().equals("5"))
      		  {
-     			 g.setColor(Color.yellow);
+     			 g.setColor(yellow);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		   			  
      		  }
      		  else if(b.getStein().equals("6"))
      		  {
-     			 g.setColor(Color.white);
+     			 g.setColor(white);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		  			  
      		  }
      		  else if(b.getStein().equals("7"))
      		  {
-     			 g.setColor(Color.magenta);
+     			 g.setColor(magenta);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		     			  
      		  }
      		  else if(b.getStein().equals("8"))
      		  {
-     			 g.setColor(Color.blue);
+     			 g.setColor(blue);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		 			  
      		  }
      		  else if(b.getStein().equals("9"))
      		  {
-     			 g.setColor(Color.red);
+     			 g.setColor(red);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		   			  
      		  }
      		 else if(b.getStein().equals("x"))
      		 {
-     			 g.setColor(Color.green);
+     			 g.setColor(green);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);	
      		 }
      		 else
      		 {
-     			 g.setColor(Color.darkGray);
+     			 g.setColor(darkGray);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		
      		 }
      		  yx=yx+breite;
@@ -606,13 +474,13 @@ public class StartSeite extends BasicGame
 	 */
 	private void drawvorschaumap(Graphics g,Karte k,float x, float y, int w, int h, int i)
 	{
-		g.setColor(Color.black);
+		g.setColor(black);
 		g.fillRect(x,y,w ,h);
 		
-		g.setColor(Color.white);
+		g.setColor(white);
 		g.fillRect(x+5,y+5,w-10 ,h-10);
 		
-		g.setColor(Color.black);
+		g.setColor(black);
 		g.fillRect(x+10,y+10,w-20 ,h-20);
 			
 		
@@ -639,10 +507,7 @@ public class StartSeite extends BasicGame
 	        }
 		
 		float breite=(w-20)/vl.get(1).size();
-		System.out.println("breite:"+breite+" anzahl:"+vl.get(1).size() + " w:"+(w-20));
-	
 		float hoehe=(h-20)/vl.size();
-		System.out.println("hoehe:"+hoehe+" anzahl:"+vl.size()+" h:"+(h-20));
 
 		y=y+10-hoehe+((h-20-hoehe*vl.size())/2);
 		x=x+10-breite+((w-20-breite*vl.get(1).size())/2);
@@ -653,62 +518,62 @@ public class StartSeite extends BasicGame
      	   {
      		  if(b.getStein().equals("0"))
      		  {
-     			 g.setColor(Color.gray);
+     			 g.setColor(gray);
      			 g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		     			  
      		  }
      		  else if(b.getStein().equals("1"))
      		  {
-     			 g.setColor(Color.green);
+     			 g.setColor(green);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);			  
      		  }
      		  else if(b.getStein().equals("2"))
      		  {
-     			 g.setColor(Color.red);
+     			 g.setColor(red);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		    			  
      		  }
      		  else if(b.getStein().equals("3"))
      		  {
-     			 g.setColor(Color.blue);
+     			 g.setColor(blue);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);					  
      		  }
      		  else if(b.getStein().equals("4"))
      		  {
-     			 g.setColor(Color.white);
+     			 g.setColor(white);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);					  
      		  }
      		  else if(b.getStein().equals("5"))
      		  {
-     			 g.setColor(Color.yellow);
+     			 g.setColor(yellow);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		   			  
      		  }
      		  else if(b.getStein().equals("6"))
      		  {
-     			 g.setColor(Color.white);
+     			 g.setColor(white);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		  			  
      		  }
      		  else if(b.getStein().equals("7"))
      		  {
-     			 g.setColor(Color.magenta);
+     			 g.setColor(magenta);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		     			  
      		  }
      		  else if(b.getStein().equals("8"))
      		  {
-     			 g.setColor(Color.blue);
+     			 g.setColor(blue);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		 			  
      		  }
      		  else if(b.getStein().equals("9"))
      		  {
-     			 g.setColor(Color.red);
+     			 g.setColor(red);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		   			  
      		  }
      		 else if(b.getStein().equals("x"))
      		 {
-     			 g.setColor(Color.black);
+     			 g.setColor(black);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);	
      		 }
      		 else
      		 {
-     			 g.setColor(Color.darkGray);
+     			 g.setColor(darkGray);
      			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		
      		 }
      		  yx=yx+breite;
@@ -716,9 +581,7 @@ public class StartSeite extends BasicGame
      	   y=y+hoehe;
         }
 	}
-	
-	
-	
+
 	
 	//Hier die Dummieklassen - Testklassen für Testobjekte
 	
@@ -728,7 +591,6 @@ public class StartSeite extends BasicGame
 	public void initMaps()
 	{
 		Mapdummie mp= new Mapdummie();
-		
 		this.maps=mp.getList();
 	}
 	
@@ -738,7 +600,6 @@ public class StartSeite extends BasicGame
 	public void initPowerups()
 	{
 		Powerupdummie pud=new Powerupdummie();
-		
 		this.powerups=pud.getList();
 	}
 	
@@ -748,7 +609,204 @@ public class StartSeite extends BasicGame
 	public void initPowerdowns()
 	{
 		Powerdowndummie pdd=new Powerdowndummie();
-		
 		this.powerdowns=pdd.getList();
+	}
+
+	public void RenderStateGame(GameContainer container, Graphics g) throws SlickException
+	{
+		if(bm==null)
+		{
+			bm = Bomberman.getInstance();
+			bm.init(container);
+		}
+		
+		bm.render(container, g);
+	}
+	
+	public void RenderStatePause(Graphics g)
+	{
+		drawWindow(g,"Pause");
+		int sideposition = (WIDTH/2)-200;
+		int haelftehoehe = (HEIGHT/2);
+		
+		if(ppos==1)trueTypeFont.drawString(sideposition, haelftehoehe-100,"Resume", black);
+		else trueTypeFont.drawString(sideposition, haelftehoehe-100,"Resume", red);
+		if(ppos==2)trueTypeFont.drawString(sideposition, haelftehoehe-50,"Einstellungen", black);
+		else trueTypeFont.drawString(sideposition, haelftehoehe-50,"Einstellungen", red);
+		if(ppos==3)trueTypeFont.drawString(sideposition, haelftehoehe,"Help", black);
+		else trueTypeFont.drawString(sideposition, haelftehoehe,"Help", red);
+		if(ppos==4)trueTypeFont.drawString(sideposition, haelftehoehe+50,"Hauptmenü", black);
+		else trueTypeFont.drawString(sideposition, haelftehoehe+50,"Hauptmenü", red);
+		if(ppos==5)trueTypeFont.drawString(sideposition, haelftehoehe+100,"Spiel beenden", black);
+		else trueTypeFont.drawString(sideposition, haelftehoehe+100,"Spiel beenden", red);
+	}
+	
+	public void UpdateStateGame(GameContainer container,int delta,Input input) throws SlickException 
+	{
+		bm.update(container, delta);
+		if (input.isKeyPressed(Input.KEY_P)) 
+		{
+			state=STATE.PAUSE;
+		}
+	}
+	
+	public void UpdateStateHelp(Input input)
+	{
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
+		{
+			state=STATE.MENU;
+		}
+	}
+	
+	public void UpdateStateImpress(Input input)
+	{
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
+		{
+			state=STATE.MENU;
+		}
+	}
+	
+	public void UpdateStateMenu(Input input,int keyjump, GameContainer container)
+	{
+		if(pos<5)
+		{
+			if (input.isKeyPressed(Input.KEY_DOWN)) 
+			{
+				yw=yw+keyjump;
+				pos++;
+			}
+		}
+		
+		if(pos>1)
+		{
+			if (input.isKeyPressed(Input.KEY_UP)) 
+			{
+				yw=yw-keyjump;
+				pos--;
+			}
+		}
+		
+		if (input.isKeyPressed(Input.KEY_ENTER)) 
+		{
+			if(pos==5)
+				container.exit();
+			if(pos==1)
+				state=STATE.GAMECONFIGURATION;
+			if(pos==2)
+				state=STATE.SETTINGS;
+			if(pos==3)
+				state=STATE.IMPRESS;
+			if(pos==4)
+				state=STATE.HELP;
+		}
+		
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
+		{
+			container.exit();
+		}
+	}
+	
+	public void UpdateStatePause(Input input, GameContainer container)
+	{
+		if(ppos<5)
+		{
+			if (input.isKeyPressed(Input.KEY_DOWN)) 
+			{
+				ppos++;
+			}
+		}
+		
+		if(ppos>1)
+		{
+			if (input.isKeyPressed(Input.KEY_UP)) 
+			{
+				ppos--;
+			}
+		}
+		
+		if (input.isKeyPressed(Input.KEY_ENTER)) 
+		{
+			if(ppos==1)
+				state=STATE.GAME;
+			if(ppos==2)
+				state=STATE.SETTINGS;
+			if(ppos==3)
+				state=STATE.HELP;
+			if(ppos==4)
+				state=STATE.MENU;
+			if(ppos==5)
+				container.exit();
+		}
+		
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
+		{
+			state=STATE.GAME;
+		}
+		
+		if (input.isKeyPressed(Input.KEY_P)) 
+		{
+			state=STATE.GAME;
+		}
+	}
+	
+	public void UpdateStateSettings(Input input)
+	{
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
+		{
+			state=STATE.MENU;
+		}
+	}
+	
+	public void UpdateStateGameconfiguration(Input input)
+	{
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
+		{
+			state=STATE.MENU;
+		}
+
+		if(input.isKeyPressed(Input.KEY_UP))
+		{
+			if(cursorv>1)
+				cursorv--;
+		}
+		
+		if(input.isKeyPressed(Input.KEY_DOWN))
+		{
+			if(cursorv<5)
+				cursorv++;
+		}
+		
+		if(input.isKeyPressed(Input.KEY_LEFT))
+		{
+			if(cursorh>0)
+			{
+				cursorh--;
+				einstellung[cursorv-1]--;
+			}
+		}
+		
+		if(input.isKeyPressed(Input.KEY_RIGHT))
+		{
+			if(cursorh<5)
+			{
+				cursorh++;
+				einstellung[cursorv-1]++;
+			}
+		}
+		
+		if(input.isKeyPressed(Input.KEY_ENTER))
+		{
+			if(cursorv==4)
+			{
+				state=STATE.GAME;
+				// werte werden nun übergeben von den einstellungen 
+				// Bomberman.setMap(einstellung[0]); hier wird die Map ausgewählt
+				// Bomberman.setPowerupPowerdowns(einstellung[1]); hier werden die Powerups und Powerdowns übergeben die erlaubt sind
+				// Bomberman.setGamemode(einstellung[2]); hier wird der gamemode ausgewählt
+				// Bomberman.setTeammode(einstellung[3]); hier wird der teammodus ausgewählt
+				//bm.update(container, delta);
+				//bm.init(container);
+			}
+		}
 	}
 }

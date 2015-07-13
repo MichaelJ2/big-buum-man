@@ -274,7 +274,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	 * */
 	public synchronized void setbombe(int x, int y,Bombe b) 
 	{
-		//System.out.println("Bomb set: "+b.getBesitzer().getName()+": x:"+x+" | "+"y:"+y +" -> limits "+ml.getMap().size()+"/"+cols);
 		int side1=0;
 		int side2=0;
 		int side3=0;
@@ -577,7 +576,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		for(Player p:playerliste)
 		{
 			p.update(delta);
-			//System.out.println("Player "+p.getName()+"| X:"+((p.getX()-xleft)/blockwidth)+" Y:"+((p.getY()-ytop)/blockheight));
 		}
 	}
 	
@@ -590,7 +588,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 				Bombe b = bomben.get(i);
 				if(b.getZeit()+b.getSystemZeit()<System.currentTimeMillis())
 				{
-					//System.out.println(((b.getX()-(xleft))/b.getSprungX())+" | "+((b.getY()-(ytop))/b.getSprungY()));
 					setbombe(((b.getX()-(xleft))/b.getSprungX()),((b.getY()-(ytop))/b.getSprungY()),b);
 					//createExplosions();
 					bomben.remove(b);

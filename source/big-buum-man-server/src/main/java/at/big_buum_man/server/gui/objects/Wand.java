@@ -4,6 +4,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import at.big_buum_man.server.gui.helper.Variables;
+
 /***
  * @version 1.0
  * @author Michael Januschek
@@ -30,13 +32,13 @@ public class Wand extends SpielObjekt
 	@Override
 	public void draw(Graphics g) 
 	{
-		int blockwidth=50;
-		int blockheight=50;
+		//int blockwidth=50;
+		//int blockheight=50;
 		if(this.getStein().equals("0"))
 		{
 			try 
 			{
-				super.setImage(new Image("res/walls.png").getSubImage(0,0,blockwidth,blockheight));
+				super.setImage(new Image("res/walls.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT));
 			} 
 			catch (SlickException e) 
 			{
@@ -47,7 +49,7 @@ public class Wand extends SpielObjekt
 		{
 			try 
 			{
-				super.setImage(new Image("res/walls.png").getSubImage(375,0,blockwidth,blockheight));
+				super.setImage(new Image("res/walls.png").getSubImage(375,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT));
 			} 
 			catch (SlickException e) 
 			{
@@ -58,7 +60,7 @@ public class Wand extends SpielObjekt
 		{
 			try 
 			{
-				super.setImage(new Image("res/saeule.png").getSubImage(0,0,blockwidth,blockheight));
+				super.setImage(new Image("res/saeule.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT));
 			} 
 			catch (SlickException e) 
 			{
@@ -67,7 +69,7 @@ public class Wand extends SpielObjekt
 		}
 		image.draw(x,y);
 		g.setColor(Color.green);
-		g.drawRect(x,y, 50, 50);
+		g.drawRect(x,y, Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT);
 	}
 	
 	@Override

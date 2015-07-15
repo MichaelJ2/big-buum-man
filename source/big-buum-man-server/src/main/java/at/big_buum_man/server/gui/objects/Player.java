@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import at.big_buum_man.server.gui.Bomberman;
+import at.big_buum_man.server.gui.helper.Variables;
 
 
 /***
@@ -33,7 +34,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	private Integer punkte=0;
 	private InetAddress adresse;
 	private Color farbe=Color.green;
-	private TrueTypeFont trueTypeFont = new TrueTypeFont(new Font("Arial", Font.BOLD, 20), true);
+	private TrueTypeFont trueTypeFont = new TrueTypeFont(new Font(Variables.letter, Variables.font ,Variables.charsize), true);
 	
 	/***
 	 * 	Beschreibung: Konstruktor mit Bild
@@ -74,10 +75,10 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		//image.drawCentered(x, y);
 		//System.out.println("Render: x:"+(x)+" >< y:"+(y));
 		
-		image.draw(x-sprungx/2, y-sprungy, farbe);
-		trueTypeFont.drawString(x, y, getObjectName()+":"+getName(), Color.red);
+		image.draw(x-sprungx/2, y-sprungy, Variables.farbe);
+		trueTypeFont.drawString(x, y, getName(), Variables.red);
 		
-		g.setColor(Color.green);
+		g.setColor(Variables.green);
 		g.drawRect(x-1,y-1, sprungx+1, sprungy+1);
 		
 		//System.out.println(getName()+": x"+x+" y:"+y);

@@ -3,6 +3,8 @@ package at.big_buum_man.server.gui;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
+import at.big_buum_man.server.gui.helper.Variables;
+
 public class Main 
 {
 	/***
@@ -15,7 +17,7 @@ public class Main
 	{
 		StartSeite ss = new StartSeite();
 		AppGameContainer container = new AppGameContainer(ss);
-		container.setDisplayMode(ss.WIDTH, ss.HEIGHT, true);
+		container.setDisplayMode(Variables.WIDTH, Variables.HEIGHT, true);
 		container.setClearEachFrame(true);
 		container.setMinimumLogicUpdateInterval(25);
 		container.setTargetFrameRate(60);

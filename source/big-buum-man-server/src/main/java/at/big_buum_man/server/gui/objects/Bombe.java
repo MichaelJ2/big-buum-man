@@ -3,6 +3,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import at.big_buum_man.server.gui.helper.Variables;
+
 /***
  * @version 1.0
  * @author Michael Januschek
@@ -34,8 +36,8 @@ public class Bombe extends SpielObjekt
 	public void draw(Graphics g) 
 	{
 		image.draw(x-sprungx/2, y-sprungy/2);
-		g.setColor(Color.green);
-		g.drawRect(x-1,y-1, 50+1, 50+1);
+		g.setColor(Variables.green);
+		g.drawRect(x-1,y-1, Variables.BLOCKWIDTH+1, Variables.BLOCKHEIGHT+1);
 	}
 
 	@Override

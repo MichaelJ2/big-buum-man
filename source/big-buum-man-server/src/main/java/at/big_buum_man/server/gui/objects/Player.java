@@ -28,8 +28,6 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	private ArrayList<ArrayList<Wand>> mapn;
 	private Integer anfangx;
 	private Integer anfangy;
-	private Integer sprungx;
-	private Integer sprungy;
 	private String name="";
 	private Integer punkte=0;
 	private InetAddress adresse;
@@ -75,11 +73,11 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		//image.drawCentered(x, y);
 		//System.out.println("Render: x:"+(x)+" >< y:"+(y));
 		
-		image.draw(x-sprungx/2, y-sprungy, Variables.farbe);
+		image.draw(x-Variables.BLOCKWIDTH/2, y-Variables.BLOCKHEIGHT, Variables.farbe);
 		trueTypeFont.drawString(x, y, getName(), Variables.red);
 		
 		g.setColor(Variables.green);
-		g.drawRect(x-1,y-1, sprungx+1, sprungy+1);
+		g.drawRect(x-1,y-1, Variables.BLOCKWIDTH+1, Variables.BLOCKHEIGHT+1);
 		
 		//System.out.println(getName()+": x"+x+" y:"+y);
 	}
@@ -92,22 +90,26 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		this.mapn=mapn;
 	}
 	
+	
 	/***
 	 * 	Beschreibung: Breite eines Feldes setzen
 	 */
+	/*
 	public void setSprungX(Integer sprung)
 	{
 		this.sprungx=sprung;
 	}
+	*/
 	
 	/***
 	 * 	Beschreibung: Höhe eines Feldes setzen
 	 */
+	/*
 	public void setSprungY(Integer sprung)
 	{
 		this.sprungy=sprung;
 	}
-	
+	*/
 	
 	/***
 	 * 	Beschreibung: Main setzen
@@ -189,15 +191,15 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void up() 
 	{
-		int ya=((this.y-anfangy)/sprungy*1)-1;
-		int xa=((this.x-anfangx)/sprungx*1);
+		int ya=((this.y-anfangy)/Variables.BLOCKHEIGHT*1)-1;
+		int xa=((this.x-anfangx)/Variables.BLOCKWIDTH*1);
 		
 		//System.out.println("UP: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
 		
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.y=this.y;
 		else
-			this.y-=sprungy;
+			this.y-=Variables.BLOCKHEIGHT;
 		
 		try 
 		{
@@ -214,15 +216,15 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void down() 
 	{
-		int ya=((this.y-anfangy)/sprungy*1)+1;
-		int xa=((this.x-anfangx)/sprungx*1);
+		int ya=((this.y-anfangy)/Variables.BLOCKHEIGHT*1)+1;
+		int xa=((this.x-anfangx)/Variables.BLOCKWIDTH*1);
 		
 		//System.out.println("DOWN: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
 		
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.y=this.y;
 		else
-			this.y+=sprungy;
+			this.y+=Variables.BLOCKHEIGHT;
 		
 		try 
 		{
@@ -239,15 +241,15 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void right() 
 	{
-		int ya=((this.y-anfangy)/sprungy*1);
-		int xa=((this.x-anfangx)/sprungx*1)+1;
+		int ya=((this.y-anfangy)/Variables.BLOCKHEIGHT*1);
+		int xa=((this.x-anfangx)/Variables.BLOCKWIDTH*1)+1;
 		
 		//System.out.println("RIGHT: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
 		
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.x=this.x;
 		else
-			this.x+=sprungx;
+			this.x+=Variables.BLOCKWIDTH;
 		
 		try 
 		{
@@ -264,13 +266,13 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void left() 
 	{
-		int ya=((this.y-anfangy)/sprungy*1);
-		int xa=((this.x-anfangx)/sprungx*1)-1;
+		int ya=((this.y-anfangy)/Variables.BLOCKHEIGHT*1);
+		int xa=((this.x-anfangx)/Variables.BLOCKWIDTH*1)-1;
 		//System.out.println("LEFT: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
 			this.x=this.x;
 		else
-			this.x-=sprungx;
+			this.x-=Variables.BLOCKWIDTH;
 		
 		try 
 		{
@@ -292,7 +294,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		try 
 		{
 			//System.out.println("px:"+this.x+" py:"+this.y);
-			bbm.addBombe(this.x,this.sprungx,this.y,this.sprungy,this);
+			bbm.addBombe(this.x,Variables.BLOCKWIDTH,this.y,Variables.BLOCKHEIGHT,this);
 			//bbm.addBombe(xa,this.sprungx,ya,this.sprungy,this);
 		} 
 		catch (SlickException e) 

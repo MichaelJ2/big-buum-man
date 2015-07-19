@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 
 public class JSONStreambuilder 
 {
-	private String stream;
+	//private String stream;
 	private JSONObject obj;
 
 	
@@ -26,13 +26,15 @@ public class JSONStreambuilder
 	
 	public String getStream()
 	{
-		return this.stream;
+		return obj.toString();
 	}
 	
 	public void setStream(String stream)
 	{
-		this.stream=stream;
+		// hier soll der string in ein json object umgewandelt werden
+		//this.stream=stream;
 	}
+	
 	
 	public void setInt(int value,String name)
 	{

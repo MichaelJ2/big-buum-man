@@ -284,7 +284,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 					{
 						b.getBesitzer().plus();
 						side1=1;
-						//System.out.println("1 Bomb find: X:"+((b.getX()-xleft)/blockwidth)+" Y:"+(((b.getY()-ytop)/blockheight)-i)+" - Player "+playerliste.get(p).getName()+" X:"+((playerliste.get(p).getX()-xleft)/blockwidth)+" Y:"+(((playerliste.get(p).getY()-ytop)/blockheight)));
 						playerliste.remove(p);
 					}
 				}
@@ -293,7 +292,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 				{
 					b.getBesitzer().plus();
 					side1=1;
-					//System.out.println("2 Bomb find: X:"+((b.getX()-xleft)/blockwidth)+" Y:"+(((b.getY()-ytop)/blockheight)-i));
 					vl.get(y-i).get(x).setStein(1+"");
 				}
 			}
@@ -307,10 +305,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 					
 					if(px==x&&py==y+i&&side2==0)
 					{
-						//System.out.println("PX:"+px+" x:"+x+" PY:"+py+" y:"+(y+i));
 						b.getBesitzer().plus();
 						side2=1;
-						//System.out.println("3 Bomb find: X:"+((b.getX()-xleft)/blockwidth)+" Y:"+(((b.getY()-ytop)/blockheight)+i) +" - Player "+playerliste.get(p).getName()+" X:"+((playerliste.get(p).getX()-xleft)/blockwidth)+" Y:"+(((playerliste.get(p).getY()-ytop)/blockheight)));
 						playerliste.remove(p);
 					}
 				}
@@ -319,7 +315,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 				{
 					b.getBesitzer().plus();
 					side2=1;
-					//System.out.println("4 Bomb find: X:"+((b.getX()-xleft)/blockwidth)+" Y:"+(((b.getY()-ytop)/blockheight)+i));
 					vl.get(y+i).get(x).setStein(1+"");
 				}
 			}
@@ -335,7 +330,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 					{
 						b.getBesitzer().plus();
 						side3=1;
-						//System.out.println("5 Bomb find: X:"+(((b.getX()-xleft)/blockwidth)-i)+" Y:"+((b.getY()-ytop)/blockheight)+" - Player "+playerliste.get(p).getName()+" X:"+((playerliste.get(p).getX()-xleft)/blockwidth)+" Y:"+(((playerliste.get(p).getY()-ytop)/blockheight)));
 						playerliste.remove(p);
 					}
 				}
@@ -344,7 +338,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 				{
 					b.getBesitzer().plus();
 					side3=1;
-					//System.out.println("6 Bomb find: X:"+(((b.getX()-xleft)/blockwidth)-i)+" Y:"+((b.getY()-ytop)/blockheight));
 					vl.get(y).get(x-i).setStein(1+"");
 				}
 			}
@@ -360,7 +353,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 					{
 						b.getBesitzer().plus();
 						side4=1;
-						//System.out.println("7 Bomb find: X:"+(((b.getX()-xleft)/blockwidth)+i)+" Y:"+((b.getY()-ytop)/blockheight)+" - Player "+playerliste.get(p).getName()+" X:"+((playerliste.get(p).getX()-xleft)/blockwidth)+" Y:"+(((playerliste.get(p).getY()-ytop)/blockheight)));
 						playerliste.remove(p);
 					}
 				}
@@ -369,7 +361,6 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 				{
 					b.getBesitzer().plus();
 					side4=1;
-					//System.out.println("8 Bomb find: X:"+(((b.getX()-xleft)/blockwidth)+i)+" Y:"+((b.getY()-ytop)/blockheight));
 					vl.get(y).get(x+i).setStein(1+"");
 				}
 			}			
@@ -498,20 +489,18 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		{
 			p = new Player(new Image("res/player.png"));
 			p.setAdresse(adresse);
-			p.setSprungX(Variables.BLOCKWIDTH);
-			p.setSprungY(Variables.BLOCKHEIGHT);
+			//p.setSprungX(Variables.BLOCKWIDTH);
+			//p.setSprungY(Variables.BLOCKHEIGHT);
 			p.setAnfangx(Variables.xleft+Variables.BLOCKWIDTH);
 			p.setAnfangy(Variables.ytop+25);
 			p.setMapn(vl);
 			
-			for(int px=0;px<15;px++)
-				for(int py=0;py<10;py++)
+			for(int px=0;px<Variables.cols;px++)
+				for(int py=0;py<Variables.rows;py++)
 					if(vl.get(py).get(px).getStein().equals("x"))
 						{
-						
 						p.setposition(	Variables.xleft+px*Variables.BLOCKWIDTH+Variables.BLOCKWIDTH, 
 								Variables.ytop+py*Variables.BLOCKHEIGHT+25);
-						//System.out.println("Position:"+((WIDTH/100*20)+((WIDTH-(WIDTH/100*20))/2)-(cols*50/2)+px*50+50)+" | "+((HEIGHT/2)-(rows*50/2)+py*50+25));
 						}
 		} 
 		catch (SlickException e) 
@@ -744,8 +733,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	{
 		for(Player p:playerliste)
 		{
-			p.setSprungX(Variables.BLOCKWIDTH);
-			p.setSprungY(Variables.BLOCKHEIGHT);
+			//p.setSprungX(Variables.BLOCKWIDTH);
+			//p.setSprungY(Variables.BLOCKHEIGHT);
 			p.setMapn(vl);
 		}
 	}
@@ -764,8 +753,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		player.setposition(975, 340);
 		player.setAnfangx(Variables.xleft);
 		player.setAnfangy(Variables.ytop);
-		player.setSprungX(Variables.BLOCKWIDTH);
-		player.setSprungY(Variables.BLOCKHEIGHT);
+		//player.setSprungX(Variables.BLOCKWIDTH);
+		//player.setSprungY(Variables.BLOCKHEIGHT);
 		player.setMapn(vl);
 		
 		try 
@@ -779,8 +768,8 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		player1.setposition(975, 440);
 		player1.setAnfangx(Variables.xleft);
 		player1.setAnfangy(Variables.ytop);
-		player1.setSprungX(Variables.BLOCKWIDTH);
-		player1.setSprungY(Variables.BLOCKHEIGHT);
+		//player1.setSprungX(Variables.BLOCKWIDTH);
+		//player1.setSprungY(Variables.BLOCKHEIGHT);
 		player1.setMapn(vl);
 		try 
 		{ player1.setAdresse(InetAddress.getByName("192.168.1.1")); } 

@@ -143,9 +143,9 @@ public class StartSeite extends BasicGame
 		initMaps(); //Dummie Maps
 		initPowerdowns(); //Dummie Powerdowns
 		initPowerups(); //Dummie Powerups
-		trueTypeFont = new TrueTypeFont(new Font(Variables.letter, Variables.font, Variables.charsize), true);
-		bomb = new Image("res/bomb.png");
-		state=STATE.MENU;
+		initFont();
+		initBomb();
+		initState(STATE.MENU);
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class StartSeite extends BasicGame
 	 * 	@param g
 	 * 	@param text
 	 */
-	public void drawWindow(Graphics g, String text)
+	private void drawWindow(Graphics g, String text)
 	{
 		int haelftebreite = (Variables.WIDTH/2);
 		int haelftehoehe = (Variables.HEIGHT/2);
@@ -220,7 +220,7 @@ public class StartSeite extends BasicGame
 	 * 
 	 * 	@param g
 	 */
-	public void drawHauptmenue(Graphics g)
+	private void drawHauptmenue(Graphics g)
 	{
 		int positionleft = 300-5-20;
 		int positiontop = 130;
@@ -290,7 +290,7 @@ public class StartSeite extends BasicGame
 	 * 	@param g
 	 *	@param gc
 	 */
-	public void drawGameConfiguration(Graphics g, GameContainer gc)
+	private void drawGameConfiguration(Graphics g, GameContainer gc)
 	{
 		if(cursorh ==-1) cursorh=0;
 		else cursorh = cursorh;
@@ -591,7 +591,7 @@ public class StartSeite extends BasicGame
 	/**
 	 * 	Dummie Maps werden geladen
 	 */
-	public void initMaps()
+	private void initMaps()
 	{
 		Mapdummie mp= new Mapdummie();
 		this.maps=mp.getList();
@@ -600,7 +600,7 @@ public class StartSeite extends BasicGame
 	/**
 	 * 	Dummie Powerups werden geladen
 	 */
-	public void initPowerups()
+	private void initPowerups()
 	{
 		Powerupdummie pud=new Powerupdummie();
 		this.powerups=pud.getList();
@@ -609,13 +609,28 @@ public class StartSeite extends BasicGame
 	/**
 	 * 	Dummie Powerdowns werden geladen
 	 */
-	public void initPowerdowns()
+	private void initPowerdowns()
 	{
 		Powerdowndummie pdd=new Powerdowndummie();
 		this.powerdowns=pdd.getList();
 	}
 
-	public void RenderStateGame(GameContainer container, Graphics g) throws SlickException
+	private void initBomb() throws SlickException
+	{
+		bomb = new Image("res/bomb.png");
+	}
+
+	private void initState(STATE state) 
+	{
+		this.state=state;
+	}
+	
+	private void initFont() 
+	{
+		trueTypeFont = new TrueTypeFont(new Font(Variables.letter, Variables.font, Variables.charsize), true);
+	}
+	
+	private void RenderStateGame(GameContainer container, Graphics g) throws SlickException
 	{
 		if(bm==null)
 		{
@@ -626,7 +641,7 @@ public class StartSeite extends BasicGame
 		bm.render(container, g);
 	}
 	
-	public void RenderStatePause(Graphics g)
+	private void RenderStatePause(Graphics g)
 	{
 		drawWindow(g,"Pause");
 		int sideposition = (Variables.WIDTH/2)-200;
@@ -644,7 +659,7 @@ public class StartSeite extends BasicGame
 		else trueTypeFont.drawString(sideposition, haelftehoehe+100,"Spiel beenden", Variables.red);
 	}
 	
-	public void UpdateStateGame(GameContainer container,int delta,Input input) throws SlickException 
+	private void UpdateStateGame(GameContainer container,int delta,Input input) throws SlickException 
 	{
 		bm.update(container, delta);
 		if (input.isKeyPressed(Input.KEY_P)) 
@@ -653,7 +668,7 @@ public class StartSeite extends BasicGame
 		}
 	}
 	
-	public void UpdateStateHelp(Input input)
+	private void UpdateStateHelp(Input input)
 	{
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
 		{
@@ -661,7 +676,7 @@ public class StartSeite extends BasicGame
 		}
 	}
 	
-	public void UpdateStateImpress(Input input)
+	private void UpdateStateImpress(Input input)
 	{
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
 		{
@@ -669,7 +684,7 @@ public class StartSeite extends BasicGame
 		}
 	}
 	
-	public void UpdateStateMenu(Input input,int keyjump, GameContainer container)
+	private void UpdateStateMenu(Input input,int keyjump, GameContainer container)
 	{
 		if(pos<5)
 		{
@@ -709,7 +724,7 @@ public class StartSeite extends BasicGame
 		}
 	}
 	
-	public void UpdateStatePause(Input input, GameContainer container)
+	private void UpdateStatePause(Input input, GameContainer container)
 	{
 		if(ppos<5)
 		{
@@ -752,7 +767,7 @@ public class StartSeite extends BasicGame
 		}
 	}
 	
-	public void UpdateStateSettings(Input input)
+	private void UpdateStateSettings(Input input)
 	{
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
 		{
@@ -760,7 +775,7 @@ public class StartSeite extends BasicGame
 		}
 	}
 	
-	public void UpdateStateGameconfiguration(Input input)
+	private void UpdateStateGameconfiguration(Input input)
 	{
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
 		{

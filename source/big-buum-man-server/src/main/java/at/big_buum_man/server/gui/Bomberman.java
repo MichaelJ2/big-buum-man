@@ -23,6 +23,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.SlickException;
 
 import at.big_buum_man.server.gui.enums.GAMEMODE;
+import at.big_buum_man.server.gui.helper.BombermanHandler;
 import at.big_buum_man.server.gui.helper.Variables;
 import at.big_buum_man.server.gui.objects.Bombe;
 import at.big_buum_man.server.gui.objects.MapListe;
@@ -103,6 +104,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 	private int font=Font.BOLD;
 	private String letter="Arial";
 	*/
+	private static BombermanHandler handler= new BombermanHandler();
 	private static Bomberman instance = null;										//Instanz von Bomberman
 	
 	/***
@@ -180,7 +182,7 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		RenderBomb(g);			//Render of the Bombs
 		RenderPowerups(g);		//Render of the Powerups
 		RenderPowerdowns(g);		//Render of the Powerdowns
-		RenderTime();
+		handler.RenderTime(currenttime,starttime,trueTypeFont);
 	}
 
 	/**

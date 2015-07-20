@@ -2,6 +2,8 @@ package at.big_buum_man.server.gui.helper;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.TrueTypeFont;
+
 import at.big_buum_man.server.gui.objects.MapListe;
 import at.big_buum_man.server.gui.objects.Wand;
 
@@ -37,4 +39,36 @@ public class BombermanHandler
     	}
 	}
 	
+	public void RenderTime(long currenttime,long starttime,TrueTypeFont trueTypeFont)
+	{
+		currenttime = System.currentTimeMillis();
+		String time = timeconvert(starttime,currenttime);
+		trueTypeFont.drawString(20, 40,"Spielezeit ("+time+")", Variables.black);	
+	}
+	
+	public String timeconvert(long start, long current)
+	{
+		String time;
+		long timestamp = ((current - start)/1000);
+		if(timestamp>=60)
+		{
+			if(timestamp%60==0)
+			{
+				time = (timestamp/60)+":00";
+			}
+			else
+			{
+				if(timestamp%60>0&&timestamp%60<10)
+					time = (timestamp/60)+":0"+(timestamp%60);
+				else
+					time = (timestamp/60)+":"+(timestamp%60);
+			}
+			time= time +" Minuten";
+		}
+		else
+		{
+			time=""+((current - start)/1000)+" Sekunden";
+		}
+		return time;
+	}
 }

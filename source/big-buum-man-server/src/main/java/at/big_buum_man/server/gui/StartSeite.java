@@ -28,8 +28,7 @@ import at.big_buum_man.server.gui.objects.Wand;
 
 public class StartSeite extends BasicGame
 {
-	//public static final int WIDTH = Display.getDesktopDisplayMode().getWidth();	//Bildschirm breite
-	//public static final int HEIGHT = Display.getDesktopDisplayMode().getHeight(); //Bildschirm höhe
+
 	private int xw;
 	private int yw;
 	private int pos=1;
@@ -42,24 +41,12 @@ public class StartSeite extends BasicGame
 	private STATE state; //Status
 	private Image bomb;
 	
-	private Bomberman bm; 
+	private Game bm; 
 	
 	private ArrayList<Karte> maps= new ArrayList<Karte>(); //kartenliste
 	private ArrayList<Powerup> powerups= new ArrayList<Powerup>(); //Powerupliste
 	private ArrayList<Powerdown> powerdowns= new ArrayList<Powerdown>(); //Powerdownliste
-	
-	/*
-	private Color gray=Color.gray;
-	private Color green=Color.green;
-	private Color red=Color.red;
-	private Color blue=Color.blue;
-	private Color white=Color.white;
-	private Color yellow=Color.yellow;
-	private Color magenta=Color.magenta;
-	private Color darkGray=Color.darkGray;
-	private Color lightGray=Color.lightGray;
-	private Color black=Color.black;
-	*/
+
 	/**
 	 * 	Startseite - wird als Hauptmenü gestartet
 	 * 
@@ -634,7 +621,7 @@ public class StartSeite extends BasicGame
 	{
 		if(bm==null)
 		{
-			bm = Bomberman.getInstance();
+			bm = Game.getInstance();
 			bm.init(container);
 		}
 		

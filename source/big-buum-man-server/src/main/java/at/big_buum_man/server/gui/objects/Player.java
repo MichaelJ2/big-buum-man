@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import at.big_buum_man.server.gui.Bomberman;
+import at.big_buum_man.server.gui.Game;
 import at.big_buum_man.server.gui.helper.Variables;
 
 
@@ -24,7 +25,7 @@ import at.big_buum_man.server.gui.helper.Variables;
  */
 public class Player extends SpielObjekt implements Comparable<Player>
 {
-	private Bomberman bbm;
+	private Game bbm;
 	private ArrayList<ArrayList<Wand>> mapn;
 	private Integer anfangx;
 	private Integer anfangy;
@@ -41,7 +42,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		super(image);
 		super.setObjectName("Player");
-		bbm = Bomberman.getInstance();
+		bbm = Game.getInstance();
 	}
 	
 	/***

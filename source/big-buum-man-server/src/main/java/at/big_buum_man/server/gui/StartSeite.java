@@ -604,7 +604,7 @@ public class StartSeite extends BasicGame
 
 	private void initBomb() throws SlickException
 	{
-		bomb = new Image("res/bomb.png");
+		bomb = new Image(Variables.res+"bomb.png");
 	}
 
 	private void initState(STATE state) 

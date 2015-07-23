@@ -74,7 +74,7 @@ public class GameHandler
 		Player p=null;
 		try 
 		{
-			p = new Player(new Image("res/player.png"));
+			p = new Player(new Image(Variables.res+"player.png"));
 			p.setAdresse(adresse);
 			p.setAnfangx(Variables.xleft+Variables.BLOCKWIDTH);
 			p.setAnfangy(Variables.ytop+25);
@@ -102,7 +102,7 @@ public class GameHandler
 	/////////////////////////////////////////////////
 	// Hier werden die Methoden Definiert die dann in der Update routine verwendet werden
 	/////////////////////////////////////////////////
-	public void Eventinput(GameContainer container,ArrayList<Player> playerliste)
+	public void UpdateEventInput(GameContainer container,ArrayList<Player> playerliste)
 	{
 		int pl=0;
 		Input input=container.getInput();
@@ -276,13 +276,13 @@ public class GameHandler
 	/////////////////////////////////////////////////
 	// Hier werden die Methoden Definiert die dann in der Init routine verwendet werden
 	/////////////////////////////////////////////////
-	public void InitMap(ArrayList<ArrayList<Wand>> vl,ArrayList<Wand> hl, MapListe ml)
+	public void InitMap(ArrayList<ArrayList<Wand>> vl, MapListe ml)
 	{
 		int y=0;
-		vl=new ArrayList<ArrayList<Wand>>();
+		//vl=new ArrayList<ArrayList<Wand>>();
 		for(String[] s:ml.getMap())
     	{
-    		hl=new ArrayList<Wand>();
+			ArrayList<Wand> hl=new ArrayList<Wand>();
     		int x=0;
 	   		for(String o:s)
 	   		{
@@ -322,15 +322,17 @@ public class GameHandler
 		}
 	}
 
-	public void InitFontLists(ArrayList<Player> playerliste,ArrayList<TrueTypeFont> pliste)
+	public ArrayList<TrueTypeFont> InitFontLists(ArrayList<Player> playerliste,ArrayList<TrueTypeFont> pliste)
 	{
 		for(int i=0;i<playerliste.size();i++)
 			pliste.add(new TrueTypeFont(new Font(Variables.letter, Variables.font, Variables.charsize), true));
+		
+		return pliste;
 	}
 	
 	public void InitTestPlayer(ArrayList<Player> playerliste,ArrayList<ArrayList<Wand>> vl) throws SlickException 
 	{
-		Player player = new Player(new Image("res/player.png"));
+		Player player = new Player(new Image(Variables.res+"player.png"));
 		player.setName("Michael");
 		player.setColor(Variables.red);
 		player.setposition(975, 340);
@@ -343,7 +345,7 @@ public class GameHandler
 		catch (UnknownHostException e1) 
 		{ e1.printStackTrace(); }
 
-		Player player1 = new Player(new Image("res/player2.png"));
+		Player player1 = new Player(new Image(Variables.res+"player2.png"));
 		player1.setName("Gerald");
 		player1.setColor(Variables.green);
 		player1.setposition(975, 440);
@@ -361,6 +363,7 @@ public class GameHandler
 		playerliste.add(player1);
 	}	
 	
+	/*
 	public void InitLists(ArrayList<Bombe> bomben,ArrayList<Powerup>powerups,ArrayList<Powerdown> powerdowns,ArrayList<Player> playerliste,ArrayList<TrueTypeFont> pliste)
 	{
 		bomben=new ArrayList<Bombe>(); //Bombenliste erstellen
@@ -369,21 +372,25 @@ public class GameHandler
 		playerliste =new ArrayList<Player>(); //Playerliste erstellen
 		pliste=new ArrayList<TrueTypeFont>(); //Fontliste erstellen
 	}
+	*/
 	
+	/*
 	public void InitResources(Image spriteSheetImage,Image bomb,Image ipower,Image iminder) throws SlickException 
 	{
-		String res="res/";
-		spriteSheetImage = new Image(res+"p.png");
-		bomb = new Image(res+"bomb.png");
-		ipower = new Image(res+"Powerup.png");
-		iminder = new Image(res+"Powerdown.png");
+		spriteSheetImage = new Image(Variables.res+"p.png");
+		bomb = new Image(Variables.res+"bomb.png");
+		ipower = new Image(Variables.res+"Powerup.png");
+		iminder = new Image(Variables.res+"Powerdown.png");
 	}   	
 	
+	*/
+	/*
 	public void InitFonts(TrueTypeFont trueTypeFont,TrueTypeFont trueTypeFont3)
 	{
 		trueTypeFont = new TrueTypeFont(new Font(Variables.letter, Variables.font, Variables.charsize), true);
 		trueTypeFont3 = new TrueTypeFont(new Font(Variables.letter, Variables.font, Variables.charsize), true);
 	}
+	*/
 	
 	public void InitTime(long starttime)
 	{
@@ -443,7 +450,7 @@ public class GameHandler
 
 	public void RenderPlayer(Graphics g,ArrayList<Player> playerliste)
 	{
-		if(playerliste!=null)
+		if(playerliste!=null&&!playerliste.isEmpty())
 		{
 			g.setColor(Variables.red);
 			for(Player p:playerliste)
@@ -455,7 +462,7 @@ public class GameHandler
 
 	public void RenderBomb(Graphics g,ArrayList<Bombe> bomben)
 	{
-		if(bomben!=null)
+		if(bomben!=null&&!bomben.isEmpty())
 		{
 			for(Bombe bo:bomben)
 			{
@@ -466,7 +473,7 @@ public class GameHandler
 	
 	public void RenderPowerups(Graphics g,ArrayList<Powerup> powerups)
 	{
-		if(powerups!=null)
+		if(powerups!=null&&!powerups.isEmpty())
 		{
 			for(Powerup up:powerups)
 			{
@@ -477,7 +484,7 @@ public class GameHandler
 
 	public void RenderPowerdowns(Graphics g,ArrayList<Powerdown> powerdowns)
 	{
-		if(powerdowns!=null)
+		if(powerdowns!=null&&!powerdowns.isEmpty())
 		{
 			for(Powerdown down:powerdowns)
 			{
@@ -685,5 +692,16 @@ public class GameHandler
 				}
 			}
 		}
+	}
+	
+	public void addListElement(ArrayList<String> list,String value)
+	{
+		list.add(value);
+	}
+	
+	public ArrayList<String> addListElementAndReturn(ArrayList<String> list,String value)
+	{
+		list.add(value);
+		return list;
 	}
 }

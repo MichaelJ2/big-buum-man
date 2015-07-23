@@ -38,6 +38,6 @@ public class Variables
 	public static final int font=Font.BOLD;
 	public static final String letter="Arial";
 	public static final int charsize=20;	
-	
+	public static final String res="res/";
 	
 }

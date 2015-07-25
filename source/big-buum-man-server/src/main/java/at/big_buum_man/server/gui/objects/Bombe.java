@@ -1,5 +1,4 @@
 package at.big_buum_man.server.gui.objects;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -17,10 +16,8 @@ public class Bombe extends SpielObjekt
 	private Integer zeit;
 	private long syszeit;
 	private Player besitzer;
-	private int sprungx;
-	private int sprungy;
-	private Integer anfangx;
-	private Integer anfangy;
+	private int sprungx=Variables.BLOCKWIDTH;
+	private int sprungy=Variables.BLOCKHEIGHT;
 	private int range;
 	private String powerup;
 	private String powerdown;
@@ -35,9 +32,9 @@ public class Bombe extends SpielObjekt
 	@Override
 	public void draw(Graphics g) 
 	{
-		image.draw(x-sprungx/2, y-sprungy/2);
+		image.draw(point.getX()-sprungx/2, point.getY()-sprungy/2);
 		g.setColor(Variables.green);
-		g.drawRect(x-1,y-1, Variables.BLOCKWIDTH+1, Variables.BLOCKHEIGHT+1);
+		g.drawRect(point.getX()-1,point.getY()-1, Variables.BLOCKWIDTH+1, Variables.BLOCKHEIGHT+1);
 	}
 
 	@Override
@@ -76,26 +73,6 @@ public class Bombe extends SpielObjekt
 		this.besitzer=besitzer;
 	}
 	
-	public void setSprungX(int sprungx)
-	{
-		this.sprungx=sprungx;
-	}
-	
-	public int getSprungX()
-	{
-		return this.sprungx;
-	}
-	
-	public void setSprungY(int sprungy)
-	{
-		this.sprungy=sprungy;
-	}
-	
-	public int getSprungY()
-	{
-		return this.sprungy;
-	}
-	
 	public int getRange()
 	{
 		return this.range;
@@ -124,15 +101,5 @@ public class Bombe extends SpielObjekt
 	public void setPowerup(String powerup) 
 	{
 		this.powerup = powerup;
-	}
-	
-	public void setAnfangx(int x)
-	{
-		anfangx=x;
-	}
-	
-	public void setAnfangy(int y)
-	{
-		anfangy=y;
 	}
 }

@@ -76,16 +76,17 @@ public class GameHandler
 		{
 			p = new Player(new Image(Variables.res+"player.png"));
 			p.setAdresse(adresse);
-			p.setAnfangx(Variables.xleft+Variables.BLOCKWIDTH);
-			p.setAnfangy(Variables.ytop+25);
 			p.setMapn(vl);
 			
 			for(int px=0;px<Variables.cols;px++)
 				for(int py=0;py<Variables.rows;py++)
 					if(vl.get(py).get(px).getStein().equals("x"))
 						{
-						p.setposition(	Variables.xleft+px*Variables.BLOCKWIDTH+Variables.BLOCKWIDTH, 
-								Variables.ytop+py*Variables.BLOCKHEIGHT+25);
+						Point point= new Point(	Variables.xleft+px*Variables.BLOCKWIDTH+Variables.BLOCKWIDTH,
+												Variables.xleft+px*Variables.BLOCKWIDTH+Variables.BLOCKWIDTH,
+												Variables.xleft,
+												Variables.ytop);
+						p.setposition(point);
 						}
 		} 
 		catch (SlickException e) 
@@ -106,32 +107,32 @@ public class GameHandler
 	{
 		int pl=0;
 		Input input=container.getInput();
-		if (input.isKeyPressed(Input.KEY_ESCAPE)) 
+		if (input.isKeyPressed(Settings.ESCAPE)) 
 		{
 			container.exit();
 		}
 		
-		if (input.isKeyPressed(Input.KEY_LEFT)) 
+		if (input.isKeyPressed(Settings.LEFT)) 
 		{
 			playerliste.get(pl).left();
 		}
 		
-		if (input.isKeyPressed(Input.KEY_RIGHT)) 
+		if (input.isKeyPressed(Settings.RIGHT)) 
 		{
 			playerliste.get(pl).right();
 		}
 		
-		if (input.isKeyPressed(Input.KEY_UP)) 
+		if (input.isKeyPressed(Settings.UP)) 
 		{
 			playerliste.get(pl).up();
 		}
 		
-		if (input.isKeyPressed(Input.KEY_DOWN)) 
+		if (input.isKeyPressed(Settings.DOWN)) 
 		{
 			playerliste.get(pl).down();
 		}
 		
-		if (input.isKeyPressed(Input.KEY_SPACE)) 
+		if (input.isKeyPressed(Settings.SPACE)) 
 		{
 			playerliste.get(pl).buttonA();
 		}
@@ -154,7 +155,7 @@ public class GameHandler
 				Bombe b = bomben.get(i);
 				if(b.getZeit()+b.getSystemZeit()<System.currentTimeMillis())
 				{
-					activateBomb(((b.getX()-(Variables.xleft))/b.getSprungX()),((b.getY()-(Variables.ytop))/b.getSprungY()),b,playerliste, vl);
+					activateBomb(b.getBrettX(),b.getBrettY(),b,playerliste, vl);
 					//createExplosions();
 					bomben.remove(b);
 				}	
@@ -206,8 +207,11 @@ public class GameHandler
 				{
 					Powerup powerup=new Powerup(ipower);
 					powerup.setSystemZeit(System.currentTimeMillis());
-					powerup.setX(Variables.xleft+rx*Variables.BLOCKWIDTH);
-					powerup.setY(Variables.ytop+ry*Variables.BLOCKHEIGHT);
+					Point point = new Point(	Variables.xleft+rx*Variables.BLOCKWIDTH,
+												Variables.ytop+ry*Variables.BLOCKHEIGHT,
+												Variables.xleft,
+												Variables.ytop);
+					powerup.setPoint(point);
 					powerups.add(powerup);
 				}
 			}
@@ -261,8 +265,11 @@ public class GameHandler
 				{
 					Powerdown powerdown=new Powerdown(iminder);
 					powerdown.setSystemZeit(System.currentTimeMillis());
-					powerdown.setX(Variables.xleft+rx*Variables.BLOCKWIDTH);
-					powerdown.setY(Variables.ytop+ry*Variables.BLOCKHEIGHT);
+					Point point = new Point(	Variables.xleft+rx*Variables.BLOCKWIDTH,
+												Variables.ytop+ry*Variables.BLOCKHEIGHT,
+												Variables.xleft,
+												Variables.ytop);
+					powerdown.setPoint(point);
 					powerdowns.add(powerdown);
 				}
 			}
@@ -332,12 +339,13 @@ public class GameHandler
 	
 	public void InitTestPlayer(ArrayList<Player> playerliste,ArrayList<ArrayList<Wand>> vl) throws SlickException 
 	{
+		Point point= new Point(975, 340,Variables.xleft,Variables.ytop);
+		Point point2= new Point(975, 340,Variables.xleft,Variables.ytop);
+		
 		Player player = new Player(new Image(Variables.res+"player.png"));
 		player.setName("Michael");
 		player.setColor(Variables.red);
-		player.setposition(975, 340);
-		player.setAnfangx(Variables.xleft);
-		player.setAnfangy(Variables.ytop);
+		player.setposition(point);
 		player.setMapn(vl);
 		
 		try 
@@ -348,9 +356,7 @@ public class GameHandler
 		Player player1 = new Player(new Image(Variables.res+"player2.png"));
 		player1.setName("Gerald");
 		player1.setColor(Variables.green);
-		player1.setposition(975, 440);
-		player1.setAnfangx(Variables.xleft);
-		player1.setAnfangy(Variables.ytop);
+		player1.setposition(point2);
 		player1.setMapn(vl);
 		try 
 		{ player1.setAdresse(InetAddress.getByName("192.168.1.1")); } 
@@ -392,9 +398,9 @@ public class GameHandler
 	}
 	*/
 	
-	public void InitTime(long starttime)
+	public long InitTime()
 	{
-		starttime = System.currentTimeMillis();
+		return System.currentTimeMillis();
 	}	
 	
 	/////////////////////////////////////////////////
@@ -438,8 +444,8 @@ public class GameHandler
 	 		   		else
 		 			  g.setColor(Variables.darkGray);
 		     		  
-		     		  h.setX(x);//+blockwidth);
-		     		  h.setY(y);//+blockheight/2);
+		     		  Point point = new Point(x,y,Variables.xleft,Variables.ytop);
+		     		  h.setPoint(point);
 		     		  h.draw(g);
 		     		  
 		     		  x=x+Variables.BLOCKWIDTH;
@@ -502,12 +508,13 @@ public class GameHandler
 		{
 			if (i < pliste.size())
 				pliste.get(i).drawString(30, 120+20*i,"-"+playerliste.get(i).getName(), Variables.black);
+			
 		}
 	}
 	
-	public void RenderTime(long starttime,TrueTypeFont trueTypeFont,long currenttime)
+	public void RenderTime(long starttime,TrueTypeFont trueTypeFont)
 	{
-		currenttime = System.currentTimeMillis();
+		long currenttime = System.currentTimeMillis();
 		String time = timeconvert(starttime,currenttime);
 		trueTypeFont.drawString(20, 40,"Spielezeit ("+time+")", Variables.black);	
 	}
@@ -526,16 +533,12 @@ public class GameHandler
 	 * */
 	public synchronized void addBomb(int x,int sprungx, int y,int sprungy, Player p,ArrayList<Bombe> bomben,Image bomb) throws SlickException
 	{
+		Point point=new Point(x,y,Variables.xleft,Variables.ytop);
 		Bombe bombe=new Bombe(bomb, 2000);
 		bombe.setSystemZeit(System.currentTimeMillis());
 		bombe.setBesitzer(p);
-		bombe.setX(x);
-		bombe.setY(y);
 		bombe.setRange(2);
-		bombe.setSprungX(sprungx);
-		bombe.setSprungY(sprungy);
-		bombe.setAnfangx(Variables.xleft);
-		bombe.setAnfangy(Variables.ytop);
+		bombe.setPoint(point);
 		bomben.add(bombe);
 	}
 	
@@ -564,8 +567,8 @@ public class GameHandler
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					int px=((playerliste.get(p).getX()-Variables.xleft)/Variables.BLOCKWIDTH);
-					int py=((playerliste.get(p).getY()-Variables.ytop)/Variables.BLOCKHEIGHT);
+					int px=playerliste.get(p).getBrettX();
+					int py=playerliste.get(p).getBrettY();
 					
 					if(px==x&&py==y-i&&side1==0)
 					{
@@ -587,8 +590,8 @@ public class GameHandler
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					int px=((playerliste.get(p).getX()-Variables.xleft)/Variables.BLOCKWIDTH);
-					int py=((playerliste.get(p).getY()-Variables.ytop)/Variables.BLOCKHEIGHT);
+					int px=playerliste.get(p).getBrettX();
+					int py=playerliste.get(p).getBrettY();
 					
 					if(px==x&&py==y+i&&side2==0)
 					{
@@ -610,8 +613,8 @@ public class GameHandler
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					int px=((playerliste.get(p).getX()-Variables.xleft)/Variables.BLOCKWIDTH);
-					int py=((playerliste.get(p).getY()-Variables.ytop)/Variables.BLOCKHEIGHT);
+					int px=playerliste.get(p).getBrettX();
+					int py=playerliste.get(p).getBrettY();
 					
 					if(px==x-i&&py==y&&side3==0)
 					{
@@ -633,8 +636,8 @@ public class GameHandler
 			{
 				for(int p=0;p<playerliste.size();p++)
 				{
-					int px=((playerliste.get(p).getX()-Variables.xleft)/Variables.BLOCKWIDTH);
-					int py=((playerliste.get(p).getY()-Variables.ytop)/Variables.BLOCKHEIGHT);
+					int px=playerliste.get(p).getBrettX();
+					int py=playerliste.get(p).getBrettY();
 					
 					if(px==x+i&&py==y&&side4==0)
 					{

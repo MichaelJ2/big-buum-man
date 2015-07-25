@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import at.big_buum_man.server.gui.helper.Variables;
+
 /***
  * @version 1.0
  * @author Michael Januschek
@@ -27,9 +29,9 @@ public class MapListe
        
        try 
        {
-           myFile =new FileReader("maps/Beginning.txt");
+           myFile =new FileReader(Variables.maps+"Beginning.txt");
            buff =new BufferedReader(myFile);
-           int o=0;
+           //int o=0;
            while (true) 
            {              
         	   String [] valuesSplited = null;
@@ -38,16 +40,13 @@ public class MapListe
                    break;                 
                valuesSplited = line.split(","); // Spliten nach dem Sonderzeichen ","
                values.add(valuesSplited);
-               o++;
+               //o++;
            }
            
            v= values;
           
        } 
-       catch (IOException e) 
-       {
-           System.err.println("Error2 :"+e);
-       }
+       catch (IOException e) { System.err.println("Error2 :"+e); } 
        finally 
        {
            try
@@ -55,10 +54,7 @@ public class MapListe
                buff.close();
                myFile.close();
            }
-           catch (IOException e) 
-           {
-        	   System.err.println("Error2 :"+e);
-           }
+           catch (IOException e) { System.err.println("Error2 :"+e); }
        }
 	}
 

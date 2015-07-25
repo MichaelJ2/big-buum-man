@@ -39,5 +39,6 @@ public class Variables
 	public static final String letter="Arial";
 	public static final int charsize=20;	
 	public static final String res="res/";
+	public static final String maps="maps/";
 	
 }

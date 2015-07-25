@@ -20,7 +20,7 @@ public class Extra extends SpielObjekt
 	@Override
 	public void draw(Graphics g) 
 	{
-		image.draw(x, y);
+		image.draw(point.getX(), point.getY());
 	}
 	
 	public String getName() 

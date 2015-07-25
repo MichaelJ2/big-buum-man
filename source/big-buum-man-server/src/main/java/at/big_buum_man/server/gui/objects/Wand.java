@@ -32,44 +32,24 @@ public class Wand extends SpielObjekt
 	@Override
 	public void draw(Graphics g) 
 	{
-		//int blockwidth=50;
-		//int blockheight=50;
 		if(this.getStein().equals("0"))
 		{
-			try 
-			{
-				super.setImage(new Image("res/walls.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT));
-			} 
-			catch (SlickException e) 
-			{
-				e.printStackTrace();
-			}
+			try { super.setImage(new Image(Variables.res+"walls.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT)); } 
+			catch (SlickException e) { e.printStackTrace();	}
 		}
 		else if(this.getStein().equals("1"))
 		{
-			try 
-			{
-				super.setImage(new Image("res/walls.png").getSubImage(375,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT));
-			} 
-			catch (SlickException e) 
-			{
-				e.printStackTrace();
-			}
+			try { super.setImage(new Image(Variables.res+"walls.png").getSubImage(375,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT)); } 
+			catch (SlickException e) { e.printStackTrace(); }
 		}
 		else 
 		{
-			try 
-			{
-				super.setImage(new Image("res/saeule.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT));
-			} 
-			catch (SlickException e) 
-			{
-				e.printStackTrace();
-			}
+			try { super.setImage(new Image(Variables.res+"saeule.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT)); } 
+			catch (SlickException e) { 	e.printStackTrace(); }
 		}
-		image.draw(x,y);
+		image.draw(point.getX(),point.getY());
 		g.setColor(Color.green);
-		g.drawRect(x,y, Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT);
+		g.drawRect(point.getX(),point.getY(), Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT);
 	}
 	
 	@Override

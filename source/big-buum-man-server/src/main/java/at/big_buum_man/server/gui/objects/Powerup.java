@@ -27,9 +27,9 @@ public class Powerup extends Extra
 	@Override
 	public void draw(Graphics g) 
 	{
-		image.draw(x, y);
+		image.draw(point.getX(), point.getY());
 		g.setColor(Color.green);
-		g.drawRect(x,y, Variables.BLOCKWIDTH, Variables.BLOCKHEIGHT);
+		g.drawRect(point.getX(),point.getY(), Variables.BLOCKWIDTH, Variables.BLOCKHEIGHT);
 	}
 	
 	@Override

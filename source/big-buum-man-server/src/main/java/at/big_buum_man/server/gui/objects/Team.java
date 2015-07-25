@@ -43,7 +43,8 @@ public class Team
 		return player;
 	}
 	
-	public void addPlayer(Player player) {
+	public void addPlayer(Player player) 
+	{
 		this.player.add(player);
 	}
 }

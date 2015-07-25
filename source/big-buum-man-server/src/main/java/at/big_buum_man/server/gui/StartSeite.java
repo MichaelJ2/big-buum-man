@@ -3,10 +3,7 @@ package at.big_buum_man.server.gui;
 import java.awt.Font;
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.Display;
-import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -361,8 +358,8 @@ public class StartSeite extends BasicGame
 		g.fillRect(x+10,y+10,w-20 ,h-20);
 			
 		MapListe ml = new MapListe();
-		int rows=ml.getMap().size();
-		int cols=15;
+		//int rows=ml.getMap().size();
+		//int cols=15;
 		ArrayList<Wand> hl;
 		ArrayList<ArrayList<Wand>> vl;
 		
@@ -474,8 +471,8 @@ public class StartSeite extends BasicGame
 		g.fillRect(x+10,y+10,w-20 ,h-20);
 			
 		
-		int rows=k.getKarte().length;
-		int cols=k.getKarte()[0].length;
+		//int rows=k.getKarte().length;
+		//int cols=k.getKarte()[0].length;
 		ArrayList<Wand> hl;
 		ArrayList<ArrayList<Wand>> vl;
 		

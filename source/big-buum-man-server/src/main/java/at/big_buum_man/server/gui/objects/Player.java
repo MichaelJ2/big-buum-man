@@ -11,8 +11,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
-import at.big_buum_man.server.gui.Bomberman;
 import at.big_buum_man.server.gui.Game;
+import at.big_buum_man.server.gui.helper.Point;
 import at.big_buum_man.server.gui.helper.Variables;
 
 
@@ -25,10 +25,8 @@ import at.big_buum_man.server.gui.helper.Variables;
  */
 public class Player extends SpielObjekt implements Comparable<Player>
 {
-	private Game bbm;
+	private Game game;
 	private ArrayList<ArrayList<Wand>> mapn;
-	private Integer anfangx;
-	private Integer anfangy;
 	private String name="";
 	private Integer punkte=0;
 	private InetAddress adresse;
@@ -42,16 +40,23 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		super(image);
 		super.setObjectName("Player");
-		bbm = Game.getInstance();
+		game = Game.getInstance();
 	}
 	
 	/***
 	 * 	Beschreibung: Position setzen
 	 */
+	/*
 	public void setposition(int x,int y)
 	{
 		this.y=y;
 		this.x=x;
+	}
+	*/
+	
+	public void setposition(Point point)
+	{
+		this.point=point;
 	}
 	
 	@Override
@@ -74,11 +79,11 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		//image.drawCentered(x, y);
 		//System.out.println("Render: x:"+(x)+" >< y:"+(y));
 		
-		image.draw(x-Variables.BLOCKWIDTH/2, y-Variables.BLOCKHEIGHT, Variables.farbe);
-		trueTypeFont.drawString(x, y, getName(), Variables.red);
+		image.draw(point.getX()-Variables.BLOCKWIDTH/2, point.getY()-Variables.BLOCKHEIGHT, Variables.farbe);
+		trueTypeFont.drawString(point.getX(), point.getY(), getName(), Variables.red);
 		
 		g.setColor(Variables.green);
-		g.drawRect(x-1,y-1, Variables.BLOCKWIDTH+1, Variables.BLOCKHEIGHT+1);
+		g.drawRect(point.getX()-1,point.getY()-1, Variables.BLOCKWIDTH+1, Variables.BLOCKHEIGHT+1);
 		
 		//System.out.println(getName()+": x"+x+" y:"+y);
 	}
@@ -90,37 +95,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		this.mapn=mapn;
 	}
-	
-	
-	/***
-	 * 	Beschreibung: Breite eines Feldes setzen
-	 */
-	/*
-	public void setSprungX(Integer sprung)
-	{
-		this.sprungx=sprung;
-	}
-	*/
-	
-	/***
-	 * 	Beschreibung: Höhe eines Feldes setzen
-	 */
-	/*
-	public void setSprungY(Integer sprung)
-	{
-		this.sprungy=sprung;
-	}
-	*/
-	
-	/***
-	 * 	Beschreibung: Main setzen
-	 */
-	 /*
-	public void setBomberman(Bomberman bbm)
-	{
-		this.bbm=bbm;
-	}
-	*/
+
 	
 	/***
 	 * 	Beschreibung: Namen setzen
@@ -192,19 +167,19 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void up() 
 	{
-		int ya=((this.y-anfangy)/Variables.BLOCKHEIGHT*1)-1;
-		int xa=((this.x-anfangx)/Variables.BLOCKWIDTH*1);
+		int ya=point.getBrettY()-1;
+		int xa=point.getBrettX();
 		
 		//System.out.println("UP: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
 		
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
-			this.y=this.y;
+			point.setY(point.getY());
 		else
-			this.y-=Variables.BLOCKHEIGHT;
+			point.setY(point.getY()-Variables.BLOCKHEIGHT);
 		
 		try 
 		{
-			super.setImage(new Image("res/p.png").getSubImage(0,290,92,98));
+			super.setImage(new Image(Variables.res+"p.png").getSubImage(0,290,92,98));
 		} 
 		catch (SlickException e) 
 		{
@@ -217,19 +192,19 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void down() 
 	{
-		int ya=((this.y-anfangy)/Variables.BLOCKHEIGHT*1)+1;
-		int xa=((this.x-anfangx)/Variables.BLOCKWIDTH*1);
+		int ya=point.getBrettY()+1;
+		int xa=point.getBrettX();
 		
 		//System.out.println("DOWN: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
 		
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
-			this.y=this.y;
+			point.setY(point.getY());
 		else
-			this.y+=Variables.BLOCKHEIGHT;
+			point.setY(point.getY()+Variables.BLOCKHEIGHT);
 		
 		try 
 		{
-			super.setImage(new Image("res/p.png").getSubImage(0,0,95,116));
+			super.setImage(new Image(Variables.res+"p.png").getSubImage(0,0,95,116));
 		} 
 		catch (SlickException e) 
 		{
@@ -242,19 +217,19 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void right() 
 	{
-		int ya=((this.y-anfangy)/Variables.BLOCKHEIGHT*1);
-		int xa=((this.x-anfangx)/Variables.BLOCKWIDTH*1)+1;
+		int ya=point.getBrettY();
+		int xa=point.getBrettX()+1;
 		
 		//System.out.println("RIGHT: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
 		
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
-			this.x=this.x;
+			point.setX(point.getX());
 		else
-			this.x+=Variables.BLOCKWIDTH;
+			point.setX(point.getX()+Variables.BLOCKWIDTH);
 		
 		try 
 		{
-			super.setImage(new Image("res/p.png").getSubImage(0,222,98,67));
+			super.setImage(new Image(Variables.res+"p.png").getSubImage(0,222,98,67));
 		} 
 		catch (SlickException e) 
 		{
@@ -267,17 +242,17 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	 */
 	public synchronized void left() 
 	{
-		int ya=((this.y-anfangy)/Variables.BLOCKHEIGHT*1);
-		int xa=((this.x-anfangx)/Variables.BLOCKWIDTH*1)-1;
+		int ya=point.getBrettY();
+		int xa=point.getBrettX()-1;
 		//System.out.println("LEFT: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
 		if(mapn.get(ya).get(xa).getStein().equals("0"))
-			this.x=this.x;
+			point.setX(point.getX());
 		else
-			this.x-=Variables.BLOCKWIDTH;
+			point.setX(point.getX()-Variables.BLOCKWIDTH);
 		
 		try 
 		{
-			super.setImage(new Image("res/p.png").getSubImage(0,126,92,72));
+			super.setImage(new Image(Variables.res+"p.png").getSubImage(0,126,92,72));
 		} 
 		catch (SlickException e) 
 		{
@@ -294,9 +269,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		//int xa=((this.x-anfangx)/sprungx*1);
 		try 
 		{
-			//System.out.println("px:"+this.x+" py:"+this.y);
-			bbm.addBombe(this.x,Variables.BLOCKWIDTH,this.y,Variables.BLOCKHEIGHT,this);
-			//bbm.addBombe(xa,this.sprungx,ya,this.sprungy,this);
+			game.addBombe(point.getX(),Variables.BLOCKWIDTH,point.getY(),Variables.BLOCKHEIGHT,this);
 		} 
 		catch (SlickException e) 
 		{
@@ -322,16 +295,6 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		System.out.println("Powerdown gesetzt.");
 	}
 	
-	public void setAnfangx(int x)
-	{
-		anfangx=x;
-	}
-	
-	public void setAnfangy(int y)
-	{
-		anfangy=y;
-	}
-	 
 	public void setColor(Color farbe)
 	{
 		this.farbe=farbe;
@@ -341,5 +304,4 @@ public class Player extends SpielObjekt implements Comparable<Player>
 	{
 		return this.farbe;
 	}
-	
 }

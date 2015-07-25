@@ -2,8 +2,8 @@ package at.big_buum_man.server.gui.helper;
 
 public class Point 
 {
-	private int x;
-	private int y;
+	protected int x;
+	protected int y;
 	private int anfangx;
 	private int anfangy;
 	

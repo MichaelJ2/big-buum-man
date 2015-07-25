@@ -30,33 +30,32 @@ import at.big_buum_man.server.network.NetworkServer;
 public class Game extends BasicGame implements Runnable ,ServerMethods
 {
 
-	private NetworkServer ns;														//NetzwerkServer für kommunikation
-	private ArrayList<InetAddress> adressen = new ArrayList<InetAddress>();			//IP-Adressen Liste
+	private NetworkServer networkserver;														//NetzwerkServer für kommunikation
+	private ArrayList<InetAddress> adresslist = new ArrayList<InetAddress>();			//IP-Adressen Liste
 	
 	private GAMEMODE gamemode; 														//Game mode fÃ¼r die bestimmten Spielearten
 
-	private MapListe ml = new MapListe();
+	private MapListe maplist = new MapListe();
 
-	private long starttime; 														//Startzeit vom Spiel
-	private long currenttime; 														//Aktuelle zeit vom Spiel
+	private long starttime = 0; 														//Startzeit vom Spiel 														//Aktuelle zeit vom Spiel
 
 	private TrueTypeFont trueTypeFont=new TrueTypeFont(new Font(Variables.letter, Variables.font, Variables.charsize), true);
-	private TrueTypeFont trueTypeFont3=new TrueTypeFont(new Font(Variables.letter, Variables.font, Variables.charsize), true);
+	//private TrueTypeFont trueTypeFont3=new TrueTypeFont(new Font(Variables.letter, Variables.font, Variables.charsize), true);
 	
-	private ArrayList<TrueTypeFont> pliste=new ArrayList<TrueTypeFont>();											//Typefont Liste zum Zeichnen von Buchstaben
-	private ArrayList<Player> playerliste=new ArrayList<Player>();											//Playerliste
+	private ArrayList<TrueTypeFont> fontlist=new ArrayList<TrueTypeFont>();											//Typefont Liste zum Zeichnen von Buchstaben
+	private ArrayList<Player> playerlist=new ArrayList<Player>();											//Playerliste
 
-	private ArrayList<Wand> hl=new ArrayList<Wand>();
-	private ArrayList<ArrayList<Wand>> vl=new ArrayList<ArrayList<Wand>>(); 
+	//private ArrayList<Wand> hl=new ArrayList<Wand>();
+	private ArrayList<ArrayList<Wand>> blocklist=new ArrayList<ArrayList<Wand>>(); 
 	
-	private ArrayList<Bombe> bomben=new ArrayList<Bombe>(); 												//Bombenliste auf dem Feld
-	private ArrayList<Powerup> powerups=new ArrayList<Powerup>(); 											//Powerupsliste auf dem Feld
-	private ArrayList<Powerdown> powerdowns=new ArrayList<Powerdown>(); 										//Powerdownsleste auf dem Feld
+	private ArrayList<Bombe> bomblist=new ArrayList<Bombe>(); 												//Bombenliste auf dem Feld
+	private ArrayList<Powerup> poweruplist=new ArrayList<Powerup>(); 											//Powerupsliste auf dem Feld
+	private ArrayList<Powerdown> powerdownlist=new ArrayList<Powerdown>(); 										//Powerdownsleste auf dem Feld
 	
 	private Image spriteSheetImage;
-	private Image bomb;
-	private Image ipower;
-	private Image iminder;
+	private Image bombImage;
+	private Image ipowerImage;
+	private Image iminderImage;
 
 	private static GameHandler handler= new GameHandler();
 	private static Game instance = null;										//Instanz von Bomberman
@@ -104,13 +103,13 @@ public class Game extends BasicGame implements Runnable ,ServerMethods
 	@Override
 	public synchronized void render(GameContainer container, Graphics g) throws SlickException 
 	{
-		handler.RenderSidebar(g,playerliste,pliste);		//Render of the Sidebar
-		handler.RenderMap(g,vl);			//Render of the Map
-		handler.RenderPlayer(g,playerliste);		//Render of the Players
-		handler.RenderBomb(g,bomben);			//Render of the Bombs
-		handler.RenderPowerups(g,powerups);		//Render of the Powerups
-		handler.RenderPowerdowns(g,powerdowns);		//Render of the Powerdowns
-		handler.RenderTime(currenttime,trueTypeFont,starttime);
+		handler.RenderSidebar(g,playerlist,fontlist);		//Render of the Sidebar
+		handler.RenderMap(g,blocklist);			//Render of the Map
+		handler.RenderPlayer(g,playerlist);		//Render of the Players
+		handler.RenderBomb(g,bomblist);			//Render of the Bombs
+		handler.RenderPowerups(g,poweruplist);		//Render of the Powerups
+		handler.RenderPowerdowns(g,powerdownlist);		//Render of the Powerdowns
+		handler.RenderTime(starttime,trueTypeFont);
 	}
 
 	/**
@@ -125,15 +124,17 @@ public class Game extends BasicGame implements Runnable ,ServerMethods
 	@Override
 	public synchronized void init(GameContainer container) throws SlickException 
 	{
-		handler.InitTime(starttime);
+		System.out.println(this.starttime);
+		this.starttime=handler.InitTime();
+		System.out.println(this.starttime);
 		//handler.InitFonts(trueTypeFont,trueTypeFont3);
 		this.InitResources();
 		//handler.InitLists(bomben,powerups,powerdowns,playerliste,pliste);
-		handler.InitTestPlayer(playerliste,vl);
-		this.pliste = handler.InitFontLists(playerliste,pliste);
-		handler.InitMap(vl,ml);
-		handler.InitServer(this,ns);
-		handler.InitPlayer(playerliste,vl);
+		handler.InitTestPlayer(playerlist,blocklist);
+		this.fontlist = handler.InitFontLists(playerlist,fontlist);
+		handler.InitMap(blocklist,maplist);
+		handler.InitServer(this,networkserver);
+		handler.InitPlayer(playerlist,blocklist);
 	}
 	
 	/**
@@ -149,11 +150,11 @@ public class Game extends BasicGame implements Runnable ,ServerMethods
 	@Override
 	public synchronized void update(GameContainer container, int delta) throws SlickException 
 	{
-		handler.UpdateEventInput(container,playerliste); 		//Eventabfrage = Tastaturabfrage
-		handler.UpdatePlayer(delta,playerliste);		//Update Player 
-		handler.UpdateBombs(bomben,playerliste,vl);			//Update Bombs
-		handler.UpdatePowerups(powerups,playerliste,ipower,vl);		//Update Powerups
-		handler.UpdatePowerdowns(powerdowns,playerliste,iminder,vl);		//Update Powerdowns
+		handler.UpdateEventInput(container,playerlist); 		//Eventabfrage = Tastaturabfrage
+		handler.UpdatePlayer(delta,playerlist);		//Update Player 
+		handler.UpdateBombs(bomblist,playerlist,blocklist);			//Update Bombs
+		handler.UpdatePowerups(poweruplist,playerlist,ipowerImage,blocklist);		//Update Powerups
+		handler.UpdatePowerdowns(powerdownlist,playerlist,iminderImage,blocklist);		//Update Powerdowns
 	}
 	
 	@Override
@@ -175,7 +176,7 @@ public class Game extends BasicGame implements Runnable ,ServerMethods
 	@Override
 	public void processMessage(InetAddress client, String message) 
 	{
-		handler.processMessage(client, message,playerliste);
+		handler.processMessage(client, message,playerlist);
 	}
 
 	/**
@@ -189,20 +190,20 @@ public class Game extends BasicGame implements Runnable ,ServerMethods
 	@Override
 	public void registerNewClient(InetAddress client) 
 	{
-		handler.neuerSpieler(client, adressen, playerliste, vl);
+		handler.neuerSpieler(client, adresslist, playerlist, blocklist);
 	}
 	
 	private void InitResources() throws SlickException 
 	{
 		this.spriteSheetImage = new Image(Variables.res+"p.png");
-		this.bomb = new Image(Variables.res+"bomb.png");
-		this.ipower = new Image(Variables.res+"Powerup.png");
-		this.iminder = new Image(Variables.res+"Powerdown.png");
+		this.bombImage = new Image(Variables.res+"bomb.png");
+		this.ipowerImage = new Image(Variables.res+"Powerup.png");
+		this.iminderImage = new Image(Variables.res+"Powerdown.png");
 	}
 	
 
 	public void addBombe(int x, int blockwidth, int y, int blockheight, Player player) throws SlickException 
 	{
-		handler.addBomb(x, blockwidth, y, blockheight, player, bomben, bomb);
+		handler.addBomb(x, blockwidth, y, blockheight, player, bomblist, bombImage);
 	}   
 }

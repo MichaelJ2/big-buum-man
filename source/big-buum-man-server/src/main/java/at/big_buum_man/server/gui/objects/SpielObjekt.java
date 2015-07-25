@@ -9,48 +9,65 @@ import at.big_buum_man.server.gui.helper.Point;
  * @author Michael Januschek
  *
  */
-public abstract class SpielObjekt {
-
-	protected int x;
-	protected int y;
-	//protected Point point;
+public abstract class SpielObjekt 
+{
+	protected Point point;
 	protected Image image;
 	public String objectName;
 
 	public abstract void draw(Graphics g);
 	public void update(int delta){};
 
-	public SpielObjekt(int x, int y, Image image) {
-		this(x, y);
+	public SpielObjekt(Point point, Image image) 
+	{
+		this(point.getX(),point.getY());
 		this.image = image;
 	}
 
-	public SpielObjekt(int x, int y) {
-		this.x = x;
-		this.y = y;
+	
+	public SpielObjekt(int x, int y) 
+	{
+		this.point.setX(x);
+		this.point.setY(y);
 	}
-
-	public SpielObjekt(Image image) {
+	
+	public SpielObjekt(Image image) 
+	{
 		this.image = image;
 	}
 
-	public SpielObjekt() {
+	public SpielObjekt() 
+	{
+	}
+	
+	public int getX() 
+	{
+		return point.getX();
 	}
 
-	public int getX() {
-		return x;
+	public int getY() 
+	{
+		return point.getY();
+	}
+	
+	public int getBrettX()
+	{
+		return point.getBrettX();
+	}
+	
+	public int getBrettY()
+	{
+		return point.getBrettY();
+	}
+	
+	public Point getPoint() 
+	{
+		return point;
 	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
+	public void setPoint(Point point) 
+	{
+		this.point=point;
 	}
 	
 	public void setImage(Image image)

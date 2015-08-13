@@ -8,8 +8,20 @@ public class TestFields {
 
     @Test
     public void testField() {
-        Assert.assertEquals(FieldFactory.getField(FieldType.GROUND).getFieldID(), 0);
-        Assert.assertEquals(FieldFactory.getField(FieldType.WALL).getFieldID(), 1);
-        Assert.assertEquals(FieldFactory.getField(FieldType.SPAWN).getFieldID(), 2);
+
+        // GROUND
+        Field ground = FieldFactory.getField(FieldType.GROUND);
+        Assert.assertEquals(ground.getFieldID(), 0);
+        Assert.assertEquals(ground.getFieldType(), FieldType.GROUND);
+
+        // WALL
+        Field wall = FieldFactory.getField(FieldType.WALL);
+        Assert.assertEquals(wall.getFieldID(), 1);
+        Assert.assertEquals(wall.getFieldType(), FieldType.WALL);
+
+        // SPAWN
+        Field spawn = FieldFactory.getField(FieldType.SPAWN);
+        Assert.assertEquals(spawn.getFieldID(), 2);
+        Assert.assertEquals(spawn.getFieldType(), FieldType.SPAWN);
     }
 }

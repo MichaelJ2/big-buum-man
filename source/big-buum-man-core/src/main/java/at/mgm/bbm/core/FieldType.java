@@ -1,5 +1,5 @@
 package at.mgm.bbm.core;
 
-enum FieldType {
+public enum FieldType {
     GROUND, WALL, SPAWN
 }

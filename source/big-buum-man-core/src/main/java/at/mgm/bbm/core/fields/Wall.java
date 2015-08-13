@@ -8,6 +8,6 @@ public class Wall extends Field {
     private static final int ID = 1;
 
     protected Wall() {
-        super(FieldType.GROUND, ID);
+        super(FieldType.WALL, ID);
     }
 }

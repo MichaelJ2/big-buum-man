@@ -8,6 +8,6 @@ public class Spawn extends Field {
     private static final int ID = 2;
 
     protected Spawn() {
-        super(FieldType.GROUND, ID);
+        super(FieldType.SPAWN, ID);
     }
 }

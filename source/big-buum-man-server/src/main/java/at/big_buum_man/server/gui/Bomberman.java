@@ -1,3 +1,4 @@
+/*
 package at.big_buum_man.server.gui;
 
 import at.big_buum_man.server.ServerMethods;
@@ -924,3 +925,4 @@ public class Bomberman extends BasicGame implements Runnable ,ServerMethods
 		trueTypeFont.drawString(20, 40,"Spielezeit ("+time+")", Variables.black);	
 	}
 }
+*/

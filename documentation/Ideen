@@ -5,6 +5,7 @@ Eventsklassen
 Bombenklassen
 Powerup/down-klassen
 Feldklassen -> Fields
+Farbklassen -> ? auch Factory Pattern?
 Kartenklasse -> Karte wird zusammengebaut aus mehreren Fields (zweidimensionales Array)
 Charakter/Figurklasse -> man sollte sich eine Figur auswählen können mit vl besondere eigenschaften (bessere bomben,schneller)
 Itemklassen -> so ähnliche dinge wie Powerups

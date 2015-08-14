@@ -5,9 +5,11 @@ import at.mgm.bbm.core.FieldType;
 
 public class Wall extends Field {
 
-    private static final int ID = 1;
+    public static final int ID = 1;
+    public static final String TEXTURE_PATH = "textures/wall.png";
+    public static final boolean LOCKED = false;
 
-    protected Wall() {
-        super(FieldType.WALL, ID);
+    protected Wall(final int paramX, final int paramY) {
+        super(FieldType.WALL, paramX, paramY);
     }
 }

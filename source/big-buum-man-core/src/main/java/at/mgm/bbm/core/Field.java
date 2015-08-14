@@ -2,19 +2,18 @@ package at.mgm.bbm.core;
 
 public abstract class Field {
 
-    private FieldType fieldType = null;
-    private int fieldId = -1;
+    protected FieldType fieldType = null;
 
-    public Field(FieldType paramFieldType, int paramFieldId) {
+    public int x;
+    public int y;
+
+    public Field(final FieldType paramFieldType, final int paramX, final int paramY) {
         fieldType = paramFieldType;
-        fieldId = paramFieldId;
+        x = paramX;
+        y = paramY;
     }
 
     public FieldType getFieldType() {
         return fieldType;
-    }
-
-    public int getFieldID() {
-        return fieldId;
     }
 }

@@ -1,8 +1,9 @@
-package at.mgm.bbm.core;
+package at.mgm.bbm.gui;
 
-import at.mgm.bbm.core.screens.EditorScreen;
+import at.mgm.bbm.gui.screens.EditorScreen;
 import org.junit.Test;
 import org.newdawn.slick.AppGameContainer;
+import java.lang.Exception;
 
 public class TestGui {
 
@@ -11,7 +12,7 @@ public class TestGui {
         try {
             AppGameContainer container = new AppGameContainer(new EditorScreen());
             container.setDisplayMode(1920, 1080, false);
-            //container.start();
+            container.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

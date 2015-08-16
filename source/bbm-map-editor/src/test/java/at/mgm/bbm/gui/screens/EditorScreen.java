@@ -17,8 +17,6 @@ import java.util.List;
 
 public class EditorScreen extends BasicGameState {
 
-    private Map map;
-
     private final java.util.Map<Enum, Image> TEXTURES = new HashMap<Enum, Image>();
     private final java.util.Map<Enum, Shape> FIELD_TYPES = new HashMap<Enum, Shape>();
 
@@ -31,9 +29,15 @@ public class EditorScreen extends BasicGameState {
     private StateBasedGame game;
 
     private final String SAVE = "save";
+    private final String LOAD = "load";
     private final String BACK = "back";
 
+    private final int SAVE_X = 700;
+    private final int LOAD_X = 820;
+    private final int BACK_X = 940;
+
     private Shape saveButton;
+    private Shape loadButton;
     private Shape backButton;
     Font font;
 
@@ -48,13 +52,13 @@ public class EditorScreen extends BasicGameState {
         for (int i = 0; i < enums.length; i++) {
             TEXTURES.put(enums[i], new Image(enums[i].TEXTURE_PATH));
             if (!enums[i].equals(FieldType.BORDER)) {
-                FIELD_TYPES.put(enums[i], new Rectangle(TYPES_X, TYPES_Y + ((64 + TYPES_OFFSET) * i), 64, 64));
+                FIELD_TYPES.put(enums[i], new Rectangle(TYPES_X, TYPES_Y + ((Map.FIELD_SIZE + TYPES_OFFSET) * i), Map.FIELD_SIZE, Map.FIELD_SIZE));
             }
         }
-        map = new Map(null);
         font = new AngelCodeFont("fonts/font.fnt", new Image("fonts/font.png"));
-        saveButton = new Rectangle(TYPES_X, 800, font.getWidth(SAVE), font.getHeight(SAVE));
-        backButton = new Rectangle(TYPES_X, 920, font.getWidth(BACK), font.getHeight(BACK));
+        saveButton = new Rectangle(TYPES_X, SAVE_X, font.getWidth(SAVE), font.getHeight(SAVE));
+        loadButton = new Rectangle(TYPES_X, LOAD_X, font.getWidth(LOAD), font.getHeight(LOAD));
+        backButton = new Rectangle(TYPES_X, BACK_X, font.getWidth(BACK), font.getHeight(BACK));
     }
 
     @Override
@@ -62,19 +66,20 @@ public class EditorScreen extends BasicGameState {
         // render field types
         for (int i = 0; i < enums.length; i++) {
             if (!enums[i].equals(FieldType.BORDER)) {
-                TEXTURES.get(enums[i]).draw(TYPES_X, TYPES_Y + ((64  + TYPES_OFFSET) * i));
-                paramGraphics.drawString(enums[i].name(), TYPES_X + 1, TYPES_Y + ((64  + TYPES_OFFSET) * i));
+                TEXTURES.get(enums[i]).draw(TYPES_X, TYPES_Y + ((Map.FIELD_SIZE  + TYPES_OFFSET) * i));
+                paramGraphics.drawString(enums[i].name(), TYPES_X + 1, TYPES_Y + ((Map.FIELD_SIZE  + TYPES_OFFSET) * i));
             }
         }
         // render map
-        for (List<Field> fields : map.getMap()) {
+        for (List<Field> fields : Map.INSTANCE.getMap()) {
             for (Field field : fields) {
                 TEXTURES.get(field.getFieldType()).draw(field.x, field.y);
             }
         }
         // render save button
-        font.drawString(TYPES_X, 800, SAVE);
-        font.drawString(TYPES_X, 920, BACK);
+        font.drawString(TYPES_X, SAVE_X, SAVE);
+        font.drawString(TYPES_X, LOAD_X, LOAD);
+        font.drawString(TYPES_X, BACK_X, BACK);
     }
 
     @Override
@@ -84,11 +89,10 @@ public class EditorScreen extends BasicGameState {
         int mausX = input.getMouseX();
         int mausY = input.getMouseY();
 
-        if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            System.out.println(String.format("%d x %d", mausX, mausY));
+        if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 
             // check map
-            List<List<Field>> rows = map.getMap();
+            List<List<Field>> rows = Map.INSTANCE.getMap();
             for (int i = 0; i < rows.size(); i++) {
                 List<Field> columns = rows.get(i);
                 for (int j = 0; j < columns.size(); j++) {
@@ -110,9 +114,9 @@ public class EditorScreen extends BasicGameState {
 
             // check save button
             if (saveButton.contains(mausX, mausY)) {
-                if (map.saveMap()) {
-                    System.out.println("MAP SAVED");
-                }
+                game.enterState(States.SCREEN_SAVE);
+            } else if (loadButton.contains(mausX, mausY)) {
+                game.enterState(States.SCREEN_MAP_CHOOSING);
             } else if (backButton.contains(mausX, mausY)) {
                 game.enterState(States.SCREEN_MENU);
             }

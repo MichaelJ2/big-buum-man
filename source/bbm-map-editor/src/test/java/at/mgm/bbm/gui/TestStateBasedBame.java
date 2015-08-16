@@ -7,10 +7,12 @@ import org.newdawn.slick.AppGameContainer;
 public class TestStateBasedBame {
 
     @Test
-    public void testSTateBasedGame() {
+    public void testStateBasedGame() {
         try {
             AppGameContainer container = new AppGameContainer(new Application("Map Editor"));
-            container.setDisplayMode(1920, 1080, false);
+            container.setDisplayMode(1920, 1080, true);
+            container.setMinimumLogicUpdateInterval(25);
+            container.setTargetFrameRate(120);
             container.start();
         } catch (Exception e) {
             e.printStackTrace();

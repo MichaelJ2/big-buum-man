@@ -1,67 +1,103 @@
 package at.mgm.bbm.core.map;
 
 import at.mgm.bbm.core.Field;
+import at.mgm.bbm.core.FieldType;
 import at.mgm.bbm.core.fields.FieldFactory;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by admin on 14.08.2015.
- */
-public class Map {
+public enum Map {
 
-    private List<List<Field>> map = new ArrayList<List<Field>>();
+    INSTANCE;
 
-    private Map() {
-        //
-    }
+    private final int DEFAULT_START_X = 960 - (9 * FIELD_SIZE / 2);
+    private final int DEFAULT_START_Y = 540 - (9 * FIELD_SIZE / 2);
 
-    public Map(final File paramFile) {
-        readMap(paramFile);
-    }
+    public static final int FIELD_SIZE = 32;
+    private String mapName = "DEFAULT";
+
+    private final List<List<Field>> MAP = new ArrayList<List<Field>>();
 
     public List<List<Field>> getMap() {
-        return map;
+        if (MAP.isEmpty()) {
+            initDefaultMap();
+        }
+        return MAP;
     }
 
-    private void readMap(final File paramFile) {
+    public String getMapName() {
+        return mapName;
+    }
+
+    public boolean loadMap(final File paramFile, final int xOffset, final int yOffset) {
+
+        boolean result = false;
+
+        int rows = 0;
+        int columns;
 
         if (null == paramFile) {
-            map = DefaultMap.INSTANCE.DEFAULT;
-            return;
+            return result;
         }
 
         List<String> lines = new ArrayList<String>();
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(paramFile));
             String line;
+
             while ((line = br.readLine()) != null) {
                 lines.add(line);
+                rows++;
             }
+
+            columns = lines.get(0).split(",").length;
+
+            MAP.clear();
+
+            int xStartPoint = 960 - xOffset - (rows * FIELD_SIZE / 2);
+            int yStartPoint = 540 - yOffset - (columns * FIELD_SIZE / 2);
+
             for (int i = 0; i < lines.size(); i++) {
                 List<Field> fields = new ArrayList<Field>();
-                String[] columns = lines.get(i).split(",");
-                for (int j = 0; j < columns.length; j++) {
-                    fields.add(FieldFactory.getField(Integer.valueOf(columns[j]), i * j * 64, i * j * 64));
+                String[] field = lines.get(i).split(",");
+
+                for (int j = 0; j < field.length; j++) {
+                    fields.add(FieldFactory.getField(Integer.valueOf(field[j]), xStartPoint + (j * FIELD_SIZE), yStartPoint + (i * FIELD_SIZE)));
                 }
-                map.add(fields);
+
+                MAP.add(fields);
             }
+            mapName = paramFile.getName();
+            result = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return result;
     }
 
-    public boolean saveMap() {
+    public boolean saveMap(String paramName) {
+
+        boolean result = false;
+
+        if (!paramName.endsWith(".map.txt")) {
+            paramName += ".map.txt";
+        }
+
+        mapName = paramName;
+
+        System.out.println(String.format("Saving %s ...", paramName));
+
         try {
-            File file = new File("map.txt");
+            File file = new File(paramName);
             FileWriter fileWriter = new FileWriter(file);
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            for (List<Field> fields : map) {
+            for (List<Field> fields : MAP) {
                 for (Field field : fields) {
                     stringBuilder.append(field.getFieldType().ID);
                     stringBuilder.append(",");
@@ -77,11 +113,43 @@ public class Map {
             fileWriter.flush();
             fileWriter.close();
 
-            return true;
-        } catch (IOException e) {
+            result = true;
+        } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
+
+        return result;
+    }
+
+    private void initDefaultMap() {
+        List<Field> row = new ArrayList<Field>();
+
+        // 1st row
+        for (int i = 0; i < 9; i++) {
+            row.add(FieldFactory.getField(FieldType.BORDER, DEFAULT_START_X + (FIELD_SIZE * i), DEFAULT_START_Y));
+        }
+
+        MAP.add(row);
+        row = new ArrayList<Field>();
+
+        // next 7 rows
+        for (int i = 0; i < 7; i++) {
+            row.add(FieldFactory.getField(FieldType.BORDER, DEFAULT_START_X, DEFAULT_START_Y + (FIELD_SIZE * (i + 1))));
+            for (int j = 0; j < 7; j++) {
+                row.add(FieldFactory.getField(FieldType.GROUND, DEFAULT_START_X + (FIELD_SIZE * (j + 1)), DEFAULT_START_Y + (FIELD_SIZE * (i + 1))));
+            }
+            row.add(FieldFactory.getField(FieldType.BORDER, DEFAULT_START_X + (FIELD_SIZE * 8), DEFAULT_START_Y + (FIELD_SIZE * (i + 1))));
+
+            MAP.add(row);
+            row = new ArrayList<Field>();
+        }
+
+        // 9th row
+        for (int i = 0; i < 9; i++) {
+            row.add(FieldFactory.getField(FieldType.BORDER, DEFAULT_START_X + (FIELD_SIZE * i), DEFAULT_START_Y + (FIELD_SIZE * 8)));
+        }
+
+        MAP.add(row);
     }
 
 }

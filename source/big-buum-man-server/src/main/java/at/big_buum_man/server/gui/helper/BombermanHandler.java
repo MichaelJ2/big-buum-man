@@ -25,7 +25,7 @@ public class BombermanHandler
     		int x=0;
 	   		for(String o:s)
 	   		{
-		  		Wand w=new Wand(o);
+		  		Wand w=new Wand(Integer.valueOf(o));
 		  		x=x+Variables.BLOCKWIDTH;
 				if(o.equals("x"))
 		 		{

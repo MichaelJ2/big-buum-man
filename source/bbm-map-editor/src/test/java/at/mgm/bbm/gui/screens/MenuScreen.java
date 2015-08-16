@@ -18,9 +18,9 @@ public class MenuScreen extends BasicGameState {
     private Font font;
 
     private final String TITLE = "Big Buum Man - Map Editor";
-    private final String NEW_MAP = "1. New Map";
-    private final String LOAD_MAP = "2. Load Map";
-    private final String EXIT = "3. Exit";
+    private final String NEW_MAP = "New Map";
+    private final String LOAD_MAP = "Load Map";
+    private final String EXIT = "Exit";
 
     private final List<Entry> menu_entries = new ArrayList<Entry>();
 
@@ -58,22 +58,17 @@ public class MenuScreen extends BasicGameState {
             for (Entry entry : menu_entries) {
                 if (entry.checkCollision(mouseX, mouseY)) {
                     switch (entry.ID) {
-                        case States.ACTION_EXIT: paramGameContainer.exit();
-                            break;
                         case States.SCREEN_EDITOR: game.enterState(States.SCREEN_EDITOR);
                             break;
+                        case States.SCREEN_MAP_CHOOSING: game.enterState(States.SCREEN_MAP_CHOOSING);
+                            break;
+                        case States.ACTION_EXIT: paramGameContainer.exit();
+                            break;
                         default:
-                            System.out.println("Unknown Entry");
                             break;
                     }
-                    System.out.println("collision");
                 }
             }
-            System.out.println(String.format("%d x %d", mouseX, mouseY));
-        } else if (input.isKeyPressed(Input.KEY_1)) {
-            game.enterState(States.SCREEN_EDITOR);
-        } else if (input.isKeyPressed(Input.KEY_2)) {
-            game.enterState(States.SCREEN_EDITOR);
         } else if (input.isKeyPressed(Input.KEY_ESCAPE)) {
             paramGameContainer.exit();
         }

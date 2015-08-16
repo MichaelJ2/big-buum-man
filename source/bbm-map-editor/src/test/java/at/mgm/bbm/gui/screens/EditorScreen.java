@@ -5,6 +5,7 @@ import at.mgm.bbm.core.FieldType;
 import at.mgm.bbm.core.States;
 import at.mgm.bbm.core.fields.FieldFactory;
 import at.mgm.bbm.core.map.Map;
+import at.mgm.bbm.gui.Resources;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -55,7 +56,7 @@ public class EditorScreen extends BasicGameState {
                 FIELD_TYPES.put(enums[i], new Rectangle(TYPES_X, TYPES_Y + ((Map.FIELD_SIZE + TYPES_OFFSET) * i), Map.FIELD_SIZE, Map.FIELD_SIZE));
             }
         }
-        font = new AngelCodeFont("fonts/font.fnt", new Image("fonts/font.png"));
+        font = Resources.INSTANCE.font;
         saveButton = new Rectangle(TYPES_X, SAVE_X, font.getWidth(SAVE), font.getHeight(SAVE));
         loadButton = new Rectangle(TYPES_X, LOAD_X, font.getWidth(LOAD), font.getHeight(LOAD));
         backButton = new Rectangle(TYPES_X, BACK_X, font.getWidth(BACK), font.getHeight(BACK));
@@ -116,7 +117,7 @@ public class EditorScreen extends BasicGameState {
             if (saveButton.contains(mausX, mausY)) {
                 game.enterState(States.SCREEN_SAVE);
             } else if (loadButton.contains(mausX, mausY)) {
-                game.enterState(States.SCREEN_MAP_CHOOSING);
+                game.enterState(States.SCREEN_LOAD_MAP);
             } else if (backButton.contains(mausX, mausY)) {
                 game.enterState(States.SCREEN_MENU);
             }

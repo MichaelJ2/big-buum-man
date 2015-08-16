@@ -16,23 +16,35 @@ public class TestMap {
 
         System.out.println("# # #   T E S T I N G   M A P   O B J E C T   # # #");
 
+        System.out.println("Print 9x9 map:");
+        printMap();
+
+        System.out.println("Print 9x7 map:");
         Map.INSTANCE.loadMap(MAP_001, 0, 0);
 
         printMap();
 
+        System.out.println("Print 7x7 map:");
         Map.INSTANCE.loadMap(MAP_002, 0, 0);
+
+        printMap();
+
+        System.out.println("Print 3x5 map:");
+        Map.INSTANCE.createMap(3, 5, 0, 0);
+
+        printMap();
+
+        System.out.println("Print 11x9 map:");
+        Map.INSTANCE.createMap(11, 9, 0, 0);
 
         printMap();
     }
 
     private void printMap() {
 
-        List<List<Field>> result = Map.INSTANCE.getMap();
-
         StringBuilder sb = new StringBuilder();
 
-        System.out.println();
-        for (List<Field> row : result) {
+        for (List<Field> row : Map.INSTANCE.getMap()) {
             for (Field field : row) {
                 sb.append(field.getFieldType().ID + " ");
             }

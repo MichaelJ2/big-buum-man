@@ -3,6 +3,7 @@ package at.mgm.bbm.gui.screens;
 import at.mgm.bbm.core.FileUtils;
 import at.mgm.bbm.core.States;
 import at.mgm.bbm.core.map.Map;
+import at.mgm.bbm.gui.Resources;
 import at.mgm.bbm.gui.entries.Entry;
 import at.mgm.bbm.gui.entries.ListEntry;
 import org.newdawn.slick.*;
@@ -13,7 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapChoosingScreen extends BasicGameState {
+public class LoadMap extends BasicGameState {
 
     private final String TITLE = "Choose a map";
     private StateBasedGame game;
@@ -24,7 +25,7 @@ public class MapChoosingScreen extends BasicGameState {
 
     @Override
     public int getID() {
-        return States.SCREEN_MAP_CHOOSING;
+        return States.SCREEN_LOAD_MAP;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class MapChoosingScreen extends BasicGameState {
         File[] files = FileUtils.INSTANCE.getMaps(".");
 
         font  = paramGameContainer.getDefaultFont();
-        font2 = new AngelCodeFont("fonts/font.fnt", new Image("fonts/font.png"));
+        font2 = Resources.INSTANCE.font;
 
         int x = 100;
 

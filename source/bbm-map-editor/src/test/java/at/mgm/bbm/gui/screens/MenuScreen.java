@@ -1,6 +1,7 @@
 package at.mgm.bbm.gui.screens;
 
 import at.mgm.bbm.core.States;
+import at.mgm.bbm.gui.Resources;
 import at.mgm.bbm.gui.entries.Entry;
 import at.mgm.bbm.gui.entries.ExitEntry;
 import at.mgm.bbm.gui.entries.LoadMapEntry;
@@ -31,20 +32,19 @@ public class MenuScreen extends BasicGameState {
 
     @Override
     public void init(final GameContainer paramGameContainer, final StateBasedGame paramStateBasedGame) throws SlickException {
-        System.out.println("MenuScreen#init()");
         game = paramStateBasedGame;
-        font = new AngelCodeFont("fonts/font.fnt", new Image("fonts/font.png"));
-        menu_entries.add(new NewMapEntry((1920 / 2) - (font.getWidth(NEW_MAP) / 2), 400, font.getWidth(NEW_MAP), font.getHeight(NEW_MAP)));
-        menu_entries.add(new LoadMapEntry((1920 / 2) - (font.getWidth(LOAD_MAP) / 2), 550, font.getWidth(LOAD_MAP), font.getHeight(LOAD_MAP)));
-        menu_entries.add(new ExitEntry((1920 / 2) - (font.getWidth(EXIT) / 2), 700, font.getWidth(EXIT), font.getHeight(EXIT)));
+        font = Resources.INSTANCE.font;
+        menu_entries.add(new NewMapEntry(960 - (font.getWidth(NEW_MAP) / 2), 400, font.getWidth(NEW_MAP), font.getHeight(NEW_MAP)));
+        menu_entries.add(new LoadMapEntry(960 - (font.getWidth(LOAD_MAP) / 2), 550, font.getWidth(LOAD_MAP), font.getHeight(LOAD_MAP)));
+        menu_entries.add(new ExitEntry(960 - (font.getWidth(EXIT) / 2), 700, font.getWidth(EXIT), font.getHeight(EXIT)));
     }
 
     @Override
     public void render(final GameContainer paramGameContainer, final StateBasedGame paramStateBasedGame, final Graphics paramGraphics) throws SlickException {
-        font.drawString((1920 / 2) - (font.getWidth(TITLE) / 2), 100, TITLE);
-        font.drawString((1920 / 2) - (font.getWidth(NEW_MAP) / 2), 400, NEW_MAP);
-        font.drawString((1920 / 2) - (font.getWidth(LOAD_MAP) / 2), 550, LOAD_MAP);
-        font.drawString((1920 / 2) - (font.getWidth(EXIT) / 2), 700, EXIT);
+        font.drawString(960 - (font.getWidth(TITLE) / 2), 100, TITLE);
+        font.drawString(960 - (font.getWidth(NEW_MAP) / 2), 400, NEW_MAP);
+        font.drawString(960 - (font.getWidth(LOAD_MAP) / 2), 550, LOAD_MAP);
+        font.drawString(960 - (font.getWidth(EXIT) / 2), 700, EXIT);
     }
 
     @Override
@@ -58,9 +58,9 @@ public class MenuScreen extends BasicGameState {
             for (Entry entry : menu_entries) {
                 if (entry.checkCollision(mouseX, mouseY)) {
                     switch (entry.ID) {
-                        case States.SCREEN_EDITOR: game.enterState(States.SCREEN_EDITOR);
+                        case States.SCREEN_NEW_MAP: game.enterState(States.SCREEN_NEW_MAP);
                             break;
-                        case States.SCREEN_MAP_CHOOSING: game.enterState(States.SCREEN_MAP_CHOOSING);
+                        case States.SCREEN_LOAD_MAP: game.enterState(States.SCREEN_LOAD_MAP);
                             break;
                         case States.ACTION_EXIT: paramGameContainer.exit();
                             break;

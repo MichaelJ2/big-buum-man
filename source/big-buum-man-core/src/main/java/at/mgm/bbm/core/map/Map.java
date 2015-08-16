@@ -122,6 +122,15 @@ public enum Map {
     }
 
     private void initDefaultMap() {
+
+        createMap(9, 9, 0, 0);
+
+        if (true) {
+            return;
+        }
+
+        MAP.clear();
+
         List<Field> row = new ArrayList<Field>();
 
         // 1st row
@@ -150,6 +159,40 @@ public enum Map {
         }
 
         MAP.add(row);
+    }
+
+    public void createMap(final int paramXFieldCount, final int paramYFieldCount, final int paramXOffset, final int paramYOffset) {
+
+        MAP.clear();
+
+        int xStartPoint = 960 - paramXOffset - ((paramXFieldCount + 2) * FIELD_SIZE / 2);
+        int yStartPoint = 540 - paramYOffset - ((paramYFieldCount + 2) * FIELD_SIZE / 2);
+
+        List<Field> fields = new ArrayList<Field>();
+
+        // first row contains only borders
+        for (int i = 0; i < paramXFieldCount + 2; i++) {
+            fields.add(FieldFactory.getField(FieldType.BORDER, xStartPoint + (i * FIELD_SIZE), yStartPoint));
+        }
+        MAP.add(fields);
+
+        // all other rows start with a border field then are filled with ground fields and end with a border field
+        for (int i = 0; i < paramYFieldCount; i++) {
+            fields = new ArrayList<Field>();
+            fields.add(FieldFactory.getField(FieldType.BORDER, xStartPoint, yStartPoint + ((i + 1) * FIELD_SIZE)));
+            for (int j = 0; j < paramXFieldCount; j++) {
+                fields.add(FieldFactory.getField(FieldType.GROUND, xStartPoint + ((j + 1) * FIELD_SIZE), yStartPoint + ((i + 1) * FIELD_SIZE)));
+            }
+            fields.add(FieldFactory.getField(FieldType.BORDER, xStartPoint + ((paramXFieldCount + 1) * FIELD_SIZE), yStartPoint + ((i + 1) * FIELD_SIZE)));
+            MAP.add(fields);
+        }
+
+        // last row contains only borders
+        fields = new ArrayList<Field>();
+        for (int i = 0; i < paramXFieldCount + 2; i++) {
+            fields.add(FieldFactory.getField(FieldType.BORDER, xStartPoint + (i * FIELD_SIZE), yStartPoint + ((paramYFieldCount + 1) * FIELD_SIZE)));
+        }
+        MAP.add(fields);
     }
 
 }

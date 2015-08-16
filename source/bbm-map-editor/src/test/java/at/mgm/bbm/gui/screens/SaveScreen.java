@@ -2,6 +2,7 @@ package at.mgm.bbm.gui.screens;
 
 import at.mgm.bbm.core.States;
 import at.mgm.bbm.core.map.Map;
+import at.mgm.bbm.gui.Resources;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -17,23 +18,20 @@ public class SaveScreen extends BasicGameState {
     private final String SAVE = "save";
     private final String BACK = "back";
 
-    Shape save;
-    Shape back;
+    private Shape save;
+    private Shape back;
 
     private StateBasedGame game;
     private Font font;
     private TextField textField;
 
     private int TITLE_WIDTH = 0;
-    private int TITLE_HEIGHT = 0;
 
     private int SAVE_WIDTH = 0;
     private int SAVE_HEIGHT = 0;
 
     private int BACK_WIDTH = 0;
     private int BACK_HEIGHT = 0;
-
-    private boolean flag = true;
 
     @Override
     public int getID() {
@@ -50,12 +48,15 @@ public class SaveScreen extends BasicGameState {
     @Override
     public void init(final GameContainer paramGameContainer, final StateBasedGame paramStateBasedGame) throws SlickException {
         game = paramStateBasedGame;
-        font = new AngelCodeFont("fonts/font.fnt", new Image("fonts/font.png"));
+
+        font = Resources.INSTANCE.font;
+
         textField = new TextField(paramGameContainer, font, 100, 540, 1720 , 140);
+        textField.setBackgroundColor(Color.white);
+        textField.setBorderColor(Color.black);
         textField.setText(Map.INSTANCE.getMapName());
 
         TITLE_WIDTH = font.getWidth(TITLE);
-        TITLE_HEIGHT = font.getHeight(TITLE);
 
         SAVE_WIDTH = font.getWidth(SAVE);
         SAVE_HEIGHT = font.getHeight(SAVE);
@@ -76,7 +77,7 @@ public class SaveScreen extends BasicGameState {
     }
 
     @Override
-    public void update(GameContainer paramGameContainer, StateBasedGame paramStateBasedGame, int i) throws SlickException {
+    public void update(final GameContainer paramGameContainer, final StateBasedGame paramStateBasedGame, final int delta) throws SlickException {
         Input input = paramGameContainer.getInput();
 
         int mouseX = input.getMouseX();

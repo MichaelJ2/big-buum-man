@@ -10,7 +10,7 @@ public class TestStateBasedBame {
     public void testStateBasedGame() {
         try {
             AppGameContainer container = new AppGameContainer(new Application("Map Editor"));
-            container.setDisplayMode(1920, 1080, true);
+            container.setDisplayMode(1920, 1080, false);
             container.setMinimumLogicUpdateInterval(25);
             container.setTargetFrameRate(120);
             container.start();

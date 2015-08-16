@@ -10,8 +10,6 @@ import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.util.HashMap;
-
 public class SaveScreen extends BasicGameState {
 
     private final String TITLE = "Save map as:";

@@ -5,12 +5,15 @@ import at.mgm.bbm.core.FieldType;
 
 public class Wall extends Field {
 
-    public static final int ID = 1;
-    public static final String TEXTURE_PATH = "textures/wall.png";
+    public static final int ID = 3;
+    public static final String TEXTURE = "textures/wall.png";
     public static final boolean LOCKED = false;
-    public static final boolean DESTROYABLE = true;
+    public static final int DURABILITY = 1;
+    public static final boolean ACCEPT_PLAYER = false;
+    public static final boolean ACCEPT_FIRE = true;
+    public static final double SPEED = 0.0;
 
     protected Wall(final int paramX, final int paramY) {
-        super(FieldType.WALL, paramX, paramY);
+        super(FieldType.WALL, TEXTURE, LOCKED, DURABILITY, ACCEPT_PLAYER, ACCEPT_FIRE, SPEED, paramX, paramY);
     }
 }

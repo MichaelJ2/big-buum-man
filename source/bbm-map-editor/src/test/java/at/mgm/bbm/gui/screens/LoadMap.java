@@ -4,7 +4,6 @@ import at.mgm.bbm.core.FileUtils;
 import at.mgm.bbm.core.States;
 import at.mgm.bbm.core.map.Map;
 import at.mgm.bbm.gui.Resources;
-import at.mgm.bbm.gui.entries.Entry;
 import at.mgm.bbm.gui.entries.ListEntry;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -29,19 +28,24 @@ public class LoadMap extends BasicGameState {
     }
 
     @Override
-    public void init(final GameContainer paramGameContainer, final StateBasedGame paramStateBasedGame) throws SlickException {
-        game = paramStateBasedGame;
-
+    public void enter(GameContainer var1, StateBasedGame var2) throws SlickException {
         File[] files = FileUtils.INSTANCE.getMaps(".");
 
-        font  = paramGameContainer.getDefaultFont();
-        font2 = Resources.INSTANCE.font;
+        entries.clear();
 
         int x = 100;
 
         for (int i = 0; i < files.length; i++) {
             entries.add(new ListEntry(x, 300 + (20 * i), font.getWidth(files[i].getName()), font.getHeight(files[i].getName()), i, files[i]));
         }
+    }
+
+    @Override
+    public void init(final GameContainer paramGameContainer, final StateBasedGame paramStateBasedGame) throws SlickException {
+        game = paramStateBasedGame;
+
+        font  = paramGameContainer.getDefaultFont();
+        font2 = Resources.INSTANCE.font;
     }
 
     @Override

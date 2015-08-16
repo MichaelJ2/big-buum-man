@@ -6,14 +6,28 @@ import org.newdawn.slick.geom.Shape;
 
 public abstract class Field {
 
-    protected FieldType fieldType = null;
+    public FieldType fieldType;
+    public final int ID;
+    public final String texture;
+    public final boolean isLocked;
+    public int durability;
+    public final boolean acceptPlayer;
+    public final boolean acceptFire;
+    public final double walkSpeed;
 
     private Shape hitBox;
-    public int x;
-    public int y;
+    public final int x;
+    public final int y;
 
-    public Field(final FieldType paramFieldType, final int paramX, final int paramY) {
+    protected Field(final FieldType paramFieldType, final String paramTexture, final boolean paramLocked, final int paramDurability, final boolean paramAcceptPlayer, final boolean paramAcceptFire, final double paramWalkSpeed, final int paramX, final int paramY) {
         fieldType = paramFieldType;
+        ID = paramFieldType.ID;
+        texture = paramTexture;
+        isLocked = paramLocked;
+        durability = paramDurability;
+        acceptPlayer = paramAcceptPlayer;
+        acceptFire = paramAcceptFire;
+        walkSpeed = paramWalkSpeed;
         x = paramX;
         y = paramY;
         hitBox = new Rectangle(paramX, paramY, Map.FIELD_SIZE, Map.FIELD_SIZE);
@@ -23,7 +37,14 @@ public abstract class Field {
         return hitBox.contains(paramX, paramY);
     }
 
-    public FieldType getFieldType() {
-        return fieldType;
+    public void setDurability(final int paramDurability) {
+        durability = paramDurability;
+    }
+
+    public int decreaseDurability() {
+        if (durability > 0) {
+            durability--;
+        }
+        return durability;
     }
 }

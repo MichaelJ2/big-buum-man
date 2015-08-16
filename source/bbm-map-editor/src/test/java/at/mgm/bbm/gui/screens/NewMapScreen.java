@@ -22,6 +22,7 @@ public class NewMapScreen extends BasicGameState {
 
     private StateBasedGame game;
     private Font font;
+    private Font font2;
     private TextField xField;
     private TextField yField;
 
@@ -49,18 +50,19 @@ public class NewMapScreen extends BasicGameState {
         game = paramStateBasedGame;
 
         font = Resources.INSTANCE.font;
+        font2 = paramGameContainer.getDefaultFont();
 
-        xField = new TextField(paramGameContainer, font, 510, 540, 300 , 140);
+        xField = new TextField(paramGameContainer, font2, 510, 540, 300 , 140);
+        xField.setBackgroundColor(Color.black);
+        xField.setBorderColor(Color.white);
+        xField.setText("22");
+        xField.setMaxLength(2);
+
         yField = new TextField(paramGameContainer, font, 1060, 540, 300 , 140);
-
-        xField.setBackgroundColor(Color.white);
-        yField.setBackgroundColor(Color.white);
-
-        xField.setBorderColor(Color.black);
-        yField.setBorderColor(Color.black);
-
-        xField.setText("" + 9);
-        yField.setText("" + 9);
+        yField.setBackgroundColor(Color.black);
+        yField.setBorderColor(Color.white);
+        yField.setText("22");
+        yField.setMaxLength(2);
 
         TITLE_X = font.getWidth(TITLE) / 2;
 
@@ -72,23 +74,23 @@ public class NewMapScreen extends BasicGameState {
 
         X_X = font.getWidth(X) / 2;
 
-        REASON_X = font.getWidth(reason);
+        REASON_X = font.getWidth(reason) / 2;
 
-        ok = new Rectangle(1290 - (OK_X / 2), 800, OK_X, OK_Y);
-        back = new Rectangle(430 - (BACK_X / 2), 800, BACK_X, BACK_Y);
+        ok = new Rectangle(1260 - (OK_X / 2), 800, OK_X, OK_Y);
+        back = new Rectangle(660 - (BACK_X / 2), 800, BACK_X, BACK_Y);
     }
 
     @Override
-    public void render(final GameContainer paramGameContainer, final StateBasedGame paramStateBasedGame, Graphics paramGraphics) throws SlickException {
+    public void render(final GameContainer paramGameContainer, final StateBasedGame paramStateBasedGame, final Graphics paramGraphics) throws SlickException {
         xField.render(paramGameContainer, paramGraphics);
         yField.render(paramGameContainer, paramGraphics);
         font.drawString(960 - TITLE_X, 100, TITLE);
-        font.drawString(1290 - (OK_X / 2), 800, OK);
-        font.drawString(430 - (BACK_X / 2), 800, BACK);
+        font.drawString(1260 - (OK_X / 2), 800, OK);
+        font.drawString(660 - (BACK_X / 2), 800, BACK);
         font.drawString(960 - X_X, 540, X);
 
         if (invalid) {
-            font.drawString(1920 - REASON_X, 900, reason);
+            font.drawString(960 - REASON_X, 920, reason);
         }
     }
 
@@ -111,14 +113,12 @@ public class NewMapScreen extends BasicGameState {
         } else if (input.isKeyPressed(Input.KEY_ESCAPE)) {
             game.enterState(States.SCREEN_MENU);
         }
-
-        REASON_X = font.getWidth(reason);
     }
 
     private void createMap(final String paramX, final String paramY) {
         try {
-            int xx = Integer.valueOf(xField.getText());
-            int yy = Integer.valueOf(yField.getText());
+            int xx = Integer.valueOf(paramX);
+            int yy = Integer.valueOf(paramY);
             if (xx > 22 || yy > 22) {
                 reason = "max 22 fields";
                 invalid = true;
@@ -134,5 +134,6 @@ public class NewMapScreen extends BasicGameState {
             reason = "invalid input";
             invalid = true;
         }
+        REASON_X = font.getWidth(reason) / 2;
     }
 }

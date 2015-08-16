@@ -22,6 +22,18 @@ public class FieldFactory {
             case BORDER:
                 field = new Border(paramX, paramY);
                 break;
+            case WATER:
+                field = new Water(paramX, paramY);
+                break;
+            case ICE:
+                field = new Ice(paramX, paramY);
+                break;
+            case FENCE:
+                field = new Fence(paramX, paramY);
+                break;
+            case BARRIER:
+                field = new Barrier(paramX, paramY);
+                break;
             default:
                 field = new Wall(paramX, paramY);
                 break;
@@ -44,6 +56,18 @@ public class FieldFactory {
                 break;
             case Border.ID:
                 field = new Border(paramX, paramY);
+                break;
+            case Water.ID:
+                field = new Water(paramX, paramY);
+                break;
+            case Ice.ID:
+                field = new Ice(paramX, paramY);
+                break;
+            case Fence.ID:
+                field = new Fence(paramX, paramY);
+                break;
+            case Barrier.ID:
+                field = new Barrier(paramX, paramY);
                 break;
             default:
                 field = new Wall(paramX, paramY);

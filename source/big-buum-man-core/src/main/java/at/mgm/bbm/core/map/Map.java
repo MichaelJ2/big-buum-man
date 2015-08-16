@@ -99,7 +99,7 @@ public enum Map {
 
             for (List<Field> fields : MAP) {
                 for (Field field : fields) {
-                    stringBuilder.append(field.getFieldType().ID);
+                    stringBuilder.append(field.ID);
                     stringBuilder.append(",");
                 }
                 if (stringBuilder.length() > 0) {

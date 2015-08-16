@@ -1,25 +1,23 @@
 package at.mgm.bbm.core;
 
-import at.mgm.bbm.core.fields.Border;
-import at.mgm.bbm.core.fields.Ground;
-import at.mgm.bbm.core.fields.Spawn;
-import at.mgm.bbm.core.fields.Wall;
+import at.mgm.bbm.core.fields.*;
 
 public enum FieldType {
-    GROUND(Ground.ID, Ground.TEXTURE_PATH, Ground.LOCKED, Ground.DESTROYABLE),
-    WALL(Wall.ID, Wall.TEXTURE_PATH, Wall.LOCKED, Wall.DESTROYABLE),
-    SPAWN(Spawn.ID, Spawn.TEXTURE_PATH, Spawn.LOCKED, Spawn.DESTROYABLE),
-    BORDER(Border.ID, Border.TEXTURE_PATH, Border.LOCKED, Border.DESTROYABLE);
+
+    BORDER(Border.ID, Border.TEXTURE),
+    SPAWN(Spawn.ID, Spawn.TEXTURE),
+    GROUND(Ground.ID, Ground.TEXTURE),
+    WALL(Wall.ID, Wall.TEXTURE),
+    FENCE(Fence.ID, Fence.TEXTURE),
+    WATER(Water.ID, Water.TEXTURE),
+    ICE(Ice.ID, Ice.TEXTURE),
+    BARRIER(Barrier.ID, Barrier.TEXTURE);
 
     public final int ID;
-    public final String TEXTURE_PATH;
-    public final boolean LOCKED;
-    public final boolean DESTROYABLE;
+    public final String TEXTURE;
 
-    FieldType(final int paramID, final String paramTexture, final boolean paramLocked, final boolean paramDestroyable) {
-        ID = paramID;
-        TEXTURE_PATH = paramTexture;
-        LOCKED = paramLocked;
-        DESTROYABLE = paramDestroyable;
+    FieldType(final int paramId, final String paramTexture) {
+        ID = paramId;
+        TEXTURE = paramTexture;
     }
 }

@@ -14,8 +14,8 @@ public class Application extends StateBasedGame {
     public void initStatesList(final GameContainer paramGameContainer) throws SlickException {
         addState(new MenuScreen());
         addState(new LoadMap());
-        addState(new NewMapScreen());
         addState(new EditorScreen());
         addState(new SaveScreen());
+        addState(new NewMapScreen());
     }
 }

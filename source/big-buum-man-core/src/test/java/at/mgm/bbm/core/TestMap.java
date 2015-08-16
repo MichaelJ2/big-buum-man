@@ -46,7 +46,7 @@ public class TestMap {
 
         for (List<Field> row : Map.INSTANCE.getMap()) {
             for (Field field : row) {
-                sb.append(field.getFieldType().ID + " ");
+                sb.append(field.ID + " ");
             }
             System.out.println("\t" + sb.toString());
             sb.setLength(0);

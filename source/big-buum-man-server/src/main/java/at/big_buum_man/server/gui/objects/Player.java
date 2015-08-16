@@ -172,7 +172,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		
 		//System.out.println("UP: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
 		
-		if(mapn.get(ya).get(xa).getStein().equals("0"))
+		if(mapn.get(ya).get(xa).getStein() == 0)
 			point.setY(point.getY());
 		else
 			point.setY(point.getY()-Variables.BLOCKHEIGHT);
@@ -197,7 +197,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		
 		//System.out.println("DOWN: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
 		
-		if(mapn.get(ya).get(xa).getStein().equals("0"))
+		if(mapn.get(ya).get(xa).getStein() == 0)
 			point.setY(point.getY());
 		else
 			point.setY(point.getY()+Variables.BLOCKHEIGHT);
@@ -222,7 +222,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		
 		//System.out.println("RIGHT: x:"+xa+" y:"+ya+" | Playerx:"+x+" Playery:"+y);
 		
-		if(mapn.get(ya).get(xa).getStein().equals("0"))
+		if(mapn.get(ya).get(xa).getStein() == 0)
 			point.setX(point.getX());
 		else
 			point.setX(point.getX()+Variables.BLOCKWIDTH);
@@ -245,7 +245,7 @@ public class Player extends SpielObjekt implements Comparable<Player>
 		int ya=point.getBrettY();
 		int xa=point.getBrettX()-1;
 		//System.out.println("LEFT: x:"+xa+" y:"+ya +" | Playerx:"+x+" Playery:"+y);
-		if(mapn.get(ya).get(xa).getStein().equals("0"))
+		if(mapn.get(ya).get(xa).getStein() == 0)
 			point.setX(point.getX());
 		else
 			point.setX(point.getX()-Variables.BLOCKWIDTH);

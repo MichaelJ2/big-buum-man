@@ -216,7 +216,7 @@ public class StartSeite extends BasicGame
 		int buttonround = 10;
 		
 		g.setColor(Variables.white);
-		g.fillRect(breite_10+1, hoehe_10+1, Variables.WIDTH/100*80 ,Variables.HEIGHT/100*80);
+		g.fillRect(breite_10 + 1, hoehe_10 + 1, Variables.WIDTH / 100 * 80, Variables.HEIGHT / 100 * 80);
 		
 		g.setColor(Variables.red);
 		g.fillRoundRect(positionleft, positiontop-5, buttonbreite, buttonhoehe, buttonround);
@@ -228,7 +228,7 @@ public class StartSeite extends BasicGame
 		g.fillRoundRect(positionleft, positiontop+(valueadd*2)-5, buttonbreite, buttonhoehe, buttonround);
 		
 		g.setColor(Variables.red);
-		g.fillRoundRect(positionleft, positiontop+(valueadd*3)-5, buttonbreite, buttonhoehe, buttonround);
+		g.fillRoundRect(positionleft, positiontop + (valueadd * 3) - 5, buttonbreite, buttonhoehe, buttonround);
 		
 		g.setColor(Variables.red);
 		g.fillRoundRect(positionleft, positiontop+(valueadd*4)-5, buttonbreite, buttonhoehe, buttonround);
@@ -238,12 +238,12 @@ public class StartSeite extends BasicGame
 		g.setColor(Variables.black);
 		trueTypeFont.drawString(positionleft, positiontop,"Spiel Start", Variables.black);
 		trueTypeFont.drawString(positionleft, positiontop+valueadd,"Einstellungen", Variables.black);
-		trueTypeFont.drawString(positionleft, positiontop+valueadd*2,"Impressum", Variables.black);
+		trueTypeFont.drawString(positionleft, positiontop + valueadd * 2, "Impressum", Variables.black);
 		trueTypeFont.drawString(positionleft, positiontop+valueadd*3,"Help", Variables.black);
 		trueTypeFont.drawString(positionleft, positiontop+valueadd*4,"Spiel beenden", Variables.black);
 		
 		g.setColor(Variables.red);
-		g.fillRoundRect(500-20, 130-5, 600, 440, 10);
+		g.fillRoundRect(500 - 20, 130 - 5, 600, 440, 10);
 		
 		positionleft = 510-20;
 		switch(pos)
@@ -371,7 +371,7 @@ public class StartSeite extends BasicGame
 		   	int xa=0;
      	   		for(String o:s)
      	   		{
-     		  		Wand wa=new Wand(o);
+     		  		Wand wa=new Wand(Integer.valueOf(o));
      		  		xa=xa+2;
      		  		hl.add(wa);
      	   		}
@@ -389,66 +389,56 @@ public class StartSeite extends BasicGame
 		   float yx=0+x;
      	   for(Wand b:v)
      	   {
-     		  if(b.getStein().equals("0"))
-     		  {
-     			 g.setColor(Variables.gray);
-     			 g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		     			  
-     		  }
-     		  else if(b.getStein().equals("1"))
-     		  {
-     			 g.setColor(Variables.green);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);			  
-     		  }
-     		  else if(b.getStein().equals("2"))
-     		  {
-     			 g.setColor(Variables.red);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		    			  
-     		  }
-     		  else if(b.getStein().equals("3"))
-     		  {
-     			 g.setColor(Variables.blue);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);					  
-     		  }
-     		  else if(b.getStein().equals("4"))
-     		  {
-     			 g.setColor(Variables.white);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);					  
-     		  }
-     		  else if(b.getStein().equals("5"))
-     		  {
-     			 g.setColor(Variables.yellow);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		   			  
-     		  }
-     		  else if(b.getStein().equals("6"))
-     		  {
-     			 g.setColor(Variables.white);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		  			  
-     		  }
-     		  else if(b.getStein().equals("7"))
-     		  {
-     			 g.setColor(Variables.magenta);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		     			  
-     		  }
-     		  else if(b.getStein().equals("8"))
-     		  {
-     			 g.setColor(Variables.blue);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		 			  
-     		  }
-     		  else if(b.getStein().equals("9"))
-     		  {
-     			 g.setColor(Variables.red);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		   			  
-     		  }
-     		 else if(b.getStein().equals("x"))
-     		 {
-     			 g.setColor(Variables.green);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);	
-     		 }
-     		 else
-     		 {
-     			 g.setColor(Variables.darkGray);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		
-     		 }
+               switch (b.getStein()) {
+                   case 0:
+                       g.setColor(Variables.gray);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 1:
+                       g.setColor(Variables.green);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 2:
+                       g.setColor(Variables.red);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 3:
+                       g.setColor(Variables.blue);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 4:
+                       g.setColor(Variables.white);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 5:
+                       g.setColor(Variables.yellow);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 6:
+                       g.setColor(Variables.white);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 7:
+                       g.setColor(Variables.magenta);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 8:
+                       g.setColor(Variables.blue);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 9:
+                       g.setColor(Variables.red);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case -1:
+                       g.setColor(Variables.green);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   default:
+                       g.setColor(Variables.darkGray);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+               }
      		  yx=yx+breite;
      	   }
      	   y=y+hoehe;
@@ -485,7 +475,7 @@ public class StartSeite extends BasicGame
 			int xa=0;
 		     	for(String o:s)
 		     	{
-				Wand wa=new Wand(o);
+				Wand wa=new Wand(Integer.valueOf(o));
 		     		xa=xa+2;
 		     		hl.add(wa);
 		     	}
@@ -503,66 +493,56 @@ public class StartSeite extends BasicGame
 		   float yx=0+x;
      	   for(Wand b:v)
      	   {
-     		  if(b.getStein().equals("0"))
-     		  {
-     			 g.setColor(Variables.gray);
-     			 g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		     			  
-     		  }
-     		  else if(b.getStein().equals("1"))
-     		  {
-     			 g.setColor(Variables.green);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);			  
-     		  }
-     		  else if(b.getStein().equals("2"))
-     		  {
-     			 g.setColor(Variables.red);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		    			  
-     		  }
-     		  else if(b.getStein().equals("3"))
-     		  {
-     			 g.setColor(Variables.blue);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);					  
-     		  }
-     		  else if(b.getStein().equals("4"))
-     		  {
-     			 g.setColor(Variables.white);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);					  
-     		  }
-     		  else if(b.getStein().equals("5"))
-     		  {
-     			 g.setColor(Variables.yellow);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		   			  
-     		  }
-     		  else if(b.getStein().equals("6"))
-     		  {
-     			 g.setColor(Variables.white);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		  			  
-     		  }
-     		  else if(b.getStein().equals("7"))
-     		  {
-     			 g.setColor(Variables.magenta);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		     			  
-     		  }
-     		  else if(b.getStein().equals("8"))
-     		  {
-     			 g.setColor(Variables.blue);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		 			  
-     		  }
-     		  else if(b.getStein().equals("9"))
-     		  {
-     			 g.setColor(Variables.red);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		   			  
-     		  }
-     		 else if(b.getStein().equals("x"))
-     		 {
-     			 g.setColor(Variables.black);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);	
-     		 }
-     		 else
-     		 {
-     			 g.setColor(Variables.darkGray);
-     			g.fillRect(yx+breite,y+hoehe,breite ,hoehe);		
-     		 }
+               switch (b.getStein()) {
+                   case 0:
+                       g.setColor(Variables.gray);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 1:
+                       g.setColor(Variables.green);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 2:
+                       g.setColor(Variables.red);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 3:
+                       g.setColor(Variables.blue);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 4:
+                       g.setColor(Variables.white);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 5:
+                       g.setColor(Variables.yellow);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 6:
+                       g.setColor(Variables.white);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 7:
+                       g.setColor(Variables.magenta);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 8:
+                       g.setColor(Variables.blue);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case 9:
+                       g.setColor(Variables.red);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   case -1:
+                       g.setColor(Variables.green);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+                   default:
+                       g.setColor(Variables.darkGray);
+                       g.fillRect(yx+breite,y+hoehe,breite ,hoehe);
+                       break;
+               }
      		  yx=yx+breite;
      	   }
      	   y=y+hoehe;

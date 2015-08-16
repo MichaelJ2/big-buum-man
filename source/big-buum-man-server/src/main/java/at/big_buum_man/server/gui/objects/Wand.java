@@ -13,43 +13,51 @@ import at.big_buum_man.server.gui.helper.Variables;
  */
 public class Wand extends SpielObjekt
 {
-	private String stein;
-	private Integer haltbarkeit;
+	private int stein;
+	private int haltbarkeit;
 	
-	public Wand(Image image, String stein) 
+	public Wand(Image image, int paramStein)
 	{
 		super(image);
 		super.setObjectName("Wand");
-		this.stein=stein;
+		stein = paramStein;
 	}
 	
-	public Wand(String stein)
+	public Wand(int paramStein)
 	{
-		this.stein=stein;
+		stein = paramStein;
 		setObjectName("Wand");
 	}
 	
 	@Override
 	public void draw(Graphics g) 
 	{
-		if(this.getStein().equals("0"))
-		{
-			try { super.setImage(new Image(Variables.res+"walls.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT)); } 
-			catch (SlickException e) { e.printStackTrace();	}
-		}
-		else if(this.getStein().equals("1"))
-		{
-			try { super.setImage(new Image(Variables.res+"walls.png").getSubImage(375,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT)); } 
-			catch (SlickException e) { e.printStackTrace(); }
-		}
-		else 
-		{
-			try { super.setImage(new Image(Variables.res+"saeule.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT)); } 
-			catch (SlickException e) { 	e.printStackTrace(); }
-		}
+        switch (stein) {
+            case 0:
+                try {
+                    super.setImage(new Image(Variables.res+"walls.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT));
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 1:
+                try {
+                    super.setImage(new Image(Variables.res+"walls.png").getSubImage(375,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT));
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                try {
+                    super.setImage(new Image(Variables.res+"saeule.png").getSubImage(0,0,Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT));
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
 		image.draw(point.getX(),point.getY());
 		g.setColor(Color.green);
-		g.drawRect(point.getX(),point.getY(), Variables.BLOCKWIDTH,Variables.BLOCKHEIGHT);
+		g.drawRect(point.getX(), point.getY(), Variables.BLOCKWIDTH, Variables.BLOCKHEIGHT);
 	}
 	
 	@Override
@@ -58,17 +66,17 @@ public class Wand extends SpielObjekt
 		
 	}
 	
-	public String getStein()
+	public int getStein()
 	{
-		return this.stein;
+		return stein;
 	}
 	
-	public void setStein(String stein)
+	public void setStein(int paramStein)
 	{
-		this.stein=stein;
+		stein = paramStein;
 	}
 	
-	public Integer getHaltbarkeit() 
+	public int getHaltbarkeit()
 	{
 		return haltbarkeit;
 	}

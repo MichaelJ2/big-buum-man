@@ -80,7 +80,7 @@ public class GameHandler
 			
 			for(int px=0;px<Variables.cols;px++)
 				for(int py=0;py<Variables.rows;py++)
-					if(vl.get(py).get(px).getStein().equals("x"))
+					if(vl.get(py).get(px).getStein() == -1)
 						{
 						Point point= new Point(	Variables.xleft+px*Variables.BLOCKWIDTH+Variables.BLOCKWIDTH,
 												Variables.xleft+px*Variables.BLOCKWIDTH+Variables.BLOCKWIDTH,
@@ -203,7 +203,7 @@ public class GameHandler
 				Random ray= new Random();
 				int ry = ray.nextInt(Variables.rows);
 				
-				if(!vl.get(ry).get(rx).getStein().equals("0"))
+				if(vl.get(ry).get(rx).getStein() != 0)
 				{
 					Powerup powerup=new Powerup(ipower);
 					powerup.setSystemZeit(System.currentTimeMillis());
@@ -261,7 +261,7 @@ public class GameHandler
 				
 				Random ray= new Random();
 				int ry = ray.nextInt(Variables.rows);
-				if(!vl.get(ry).get(rx).getStein().equals("0"))
+				if(vl.get(ry).get(rx).getStein() != 0)
 				{
 					Powerdown powerdown=new Powerdown(iminder);
 					powerdown.setSystemZeit(System.currentTimeMillis());
@@ -293,7 +293,7 @@ public class GameHandler
     		int x=0;
 	   		for(String o:s)
 	   		{
-		  		Wand w=new Wand(o);
+		  		Wand w=new Wand(Integer.valueOf(o));
 		  		x=x+Variables.BLOCKWIDTH;
 				if(o.equals("x"))
 		 		{
@@ -417,32 +417,44 @@ public class GameHandler
 			int x=0+Variables.xleft;
 	     	   	for(Wand h:v)
 	     	   	{
-		     		  if(h.getStein().equals("0"))
-		     			  g.setColor(Variables.gray);
-		     		  else if(h.getStein().equals("1"))
-		     			  g.setColor(Variables.green);
-		     		  else if(h.getStein().equals("2"))
-		     			  g.setColor(Variables.red);
-		     		  else if(h.getStein().equals("3"))
-		     			  g.setColor(Variables.blue);
-		     		  else if(h.getStein().equals("4"))
-		     			  g.setColor(Variables.white);
-		     		  else if(h.getStein().equals("5"))
-		     			  g.setColor(Variables.yellow);
-		     		  else if(h.getStein().equals("6"))
-		     			  g.setColor(Variables.white);
-		     		  else if(h.getStein().equals("7"))
-		    			  g.setColor(Variables.magenta);
-		     		  else if(h.getStein().equals("8"))
-		    			  g.setColor(Variables.blue);
-		     		  else if(h.getStein().equals("9"))
-		     			  g.setColor(Variables.red);
-		     		 else if(h.getStein().equals("x"))
-		     		 {
-		      			  g.setColor(Variables.green);
-		     		 }
-	 		   		else
-		 			  g.setColor(Variables.darkGray);
+                    switch (h.getStein()) {
+                        case 0:
+                            g.setColor(Variables.gray);
+                            break;
+                        case 1:
+                            g.setColor(Variables.green);
+                            break;
+                        case 2:
+                            g.setColor(Variables.red);
+                            break;
+                        case 3:
+                            g.setColor(Variables.blue);
+                            break;
+                        case 4:
+                            g.setColor(Variables.white);
+                            break;
+                        case 5:
+                            g.setColor(Variables.yellow);
+                            break;
+                        case 6:
+                            g.setColor(Variables.white);
+                            break;
+                        case 7:
+                            g.setColor(Variables.magenta);
+                            break;
+                        case 8:
+                            g.setColor(Variables.blue);
+                            break;
+                        case 9:
+                            g.setColor(Variables.red);
+                            break;
+                        case -1:
+                            g.setColor(Variables.green);
+                            break;
+                        default:
+                            g.setColor(Variables.darkGray);
+                            break;
+                    }
 		     		  
 		     		  Point point = new Point(x,y,Variables.xleft,Variables.ytop);
 		     		  h.setPoint(point);
@@ -578,11 +590,11 @@ public class GameHandler
 					}
 				}
 				
-				if(vl.get(y-i).get(x).getStein().equals("0")&&side1==0) 
+				if(vl.get(y-i).get(x).getStein() == 0 && side1 == 0)
 				{
 					b.getBesitzer().plus();
 					side1=1;
-					vl.get(y-i).get(x).setStein(1+"");
+					vl.get(y-i).get(x).setStein(1);
 				}
 			}
 			
@@ -601,11 +613,11 @@ public class GameHandler
 					}
 				}
 				
-				if(vl.get(y+i).get(x).getStein().equals("0")&&side2==0)
+				if(vl.get(y+i).get(x).getStein()==1&&side2==0)
 				{
 					b.getBesitzer().plus();
 					side2=1;
-					vl.get(y+i).get(x).setStein(1+"");
+					vl.get(y+i).get(x).setStein(1);
 				}
 			}
 			
@@ -624,11 +636,11 @@ public class GameHandler
 					}
 				}
 				
-				if(vl.get(y).get(x-i).getStein().equals("0")&&side3==0)
+				if(vl.get(y).get(x-i).getStein()==0&&side3==0)
 				{
 					b.getBesitzer().plus();
 					side3=1;
-					vl.get(y).get(x-i).setStein(1+"");
+					vl.get(y).get(x-i).setStein(1);
 				}
 			}
 			
@@ -647,11 +659,11 @@ public class GameHandler
 					}
 				}
 				
-				if(vl.get(y).get(x+i).getStein().equals("0")&&side4==0)
+				if(vl.get(y).get(x+i).getStein()==0&&side4==0)
 				{
 					b.getBesitzer().plus();
 					side4=1;
-					vl.get(y).get(x+i).setStein(1+"");
+					vl.get(y).get(x+i).setStein(1);
 				}
 			}			
 		}

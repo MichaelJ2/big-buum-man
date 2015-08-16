@@ -15,8 +15,7 @@ public class Main
 	 */
 	public static void main(String[] args) throws SlickException 
 	{
-		StartSeite ss = new StartSeite();
-		AppGameContainer container = new AppGameContainer(ss);
+		AppGameContainer container = new AppGameContainer(new StartSeite());
 		container.setDisplayMode(Variables.WIDTH, Variables.HEIGHT, true);
 		container.setClearEachFrame(true);
 		container.setMinimumLogicUpdateInterval(25);

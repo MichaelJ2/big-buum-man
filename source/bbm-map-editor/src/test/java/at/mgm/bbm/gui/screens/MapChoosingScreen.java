@@ -67,6 +67,8 @@ public class MapChoosingScreen extends BasicGameState {
                     game.enterState(States.SCREEN_EDITOR);
                 }
             }
+        } else if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+            game.enterState(States.SCREEN_MENU);
         }
     }
 }

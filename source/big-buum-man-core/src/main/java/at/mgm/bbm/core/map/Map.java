@@ -12,9 +12,6 @@ public enum Map {
 
     INSTANCE;
 
-    private final int DEFAULT_START_X = 960 - (9 * FIELD_SIZE / 2);
-    private final int DEFAULT_START_Y = 540 - (9 * FIELD_SIZE / 2);
-
     public static final int FIELD_SIZE = 32;
     private String mapName = "DEFAULT";
 

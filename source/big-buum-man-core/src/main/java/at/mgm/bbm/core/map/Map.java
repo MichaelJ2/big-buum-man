@@ -122,43 +122,7 @@ public enum Map {
     }
 
     private void initDefaultMap() {
-
         createMap(9, 9, 0, 0);
-
-        if (true) {
-            return;
-        }
-
-        MAP.clear();
-
-        List<Field> row = new ArrayList<Field>();
-
-        // 1st row
-        for (int i = 0; i < 9; i++) {
-            row.add(FieldFactory.getField(FieldType.BORDER, DEFAULT_START_X + (FIELD_SIZE * i), DEFAULT_START_Y));
-        }
-
-        MAP.add(row);
-        row = new ArrayList<Field>();
-
-        // next 7 rows
-        for (int i = 0; i < 7; i++) {
-            row.add(FieldFactory.getField(FieldType.BORDER, DEFAULT_START_X, DEFAULT_START_Y + (FIELD_SIZE * (i + 1))));
-            for (int j = 0; j < 7; j++) {
-                row.add(FieldFactory.getField(FieldType.GROUND, DEFAULT_START_X + (FIELD_SIZE * (j + 1)), DEFAULT_START_Y + (FIELD_SIZE * (i + 1))));
-            }
-            row.add(FieldFactory.getField(FieldType.BORDER, DEFAULT_START_X + (FIELD_SIZE * 8), DEFAULT_START_Y + (FIELD_SIZE * (i + 1))));
-
-            MAP.add(row);
-            row = new ArrayList<Field>();
-        }
-
-        // 9th row
-        for (int i = 0; i < 9; i++) {
-            row.add(FieldFactory.getField(FieldType.BORDER, DEFAULT_START_X + (FIELD_SIZE * i), DEFAULT_START_Y + (FIELD_SIZE * 8)));
-        }
-
-        MAP.add(row);
     }
 
     public void createMap(final int paramXFieldCount, final int paramYFieldCount, final int paramXOffset, final int paramYOffset) {

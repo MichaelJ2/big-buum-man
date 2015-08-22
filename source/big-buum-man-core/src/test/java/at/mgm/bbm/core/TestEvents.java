@@ -20,6 +20,8 @@ public class TestEvents {
         player.placeBomb();
         player.placeBomb();
 
+        Assert.assertEquals(ObjectMap.INSTANCE.getObjectCount(), 1);
+
         Assert.assertTrue(ObjectMap.INSTANCE.isTaken(PLAYER_X, PLAYER_Y));
         final DisplayObject object = ObjectMap.INSTANCE.getObject(PLAYER_X, PLAYER_Y);
         Assert.assertEquals(object.objectType, GameObjectType.BOMB);

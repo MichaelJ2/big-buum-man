@@ -18,17 +18,21 @@ public enum ObjectMap {
 
     private final List<DisplayObject> displayObjectList;
 
+    public int getObjectCount() {
+        return this.displayObjectList.size();
+    }
+
     public boolean addObject(final DisplayObject paramDisplayObject) {
         boolean success = false;
-        if (null != paramDisplayObject && !isTaken(paramDisplayObject.x, paramDisplayObject.y)) {
-            displayObjectList.add(paramDisplayObject);
+        if (null != paramDisplayObject && !this.isTaken(paramDisplayObject.x, paramDisplayObject.y)) {
+            this.displayObjectList.add(paramDisplayObject);
             success = true;
         }
         return success;
     }
 
     public DisplayObject getObject(final int paramX, final int paramY) {
-        for (final DisplayObject displayObject : displayObjectList) {
+        for (final DisplayObject displayObject : this.displayObjectList) {
             if (displayObject.x == paramX && displayObject.y == paramY) {
                 return displayObject;
             }
@@ -37,15 +41,15 @@ public enum ObjectMap {
     }
 
     public void removeObject(final int paramX, final int paramY) {
-        for (final DisplayObject displayObject : displayObjectList) {
+        for (final DisplayObject displayObject : this.displayObjectList) {
             if (displayObject.x == paramX && displayObject.y == paramY) {
-                displayObjectList.remove(displayObject);
+                this.displayObjectList.remove(displayObject);
             }
         }
     }
 
     public boolean isTaken(final int paramX, final int paramY) {
-        for (final DisplayObject displayObject : displayObjectList) {
+        for (final DisplayObject displayObject : this.displayObjectList) {
             if (displayObject.x == paramX && displayObject.y == paramY) {
                 return true;
             }
@@ -54,7 +58,7 @@ public enum ObjectMap {
     }
 
     public synchronized void removeObject(final DisplayObject paramDisplayObject) {
-        displayObjectList.remove(paramDisplayObject);
+        this.displayObjectList.remove(paramDisplayObject);
     }
 
     public void movePlayer(final Player paramPlayer, final int paramHorizontalSteps, final int paramVerticalSteps) {

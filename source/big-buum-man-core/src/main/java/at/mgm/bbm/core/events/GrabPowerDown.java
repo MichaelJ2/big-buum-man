@@ -23,7 +23,7 @@ public class GrabPowerDown extends Event {
         final Player player = this.player;
 
         // reset player's stats
-        Runnable runnable = new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -40,8 +40,7 @@ public class GrabPowerDown extends Event {
                     player.bombRange = Bomb.RANGE_DEFAULT;
                 }
             }
-        };
-        runnable.run();
+        }).start();
 
         // remove object from map
         ObjectMap.INSTANCE.removeObject(this.powerDown);

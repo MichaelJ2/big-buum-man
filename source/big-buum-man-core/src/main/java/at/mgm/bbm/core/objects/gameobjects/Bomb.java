@@ -26,7 +26,7 @@ public class Bomb extends DisplayObject {
     public void activate() {
         final Bomb bomb = this;
         // create new thread which executes the timer and detonation in background
-        Runnable runnable = new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -40,7 +40,6 @@ public class Bomb extends DisplayObject {
                     ObjectMap.INSTANCE.removeObject(bomb);
                 }
             }
-        };
-        runnable.run();
+        }).start();
     }
 }

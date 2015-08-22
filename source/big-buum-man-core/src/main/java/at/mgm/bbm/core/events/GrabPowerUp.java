@@ -21,7 +21,7 @@ public class GrabPowerUp extends Event {
         this.player.bombRange = Bomb.RANGE_MAX;
         final Player player = this.player;
         // update player's stats
-        Runnable runnable = new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -38,7 +38,6 @@ public class GrabPowerUp extends Event {
                     player.bombRange = Bomb.RANGE_DEFAULT;
                 }
             }
-        };
-        runnable.run();
+        }).start();
     }
 }

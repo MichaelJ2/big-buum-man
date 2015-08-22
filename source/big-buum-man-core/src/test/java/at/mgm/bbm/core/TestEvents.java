@@ -2,7 +2,6 @@ package at.mgm.bbm.core;
 
 import at.mgm.bbm.core.map.ObjectMap;
 import at.mgm.bbm.core.objects.DisplayObject;
-import at.mgm.bbm.core.objects.gameobjects.Bomb;
 import at.mgm.bbm.core.objects.gameobjects.GameObjectType;
 import at.mgm.bbm.core.objects.gameobjects.Player;
 import org.junit.Assert;
@@ -15,16 +14,11 @@ public class TestEvents {
 
     @Test
     public void testBombEvent() {
-        boolean testEventBased = true;
-
         Player player = new Player(PLAYER_X, PLAYER_Y);
-        if (testEventBased) {
-            player.placeBomb();
-        } else {
-            Bomb bomb = new Bomb(player);
-            bomb.activate();
-            Assert.assertTrue(ObjectMap.INSTANCE.addObject(bomb));
-        }
+        player.placeBomb();
+        player.placeBomb();
+        player.placeBomb();
+        player.placeBomb();
 
         Assert.assertTrue(ObjectMap.INSTANCE.isTaken(PLAYER_X, PLAYER_Y));
         final DisplayObject object = ObjectMap.INSTANCE.getObject(PLAYER_X, PLAYER_Y);
@@ -34,7 +28,8 @@ public class TestEvents {
             Thread.sleep(2010);
             Assert.assertFalse(ObjectMap.INSTANCE.isTaken(PLAYER_X, PLAYER_Y));
         } catch (final InterruptedException e) {
-
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
         }
     }
 }

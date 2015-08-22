@@ -1,5 +1,6 @@
 package at.mgm.bbm.core;
 
+import at.mgm.bbm.core.utils.FileUtils;
 import org.junit.Test;
 
 import java.io.File;

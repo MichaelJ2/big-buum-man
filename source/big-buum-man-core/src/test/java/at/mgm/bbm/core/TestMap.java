@@ -1,6 +1,9 @@
 package at.mgm.bbm.core;
 
-import at.mgm.bbm.core.map.Map;
+import at.mgm.bbm.core.map.VMap;
+import at.mgm.bbm.core.objects.fields.Field;
+import at.mgm.bbm.core.objects.fields.FieldFactory;
+import at.mgm.bbm.core.objects.fields.FieldType;
 import org.junit.Test;
 
 import java.io.File;
@@ -10,43 +13,32 @@ public class TestMap {
 
     private static final File MAP_001 = new File("src/test/resources/map-test-001.map.txt");
     private static final File MAP_002 = new File("src/test/resources/map-test-002.map.txt");
+    private static final String MAP_003 = "map-test-003.map.txt";
 
     @Test
     public void testMap() {
-
         System.out.println("# # #   T E S T I N G   M A P   O B J E C T   # # #");
 
-        System.out.println("Print 9x9 map:");
         printMap();
 
-        System.out.println("Print 9x7 map:");
-        Map.INSTANCE.loadMap(MAP_001, 0, 0);
-
-        printMap();
-
-        System.out.println("Print 7x7 map:");
-        Map.INSTANCE.loadMap(MAP_002, 0, 0);
+        VMap.INSTANCE.loadMap(5, 10);
 
         printMap();
 
-        System.out.println("Print 3x5 map:");
-        Map.INSTANCE.createMap(3, 5, 0, 0);
+        VMap.INSTANCE.saveMap(MAP_003);
 
-        printMap();
-
-        System.out.println("Print 11x9 map:");
-        Map.INSTANCE.createMap(11, 9, 0, 0);
+        VMap.INSTANCE.loadMap(new File(MAP_003));
 
         printMap();
     }
 
     private void printMap() {
+        final StringBuilder sb = new StringBuilder();
+        final Field[][] map = VMap.INSTANCE.virtualMap;
 
-        StringBuilder sb = new StringBuilder();
-
-        for (List<Field> row : Map.INSTANCE.getMap()) {
-            for (Field field : row) {
-                sb.append(field.ID + " ");
+        for (final Field[] y : map) {
+            for (final Field x : y) {
+                sb.append(x.ID + " ");
             }
             System.out.println("\t" + sb.toString());
             sb.setLength(0);

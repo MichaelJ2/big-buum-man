@@ -1,6 +1,4 @@
-package at.mgm.bbm.core;
-
-import at.mgm.bbm.core.fields.*;
+package at.mgm.bbm.core.objects.fields;
 
 public enum FieldType {
 

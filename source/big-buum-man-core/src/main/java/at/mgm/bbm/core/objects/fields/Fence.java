@@ -1,7 +1,4 @@
-package at.mgm.bbm.core.fields;
-
-import at.mgm.bbm.core.Field;
-import at.mgm.bbm.core.FieldType;
+package at.mgm.bbm.core.objects.fields;
 
 public class Fence extends Field {
 
@@ -13,7 +10,7 @@ public class Fence extends Field {
     public static final boolean ACCEPT_FIRE = true;
     public static final double SPEED = 0.0;
 
-    protected Fence(final int paramX, final int paramY) {
-        super(FieldType.FENCE, TEXTURE, LOCKED, DURABILITY, ACCEPT_PLAYER, ACCEPT_FIRE, SPEED, paramX, paramY);
+    protected Fence() {
+        super(FieldType.FENCE, TEXTURE, LOCKED, DURABILITY, ACCEPT_PLAYER, ACCEPT_FIRE, SPEED);
     }
 }

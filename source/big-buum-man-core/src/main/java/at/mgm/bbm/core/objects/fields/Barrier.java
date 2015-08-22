@@ -1,7 +1,4 @@
-package at.mgm.bbm.core.fields;
-
-import at.mgm.bbm.core.Field;
-import at.mgm.bbm.core.FieldType;
+package at.mgm.bbm.core.objects.fields;
 
 public class Barrier extends Field {
 
@@ -13,7 +10,7 @@ public class Barrier extends Field {
     public static final boolean ACCEPT_FIRE = true;
     public static final double SPEED = 2.0;
 
-    protected Barrier(final int paramX, final int paramY) {
-        super(FieldType.BARRIER, TEXTURE, LOCKED, DURABILITY, ACCEPT_PLAYER, ACCEPT_FIRE, SPEED, paramX, paramY);
+    protected Barrier() {
+        super(FieldType.BARRIER, TEXTURE, LOCKED, DURABILITY, ACCEPT_PLAYER, ACCEPT_FIRE, SPEED);
     }
 }

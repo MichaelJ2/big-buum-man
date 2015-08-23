@@ -6,7 +6,7 @@ public class PowerDown extends DisplayObject {
 
     public static final String TEXTURE = "textures/power.png";
 
-    public static final int DEFAULT_DURATION = 5000;
+    public static final int DEFAULT_DURATION = 10000;
 
     public PowerDown(final int paramX, final int paramY) {
         super(GameObjectType.POWERDOWN, paramX, paramY, 0);

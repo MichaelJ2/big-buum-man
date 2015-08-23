@@ -17,6 +17,8 @@ public class PlacePowerUp extends Event {
     @Override
     public void execute() {
         // TODO: place power-up on map
-        ObjectMap.INSTANCE.addObject(this.powerUp);
+        if (ObjectMap.INSTANCE.addObject(this.powerUp)) {
+            System.out.println(String.format("PowerUp placed at %d x %d", this.powerUp.x, this.powerUp.y));
+        }
     }
 }

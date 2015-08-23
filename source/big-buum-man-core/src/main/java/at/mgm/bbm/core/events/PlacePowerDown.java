@@ -17,6 +17,8 @@ public class PlacePowerDown extends Event {
     @Override
     public void execute() {
         // TODO: place power-down on map
-        ObjectMap.INSTANCE.addObject(this.powerDown);
+        if (ObjectMap.INSTANCE.addObject(this.powerDown)) {
+            System.out.println(String.format("PowerDown placed at %d x %d", this.powerDown.x, this.powerDown.y));
+        }
     }
 }

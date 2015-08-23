@@ -1,5 +1,6 @@
 package at.mgm.bbm.core.events;
 
+import at.mgm.bbm.core.map.ObjectMap;
 import at.mgm.bbm.core.objects.gameobjects.*;
 
 public class GrabPowerUp extends Event {
@@ -16,11 +17,14 @@ public class GrabPowerUp extends Event {
 
     @Override
     public void execute() {
-        // TODO: update player and remove object from map
-        this.player.bombTimer = Bomb.TIMER_MIN;
-        this.player.bombRange = Bomb.RANGE_MAX;
-        final Player player = this.player;
+        // remove PowerUp from map
+        ObjectMap.INSTANCE.removeObject(this.powerUp);
+        System.out.println(String.format("Player %s picked up PowerUp at %d x %d", this.player.toString(), this.powerUp.x, this.powerUp.y));
         // update player's stats
+        this.player.setBombTimer(Bomb.TIMER_MIN);
+        this.player.setBombRange(Bomb.RANGE_MAX);
+        final Player player = this.player;
+        // handle duration
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -29,13 +33,13 @@ public class GrabPowerUp extends Event {
                     Thread.sleep(PowerUp.DEFAULT_DURATION);
 
                     // reset player stats
-                    player.bombTimer = Bomb.TIMER_DEFAULT;
-                    player.bombRange = Bomb.RANGE_DEFAULT;
+                    player.setBombTimer(Bomb.TIMER_DEFAULT);
+                    player.setBombRange(Bomb.RANGE_DEFAULT);
                 } catch (final InterruptedException e) {
                     e.printStackTrace();
                     // reset player immediately stats if delayed reset was interrupted
-                    player.bombTimer = Bomb.TIMER_DEFAULT;
-                    player.bombRange = Bomb.RANGE_DEFAULT;
+                    player.setBombTimer(Bomb.TIMER_DEFAULT);
+                    player.setBombRange(Bomb.RANGE_DEFAULT);
                 }
             }
         }).start();

@@ -17,12 +17,14 @@ public class GrabPowerDown extends Event {
 
     @Override
     public void execute() {
+        // remove PowerUp from map
+        ObjectMap.INSTANCE.removeObject(this.powerDown);
+        System.out.println(String.format("Player %s picked up PowerDown at %d x %d", this.player.toString(), this.powerDown.x, this.powerDown.y));
         // update player's stats
-        this.player.bombTimer = Bomb.TIMER_MAX;
-        this.player.bombRange = Bomb.RANGE_MIN;
+        this.player.setBombTimer(Bomb.TIMER_MAX);
+        this.player.setBombRange(Bomb.RANGE_MIN);
         final Player player = this.player;
-
-        // reset player's stats
+        // handle duration
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -31,18 +33,15 @@ public class GrabPowerDown extends Event {
                     Thread.sleep(PowerDown.DEFAULT_DURATION);
 
                     // reset player stats
-                    player.bombTimer = Bomb.TIMER_DEFAULT;
-                    player.bombRange = Bomb.RANGE_DEFAULT;
+                    player.setBombTimer(Bomb.TIMER_DEFAULT);
+                    player.setBombRange(Bomb.RANGE_DEFAULT);
                 } catch (final InterruptedException e) {
                     e.printStackTrace();
                     // reset player immediately stats if delayed reset was interrupted
-                    player.bombTimer = Bomb.TIMER_DEFAULT;
-                    player.bombRange = Bomb.RANGE_DEFAULT;
+                    player.setBombTimer(Bomb.TIMER_DEFAULT);
+                    player.setBombRange(Bomb.RANGE_DEFAULT);
                 }
             }
         }).start();
-
-        // remove object from map
-        ObjectMap.INSTANCE.removeObject(this.powerDown);
     }
 }

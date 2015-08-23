@@ -12,8 +12,8 @@ public class Player extends DisplayObject {
     public static final long DEFAULT_COOLDOWN = 5000;
 
     public boolean alive = true;
-    public int bombRange = Bomb.RANGE_DEFAULT;
-    public int bombTimer = Bomb.TIMER_DEFAULT;
+    private int bombRange = Bomb.RANGE_DEFAULT;
+    private long bombTimer = Bomb.TIMER_DEFAULT;
     public EventShape bombDetonationShape = EventShape.CROSS;
 
     private boolean hasBomb = true;
@@ -22,6 +22,7 @@ public class Player extends DisplayObject {
 
     public Player(final int paramX, final int paramY) {
         super(GameObjectType.PLAYER, paramX, paramY, 0);
+        ObjectMap.INSTANCE.addPlayer(this);
     }
 
     public void move(final int paramHorizontalSteps, final int paramVerticalSteps, final boolean paramIsSingleStep) {
@@ -54,15 +55,28 @@ public class Player extends DisplayObject {
         }
     }
 
-    public void updateBombRange(final int paramBombRange) {
-        if (paramBombRange > 2) {
+    public int getBombRange() {
+        return this.bombRange;
+    }
+
+    public void setBombRange(final int paramBombRange) {
+        if (paramBombRange >= Bomb.RANGE_MIN) {
             this.bombRange = paramBombRange;
         }
     }
 
-    public void updateBombTimer(final int paramBombTimer) {
-        if (paramBombTimer > 500) {
+    public long getBombTimer() {
+        return this.bombTimer;
+    }
+
+    public void setBombTimer(final long paramBombTimer) {
+        if (paramBombTimer >= Bomb.TIMER_MIN) {
             this.bombTimer = paramBombTimer;
         }
+    }
+
+    public void die() {
+        this.alive = false;
+        ObjectMap.INSTANCE.removePlayer(this);
     }
 }

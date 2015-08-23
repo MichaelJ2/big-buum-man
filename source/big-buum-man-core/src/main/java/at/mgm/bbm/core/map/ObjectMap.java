@@ -13,12 +13,12 @@ public enum ObjectMap {
 
     INSTANCE;
 
-    public static final long UPDATE_INTERVAL = 50;
+    public static final long UPDATE_INTERVAL = 20;
 
     ObjectMap() {
         this.displayObjectList = new ArrayList<DisplayObject>();
         this.playerList = new ArrayList<Player>();
-        this.start();
+        this.startObjectExecutor();
     }
 
     private volatile List<DisplayObject> displayObjectList;
@@ -91,7 +91,7 @@ public enum ObjectMap {
         }
     }
 
-    public void movePlayer(final Player paramPlayer, final int paramHorizontalSteps, final int paramVerticalSteps) {
+    public synchronized void movePlayer(final Player paramPlayer, final int paramHorizontalSteps, final int paramVerticalSteps) {
         final int newX = paramPlayer.x + paramHorizontalSteps;
         final int newY = paramPlayer.y + paramVerticalSteps;
         final Field field = VMap.INSTANCE.getField(newX, newY);
@@ -101,7 +101,7 @@ public enum ObjectMap {
         }
     }
 
-    public void start() {
+    public void startObjectExecutor() {
         if (!this.enabled) {
             System.out.println("Starting new object executor!");
             this.enabled = true;
@@ -109,7 +109,7 @@ public enum ObjectMap {
         }
     }
 
-    public void stop() {
+    public void stopObjectExecutor() {
         System.out.println("Stopping current object executor!");
         this.enabled = false;
     }
@@ -122,12 +122,10 @@ public enum ObjectMap {
                 while (enabled) {
                     if (!displayObjectList.isEmpty()) {
                         // handle objects and player-object-collision
-                        collisionCheck:
                         for (final DisplayObject displayObject : displayObjectList) {
                             for (final Player player : playerList) {
                                 if (!(displayObject instanceof Bomb) && displayObject.x == player.x && displayObject.y == player.y) {
                                     EventExecutor.INSTANCE.createEvent(player, displayObject);
-                                    break collisionCheck;
                                 }
                             }
                         }

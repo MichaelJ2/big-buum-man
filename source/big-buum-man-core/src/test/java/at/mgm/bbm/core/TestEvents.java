@@ -219,7 +219,7 @@ public class TestEvents {
         try {
             Thread.sleep(paramMillis);
         } catch (final InterruptedException e) {
-            Assert.fail(e.getMessage());
+            Assert.fail(String.format("Failed to wait for next Assertion!\n%s", e.getMessage()));
         }
     }
 }

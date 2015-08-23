@@ -22,8 +22,6 @@ public class PlaceBomb extends Event {
         if (!ObjectMap.INSTANCE.addObject(this.bomb)) {
             return;
         }
-        // remove one bomb from the player's bag
-        this.player.bombs--;
         // activate bomb
         bomb.activate();
         System.out.println(String.format("Bomb placed at %d x %d", bomb.x, bomb.y));

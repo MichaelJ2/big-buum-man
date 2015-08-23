@@ -6,8 +6,7 @@ import at.mgm.bbm.core.objects.fields.Field;
 import at.mgm.bbm.core.objects.gameobjects.Bomb;
 import at.mgm.bbm.core.objects.gameobjects.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public enum ObjectMap {
 
@@ -21,16 +20,16 @@ public enum ObjectMap {
         this.startObjectExecutor();
     }
 
-    private volatile List<DisplayObject> displayObjectList;
-    private volatile List<Player> playerList;
+    private final List<DisplayObject> displayObjectList;
+    private final List<Player> playerList;
 
     private boolean enabled = false;
 
-    public int getObjectCount() {
+    public synchronized int getObjectCount() {
         return this.displayObjectList.size();
     }
 
-    public boolean addObject(final DisplayObject paramDisplayObject) {
+    public synchronized boolean addObject(final DisplayObject paramDisplayObject) {
         boolean success = false;
         if (null != paramDisplayObject) {
             if (paramDisplayObject instanceof Player) {
@@ -44,16 +43,16 @@ public enum ObjectMap {
         return success;
     }
 
-    public boolean addPlayer(final Player paramPlayer) {
+    public synchronized boolean addPlayer(final Player paramPlayer) {
         boolean success = false;
         if (null != paramPlayer) {
             this.playerList.add(paramPlayer);
-                success = true;
+            success = true;
         }
         return success;
     }
 
-    public DisplayObject getObject(final int paramX, final int paramY) {
+    public synchronized DisplayObject getObject(final int paramX, final int paramY) {
         for (final DisplayObject displayObject : this.displayObjectList) {
             if (displayObject.x == paramX && displayObject.y == paramY) {
                 return displayObject;
@@ -62,7 +61,7 @@ public enum ObjectMap {
         return null;
     }
 
-    public boolean isTaken(final int paramX, final int paramY) {
+    public synchronized boolean isTaken(final int paramX, final int paramY) {
         for (final DisplayObject displayObject : this.displayObjectList) {
             if (displayObject.x == paramX && displayObject.y == paramY) {
                 return true;
@@ -71,8 +70,9 @@ public enum ObjectMap {
         return false;
     }
 
-    public void removeObject(final int paramX, final int paramY) {
-        for (final DisplayObject displayObject : this.displayObjectList) {
+    public synchronized void removeObject(final int paramX, final int paramY) {
+        for (final Iterator<DisplayObject> objectIterator = this.displayObjectList.iterator(); objectIterator.hasNext();) {
+            final DisplayObject displayObject = objectIterator.next();
             if (displayObject.x == paramX && displayObject.y == paramY) {
                 this.displayObjectList.remove(displayObject);
             }
@@ -101,7 +101,7 @@ public enum ObjectMap {
         }
     }
 
-    public void startObjectExecutor() {
+    public synchronized void startObjectExecutor() {
         if (!this.enabled) {
             System.out.println("Starting new object executor!");
             this.enabled = true;
@@ -109,7 +109,7 @@ public enum ObjectMap {
         }
     }
 
-    public void stopObjectExecutor() {
+    public synchronized void stopObjectExecutor() {
         System.out.println("Stopping current object executor!");
         this.enabled = false;
     }
@@ -119,19 +119,30 @@ public enum ObjectMap {
             @Override
             public void run() {
                 System.out.println("New object executor started!");
+                final Map<Player, DisplayObject> events = new HashMap<Player, DisplayObject>();
                 while (enabled) {
-                    if (!displayObjectList.isEmpty()) {
-                        // handle objects and player-object-collision
-                        for (final DisplayObject displayObject : displayObjectList) {
-                            for (final Player player : playerList) {
+                    if (!displayObjectList.isEmpty() && !playerList.isEmpty()) {
+                        // handle player-object-collision
+                        for (Iterator<DisplayObject> objectIterator = displayObjectList.iterator(); objectIterator.hasNext();) {
+                            final DisplayObject displayObject = objectIterator.next();
+                            for (Iterator<Player> playerIterator = playerList.iterator(); playerIterator.hasNext();) {
+                                final Player player = playerIterator.next();
                                 if (!(displayObject instanceof Bomb) && displayObject.x == player.x && displayObject.y == player.y) {
-                                    EventExecutor.INSTANCE.createEvent(player, displayObject);
+                                    events.put(player, displayObject);
                                 }
                             }
                         }
+
+                        // create events for each collision
+                        final Iterator iterator = events.entrySet().iterator();
+                        while (iterator.hasNext()) {
+                            final Map.Entry pair = (Map.Entry)iterator.next();
+                            EventExecutor.INSTANCE.createEvent((Player)pair.getKey(), (DisplayObject)pair.getValue());
+                            iterator.remove();
+                        }
                     }
 
-                    // wait 50ms until next check
+                    // wait until next check
                     try {
                         Thread.sleep(UPDATE_INTERVAL);
                     } catch (final InterruptedException e) {

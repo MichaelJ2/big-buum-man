@@ -50,7 +50,9 @@ public class Player extends DisplayObject {
     }
 
     public synchronized void placeBomb() {
-        if (this.bombs > 0) {
+        if (this.bombs > 0 && !ObjectMap.INSTANCE.isTaken(this.x, this.y)) {
+            // remove one bomb from the player's inventory
+            this.bombs--;
             new PlaceBomb(this);
             final Player player = this;
             new Thread(new Runnable() {

@@ -153,8 +153,11 @@ public class TestEvents {
         new PlacePowerUp(new PowerUp(PLAYER_X, PLAYER_Y));
         new PlacePowerUp(new PowerUp(PLAYER_X, PLAYER_Y));
 
-        // check if only PowerUp is placed at the field
+        // check if only one PowerUp is placed at the field
         Assert.assertEquals(1, ObjectMap.INSTANCE.getObjectCount());
+
+        // player has to move to get the PowerUp
+        player.move(0, 0, true);
 
         this.waitTime(ObjectMap.UPDATE_INTERVAL * 2);
 
@@ -189,6 +192,9 @@ public class TestEvents {
 
         // check if only PowerUp is placed at the field
         Assert.assertEquals(1, ObjectMap.INSTANCE.getObjectCount());
+
+        // player has to move to get the PowerUp
+        player.move(0, 0, true);
 
         this.waitTime(ObjectMap.UPDATE_INTERVAL * 2);
 

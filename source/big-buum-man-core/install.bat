@@ -1,3 +1,2 @@
 @ECHO OFF
-mvn clean install
-exit
+cmd /k mvn clean install

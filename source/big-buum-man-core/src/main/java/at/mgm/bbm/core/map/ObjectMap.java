@@ -17,13 +17,10 @@ public enum ObjectMap {
     ObjectMap() {
         this.displayObjectList = new ArrayList<DisplayObject>();
         this.playerList = new ArrayList<Player>();
-        this.startObjectExecutor();
     }
 
     private final List<DisplayObject> displayObjectList;
     private final List<Player> playerList;
-
-    private boolean enabled = false;
 
     public synchronized int getObjectCount() {
         return this.displayObjectList.size();
@@ -98,59 +95,26 @@ public enum ObjectMap {
         if (null != field && field.acceptPlayer) {
             paramPlayer.x = newX;
             paramPlayer.y = newY;
+            this.objectEvent(paramPlayer);
         }
     }
 
-    public synchronized void startObjectExecutor() {
-        if (!this.enabled) {
-            System.out.println("Starting new object executor!");
-            this.enabled = true;
-            this.startExecutor();
-        }
-    }
-
-    public synchronized void stopObjectExecutor() {
-        System.out.println("Stopping current object executor!");
-        this.enabled = false;
-    }
-
-    private void startExecutor() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("New object executor started!");
-                final Map<Player, DisplayObject> events = new HashMap<Player, DisplayObject>();
-                while (enabled) {
-                    if (!displayObjectList.isEmpty() && !playerList.isEmpty()) {
-                        // handle player-object-collision
-                        for (Iterator<DisplayObject> objectIterator = displayObjectList.iterator(); objectIterator.hasNext();) {
-                            final DisplayObject displayObject = objectIterator.next();
-                            for (Iterator<Player> playerIterator = playerList.iterator(); playerIterator.hasNext();) {
-                                final Player player = playerIterator.next();
-                                if (!(displayObject instanceof Bomb) && displayObject.x == player.x && displayObject.y == player.y) {
-                                    events.put(player, displayObject);
-                                }
-                            }
-                        }
-
-                        // create events for each collision
-                        final Iterator iterator = events.entrySet().iterator();
-                        while (iterator.hasNext()) {
-                            final Map.Entry pair = (Map.Entry)iterator.next();
-                            EventExecutor.INSTANCE.createEvent((Player)pair.getKey(), (DisplayObject)pair.getValue());
-                            iterator.remove();
-                        }
-                    }
-
-                    // wait until next check
-                    try {
-                        Thread.sleep(UPDATE_INTERVAL);
-                    } catch (final InterruptedException e) {
-                        // ignore exceptions
-                    }
-                }
-                System.out.println("Current object executor stopped!");
+    private void objectEvent(final Player paramPlayer) {
+        final int playerX = paramPlayer.x;
+        final int playerY = paramPlayer.y;
+        // handle player-object-collision
+        final Map<Player, DisplayObject> events = new HashMap<Player, DisplayObject>();
+        for (final Iterator<DisplayObject> objectIterator = displayObjectList.iterator(); objectIterator.hasNext();) {
+            final DisplayObject displayObject = objectIterator.next();
+            if (!(displayObject instanceof Bomb) && playerX == displayObject.x && playerY == displayObject.y) {
+                events.put(paramPlayer, displayObject);
             }
-        }).start();
+        }
+        // create events for each collision
+        for (final Iterator iterator = events.entrySet().iterator(); iterator.hasNext();) {
+            final Map.Entry pair = (Map.Entry)iterator.next();
+            EventExecutor.INSTANCE.createEvent((Player)pair.getKey(), (DisplayObject)pair.getValue());
+            iterator.remove();
+        }
     }
 }

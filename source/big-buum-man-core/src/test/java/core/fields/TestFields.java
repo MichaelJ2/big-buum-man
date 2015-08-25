@@ -1,4 +1,4 @@
-package at.mgm.bbm.core;
+package core.fields;
 
 import at.mgm.bbm.core.objects.fields.*;
 import org.junit.Assert;

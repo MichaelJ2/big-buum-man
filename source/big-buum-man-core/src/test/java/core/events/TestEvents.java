@@ -1,4 +1,4 @@
-package at.mgm.bbm.core;
+package core.events;
 
 import at.mgm.bbm.core.events.PlacePowerDown;
 import at.mgm.bbm.core.events.PlacePowerUp;

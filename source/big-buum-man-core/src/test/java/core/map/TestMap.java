@@ -1,4 +1,4 @@
-package at.mgm.bbm.core;
+package core.map;
 
 import at.mgm.bbm.core.map.VMap;
 import at.mgm.bbm.core.objects.fields.Field;

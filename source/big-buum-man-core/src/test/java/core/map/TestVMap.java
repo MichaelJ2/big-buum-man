@@ -1,4 +1,4 @@
-package at.mgm.bbm.core;
+package core.map;
 
 import org.junit.Test;
 

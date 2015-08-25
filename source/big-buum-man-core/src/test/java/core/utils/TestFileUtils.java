@@ -1,4 +1,4 @@
-package at.mgm.bbm.core;
+package core.utils;
 
 import at.mgm.bbm.core.utils.FileUtils;
 import org.junit.Test;

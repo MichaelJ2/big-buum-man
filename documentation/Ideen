@@ -19,3 +19,14 @@ Netzwerktraffic analysieren von derzeitigen model -> jsonmodel basteln
 StandardPakete auswählen -> ein paar vorgefertigte karten designen
 animationen überlegen -> bombe explodiert, spieler stirbt
 sound überlegen-> spieler stirbt
+
+
+Steuerung von Player zu Server => zurzeit strings die vom handy zum server gesendet werden, danach JSON objekte
+Button Schritt nach Links => "Links"
+Button Schritt nach Rechts => "Rechts"
+Button Schritt Hinauf => "Hinauf"
+Button Schritt Hinunter => "Hinunter"
+Button A => "A"
+Button B => "B"
+
+vl implementieren von länger auf taste oben bleiben und dauer Button drücken jede sekunde ein request.

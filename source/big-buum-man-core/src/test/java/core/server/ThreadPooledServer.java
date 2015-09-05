@@ -21,6 +21,7 @@ public class ThreadPooledServer {
     }
 
     public synchronized void start(final int paramPort) {
+        System.out.println("Starting server ...");
         if (null == this.server) {
             try {
                 this.server = new ServerSocket(paramPort);
@@ -43,13 +44,13 @@ public class ThreadPooledServer {
                             clientSocket = server.accept();
                         } catch (final IOException e) {
                             if (!isRunning()) {
-                                System.out.println("Error accepting client connection");
+                                System.out.println("Error accepting client connection, Server closed?");
                                 break;
                             }
                         }
 
                         if (null != clientSocket) {
-                            threadPool.execute(new RequestProcessor(clientSocket, "Thread Pooled Server"));
+                            threadPool.execute(new RequestProcessor(clientSocket));
                         }
                     }
                     threadPool.shutdown();
@@ -67,6 +68,7 @@ public class ThreadPooledServer {
     }
 
     public synchronized void stop() {
+        System.out.println("Stopping server ...");
         if (this.isRunning() && null != this.server) {
             if (!this.server.isClosed()) {
                 if (null != this.listener && this.listener.isAlive()) {

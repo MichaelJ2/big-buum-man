@@ -1,10 +1,11 @@
 package core.events;
 
-import at.mgm.bbm.core.events.PlacePowerDown;
-import at.mgm.bbm.core.events.PlacePowerUp;
-import at.mgm.bbm.core.map.ObjectMap;
-import at.mgm.bbm.core.objects.DisplayObject;
-import at.mgm.bbm.core.objects.gameobjects.*;
+import at.mnm.bbm.core.map.ObjectMap;
+import at.mnm.bbm.core.objects.DisplayObject;
+import at.mnm.bbm.core.objects.bombs.Bomb;
+import at.mnm.bbm.core.objects.extras.Extra;
+import at.mnm.bbm.core.objects.GameObjectType;
+import at.mnm.bbm.core.objects.characters.Player;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,23 +36,23 @@ public class TestEvents {
         System.out.println("# # #   T E S T I N G   P L A Y E R   M O V E M E N T   # # #");
 
         // check player's current location
-        Assert.assertEquals(PLAYER_X, player.x);
-        Assert.assertEquals(PLAYER_Y, player.y);
+        Assert.assertEquals(PLAYER_X, player.getX());
+        Assert.assertEquals(PLAYER_Y, player.getY());
 
-        System.out.println(String.format("Player's old location was %d x %x", player.x, player.y));
+        System.out.println(String.format("Player's old location was %d x %x", player.getX(), player.getY()));
 
         // move player
         player.move(1, 0, true);
 
         // check if player was moved successfully
-        Assert.assertEquals(PLAYER_X + 1, player.x);
-        Assert.assertEquals(PLAYER_Y, player.y);
+        Assert.assertEquals(PLAYER_X + 1, player.getX());
+        Assert.assertEquals(PLAYER_Y, player.getY());
 
-        System.out.println(String.format("Player's new location is %d x %x", player.x, player.y));
+        System.out.println(String.format("Player's new location is %d x %x", player.getX(), player.getY()));
 
         // reset player's location
-        player.x = PLAYER_X;
-        player.y = PLAYER_Y;
+        player.setX(PLAYER_X);
+        player.setY(PLAYER_Y);
 
         System.out.println();
     }
@@ -72,7 +73,7 @@ public class TestEvents {
         Assert.assertEquals(GameObjectType.BOMB, object.objectType);
 
         // wait until bomb explodes
-        this.waitTime(Bomb.TIMER_DEFAULT + 10);
+        this.waitTime(Bomb.DEFAULT_TIMER + 10);
 
         // check if bomb was removed after detonation
         Assert.assertEquals(0, ObjectMap.INSTANCE.getObjectCount());
@@ -123,7 +124,7 @@ public class TestEvents {
         Assert.assertEquals(3, ObjectMap.INSTANCE.getObjectCount());
 
         // wait until the bombs detonated
-        this.waitTime(Bomb.TIMER_DEFAULT + 10);
+        this.waitTime(Bomb.DEFAULT_TIMER + 10);
 
         // check if all bombs were removed after their detonation
         Assert.assertEquals(0, ObjectMap.INSTANCE.getObjectCount());
@@ -135,8 +136,8 @@ public class TestEvents {
         Assert.assertEquals(3, player.bombs);
 
         // reset player's location
-        player.x = PLAYER_X;
-        player.y = PLAYER_Y;
+        player.setX(PLAYER_X);
+        player.setY(PLAYER_Y);
 
         System.out.println();
     }
@@ -145,13 +146,11 @@ public class TestEvents {
         System.out.println("# # #   T E S T I N G   P O W E R U P   # # #");
 
         // check if player's stats are default
-        Assert.assertEquals(Bomb.RANGE_DEFAULT, player.getBombRange());
-        Assert.assertEquals(Bomb.TIMER_DEFAULT, player.getBombTimer());
+        Assert.assertEquals(Bomb.DEFAULT_RANGE, player.getBombRange());
+        Assert.assertEquals(Bomb.DEFAULT_TIMER, player.getBombTimer());
 
         // place multiple PowerUps
-        new PlacePowerUp(new PowerUp(PLAYER_X, PLAYER_Y));
-        new PlacePowerUp(new PowerUp(PLAYER_X, PLAYER_Y));
-        new PlacePowerUp(new PowerUp(PLAYER_X, PLAYER_Y));
+        // TODO
 
         // check if only one PowerUp is placed at the field
         Assert.assertEquals(1, ObjectMap.INSTANCE.getObjectCount());
@@ -169,11 +168,11 @@ public class TestEvents {
         Assert.assertEquals(Bomb.TIMER_MIN, player.getBombTimer());
 
         // wait until the boost has expired
-        this.waitTime(PowerUp.DEFAULT_DURATION + 10);
+        this.waitTime(Extra.DEFAULT_DURATION + 10);
 
         // check if player stats are reset to default after the duration exceeded
-        Assert.assertEquals(Bomb.RANGE_DEFAULT, player.getBombRange());
-        Assert.assertEquals(Bomb.TIMER_DEFAULT, player.getBombTimer());
+        Assert.assertEquals(Bomb.DEFAULT_RANGE, player.getBombRange());
+        Assert.assertEquals(Bomb.DEFAULT_TIMER, player.getBombTimer());
 
         System.out.println();
     }
@@ -182,13 +181,11 @@ public class TestEvents {
         System.out.println("# # #   T E S T I N G   P O W E R D O W N   # # #");
 
         // check if player's stats are default
-        Assert.assertEquals(Bomb.RANGE_DEFAULT, player.getBombRange());
-        Assert.assertEquals(Bomb.TIMER_DEFAULT, player.getBombTimer());
+        Assert.assertEquals(Bomb.DEFAULT_RANGE, player.getBombRange());
+        Assert.assertEquals(Bomb.DEFAULT_TIMER, player.getBombTimer());
 
         // place multiple PowerUps
-        new PlacePowerDown(new PowerDown(PLAYER_X, PLAYER_Y));
-        new PlacePowerDown(new PowerDown(PLAYER_X, PLAYER_Y));
-        new PlacePowerDown(new PowerDown(PLAYER_X, PLAYER_Y));
+        // TODO
 
         // check if only PowerUp is placed at the field
         Assert.assertEquals(1, ObjectMap.INSTANCE.getObjectCount());
@@ -206,11 +203,11 @@ public class TestEvents {
         Assert.assertEquals(Bomb.TIMER_MAX, player.getBombTimer());
 
         // wait until the nerf has expired
-        this.waitTime(PowerDown.DEFAULT_DURATION + 10);
+        this.waitTime(Extra.DEFAULT_DURATION + 10);
 
         // check if player stats are reset to default after the duration exceeded
-        Assert.assertEquals(Bomb.RANGE_DEFAULT, player.getBombRange());
-        Assert.assertEquals(Bomb.TIMER_DEFAULT, player.getBombTimer());
+        Assert.assertEquals(Bomb.DEFAULT_RANGE, player.getBombRange());
+        Assert.assertEquals(Bomb.DEFAULT_TIMER, player.getBombTimer());
 
         System.out.println();
     }

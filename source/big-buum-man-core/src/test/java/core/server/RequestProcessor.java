@@ -1,44 +1,48 @@
 package core.server;
 
-import com.eclipsesource.json.Json;
-import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.WriterConfig;
-
 import java.io.*;
-import java.math.BigInteger;
 import java.net.Socket;
-import java.util.Scanner;
 
-/**
- * Created by admin on 25.08.2015.
- */
 public class RequestProcessor implements Runnable{
 
     protected Socket clientSocket = null;
-    protected String serverText   = null;
 
-    public RequestProcessor(final Socket paramSocket, final String paramServerText) {
+    public RequestProcessor(final Socket paramSocket) {
         this.clientSocket = paramSocket;
-        this.serverText   = paramServerText;
     }
 
     public void run() {
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
-            String content = br.readLine();
-            //final Scanner in = new Scanner(this.clientSocket.getInputStream());
-            final OutputStream out = this.clientSocket.getOutputStream();
 
-            System.out.println(content);
+            // get request
+            BufferedReader in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+            String line;
 
-            JsonObject json = Json.parse(content).asObject();
+            // print every line of the request
+            StringBuilder stringBuilder = new StringBuilder();
+            while (null != (line = in.readLine()) && !line.isEmpty()) {
+                stringBuilder.append(line).append("\n");
+            }
 
-            final String response = String.format("HTTP/1.1 200 OK\n%s", json.toString(WriterConfig.PRETTY_PRINT));
+            final String request[] = stringBuilder.toString().split("\n");
 
-            out.write(response.getBytes());
+            System.out.println(String.format("METHOD:\t%s", request[0]));
+            System.out.println(String.format("LENGTH:\t%s", request[1]));
+            System.out.println(String.format("TYPE:\t%s", request[2]));
+            System.out.println(String.format("DATA:\t%s", request[3]));
+
+            // write response
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(this.clientSocket.getOutputStream(), "UTF-8"));
+
+            final String response = "HTTP/1.1 200 OK\r\n";
+
+            out.write(response);
+            out.write("\r\n");
+
+            out.flush();
 
             out.close();
-            br.close();
+            in.close();
         } catch (final IOException e) {
             //report exception somewhere.
             e.printStackTrace();

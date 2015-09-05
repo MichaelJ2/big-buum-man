@@ -1,6 +1,6 @@
 package core.fields;
 
-import at.mgm.bbm.core.objects.fields.*;
+import at.mnm.bbm.core.objects.fields.*;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,13 +1,10 @@
 package core.map;
 
-import at.mgm.bbm.core.map.VMap;
-import at.mgm.bbm.core.objects.fields.Field;
-import at.mgm.bbm.core.objects.fields.FieldFactory;
-import at.mgm.bbm.core.objects.fields.FieldType;
+import at.mnm.bbm.core.map.VMap;
+import at.mnm.bbm.core.objects.fields.Field;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.List;
 
 public class TestMap {
 

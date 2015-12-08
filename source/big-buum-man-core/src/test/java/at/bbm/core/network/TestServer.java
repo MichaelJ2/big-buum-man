@@ -1,8 +1,9 @@
-package at.bbm.core.server;
+package at.bbm.core.network;
 
 import at.bbm.core.GlobalProperties;
-import at.bbm.core.server.json.Move;
-import at.bbm.core.server.json.Register;
+import at.bbm.core.network.json.Move;
+import at.bbm.core.network.json.Register;
+import at.bbm.core.network.server.ThreadPooledServer;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +48,7 @@ public class TestServer {
 
         try {
             InetAddress address = InetAddress.getByName(HOST);
+            connection = new Connection(new Socket(address, PORT));
 
             LOGGER.debug("Sending request ...");
 
@@ -58,8 +60,9 @@ public class TestServer {
                 System.out.println();
 
                 final String request = new Register("Pali").getJSON();
-                connection = new Connection(new Socket(address, PORT));
                 final String response = connection.getResponse(request);
+
+                connection.connect(new Socket(address, PORT));
 
                 LOGGER.debug("Response was: {}", response);
                 if ((matcher = pattern.matcher(response)).matches()) {
@@ -68,17 +71,23 @@ public class TestServer {
                     GlobalProperties.UUID = response;
                 }
 
-                // request sent and gor response
+                // request sent and got response
             }
 
             // test all direction commands
             for (int i = 0; i < 4; i++) {
                 System.out.println();
                 final String request = new Move(dir[i]).getJSON();
-                connection = new Connection(new Socket(address, PORT));
                 final String response = connection.getResponse(request);
+
+                connection.connect(new Socket(address, PORT));
+
                 LOGGER.debug("Response was: {}", response);
             }
+
+            connection.close();
+            connection = null;
+
             System.out.println();
         } catch (final Exception e) {
             e.printStackTrace();

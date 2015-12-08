@@ -1,11 +1,10 @@
-package at.bbm.core.server;
+package at.bbm.core.network;
 
 import at.bbm.core.GlobalProperties;
 import at.bbm.core.objects.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;

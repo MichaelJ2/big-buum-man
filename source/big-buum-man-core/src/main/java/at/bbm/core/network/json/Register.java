@@ -1,4 +1,4 @@
-package at.bbm.core.server.json;
+package at.bbm.core.network.json;
 
 public class Register extends JsonObject {
 

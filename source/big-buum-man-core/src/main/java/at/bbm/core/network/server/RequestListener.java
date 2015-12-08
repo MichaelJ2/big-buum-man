@@ -1,4 +1,4 @@
-package at.bbm.core.server;
+package at.bbm.core.network.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

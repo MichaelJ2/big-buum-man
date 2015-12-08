@@ -1,5 +1,6 @@
-package at.bbm.core.server;
+package at.bbm.core.network.server;
 
+import at.bbm.core.network.PlayerMapper;
 import at.bbm.core.objects.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

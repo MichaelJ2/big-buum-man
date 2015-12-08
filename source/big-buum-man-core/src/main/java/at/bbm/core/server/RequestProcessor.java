@@ -1,5 +1,6 @@
 package at.bbm.core.server;
 
+import at.bbm.core.objects.players.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -36,47 +37,55 @@ public class RequestProcessor implements Runnable{
                 LOGGER.debug("Processing request: {}", rawJson);
             }
 
+            String id = null;
             String type = null;
             JSONObject data = null;
 
             try {
                 final JSONObject jsonObject = (JSONObject) this.parser.parse(rawJson);
+                id = jsonObject.get("id").toString();
                 type = jsonObject.get("type").toString();
                 data = (JSONObject) jsonObject.get("data");
             } catch (final Exception e) {
                 LOGGER.error("Unable to parse JSON Request: \"{}\", request data: {}", e.getMessage(), rawJson);
             }
 
+            Player player = PlayerMapper.getPlayer(id);
+
+            if (null == player && !"reg".equals(type)) {
+                LOGGER.error("Unknown controller");
+                player = new Player();
+            }
+
+            String response = "200\r\n";
+
             if (null != type && null != data) {
                 switch (type) {
                     case "reg":
+                        // register new controller
                         final String name = data.get("name").toString();
-                        // register new player
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("Registering new player \"{}\" with name \"{}\"", this.getIpAddress(socket.getInetAddress().getAddress()), name);
-                        }
-                        PlayerMapper.addPlayer(socket.getInetAddress(), name);
+                        final String uuid = PlayerMapper.addPlayer(id, name);
+                        response = uuid + "\r\n";
                         break;
                     case "mov":
                         // move player
+                        final String dir = data.get("dir").toString();
                         if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("Moving player \"{}\" to \"{}\"", this.getIpAddress(socket.getInetAddress().getAddress()), data.get("dir"));
+                            LOGGER.debug("Moving player \"{}\" to \"{}\"", player.getName(), dir);
                         }
-                        PlayerMapper.getPlayer(this.socket.getInetAddress());
+                        PlayerMapper.getPlayer(id).move(dir);
+                        break;
                     case "btn":
-                        // move player
+                        // handle button
+                        final String btn = data.get("btn").toString();
                         if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("Player \"{}\" pressed button \"\"", this.getIpAddress(socket.getInetAddress().getAddress()), data.get("btn"));
+                            LOGGER.debug("Player \"{}\" pressed button \"{}\"", player.getName(), btn);
                         }
-                    case "res":
-                        // move player
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("Player \"{}\" is connected.", this.getIpAddress(socket.getInetAddress().getAddress()), data.get("res"));
-                        }
-                    break;
+                        break;
                     default:
                         // unknown request
                         LOGGER.error("Unknown request type: {} with data: {}", type, data.toJSONString());
+                        response = "500\r\n";
                         break;
                 }
             } else {
@@ -85,8 +94,6 @@ public class RequestProcessor implements Runnable{
 
             // write response
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream(), "UTF-8"));
-
-            final String response = "200\r\n";
             out.write(response);
             out.write("\r\n");
 

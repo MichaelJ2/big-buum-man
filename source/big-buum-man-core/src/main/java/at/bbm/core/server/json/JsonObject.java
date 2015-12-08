@@ -1,18 +1,18 @@
 package at.bbm.core.server.json;
 
+import at.bbm.core.GlobalProperties;
+
 abstract class JsonObject {
 
-    private static final String JSON = "{\"type\":\"%s\",\"data\":{%s}}";
+    private static final String JSON = "{\"id\":\"%s\",\"type\":\"%s\",\"data\":{%s}}";
 
-    private final String type;
-    private final String data;
+    private final String json;
 
     protected JsonObject(final String paramType, final String paramData) {
-        this.type = paramType;
-        this.data = paramData;
+        this.json = String.format(JSON, GlobalProperties.UUID, paramType, paramData);
     }
 
-    public String toJSONString() {
-        return String.format(JSON, type, data);
+    public String getJSON() {
+        return this.json;
     }
 }

@@ -1,15 +1,21 @@
 package at.bbm.core.server;
 
+import at.bbm.core.GlobalProperties;
+import at.bbm.core.server.json.Move;
 import at.bbm.core.server.json.Register;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.net.*;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TestServer {
 
@@ -18,54 +24,67 @@ public class TestServer {
     private static final String HOST = "localhost";
     private static final int PORT = 8888;
 
-    @Test
-    public void testPOST() {
+    private Connection connection = null;
+
+    private static final String UUID_REGEX = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
+    private final Pattern pattern = Pattern.compile(UUID_REGEX);
+    private Matcher matcher;
+
+    private final String[] dir = {"N", "E", "S", "W"};
+
+    @Before
+    public void setup() {
         Configurator.setRootLevel(Level.DEBUG);
+    }
+
+    @Test
+    public void testClientServerCommunication() {
 
         final ThreadPooledServer server = ThreadPooledServer.getInstance();
         server.start(PORT);
 
         waitTime(100);
 
-        Socket client = null;
-
         try {
             InetAddress address = InetAddress.getByName(HOST);
-            client = new Socket(address, PORT);
-
-            final String request = new Register("Pali").toJSONString();
 
             LOGGER.debug("Sending request ...");
 
-            // Writer to write to the connection's stream
-            BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(client.getOutputStream(), "UTF-8"));
+            // register 2 times to test if controller is not be re-registered
+            for (int i = 0; i < 2; i++) {
 
-            // Send request
-            wr.write(request);
-            wr.write("\r\n");
-            wr.flush();
+                // send request to register new controller
 
-            // Reader to reade the connection's stream
-            final BufferedReader rd = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            final String response = rd.readLine();
+                System.out.println();
 
-            LOGGER.debug("Response was: {}", response);
+                final String request = new Register("Pali").getJSON();
+                connection = new Connection(new Socket(address, PORT));
+                final String response = connection.getResponse(request);
 
-            wr.close();
-            rd.close();
+                LOGGER.debug("Response was: {}", response);
+                if ((matcher = pattern.matcher(response)).matches()) {
+                    LOGGER.debug("Found UUID");
+                    // set UUID for this controller for identification
+                    GlobalProperties.UUID = response;
+                }
+
+                // request sent and gor response
+            }
+
+            // test all direction commands
+            for (int i = 0; i < 4; i++) {
+                System.out.println();
+                final String request = new Move(dir[i]).getJSON();
+                connection = new Connection(new Socket(address, PORT));
+                final String response = connection.getResponse(request);
+                LOGGER.debug("Response was: {}", response);
+            }
+            System.out.println();
         } catch (final Exception e) {
             e.printStackTrace();
-        } finally {
-            if (null != client && !client.isClosed()) {
-                try {
-                    client.close();
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
-        waitTime(100);
+        waitTime(3000);
         server.stop();
     }
 
@@ -75,5 +94,85 @@ public class TestServer {
         } catch (final InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testIP() {
+        System.out.println("IP0: " + getIP0());
+        System.out.println("IP1: " + getIP1());
+        System.out.println("IP2: " + getIP2());
+        System.out.println("pIP: " + getPrivateIP());
+    }
+
+    public String getIP0() {
+        InetAddress ip;
+        try {
+            ip = InetAddress.getLocalHost();
+            return ip.getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getIP1() {
+        try {
+            return Collections.list(NetworkInterface.getNetworkInterfaces()).stream()
+                    .flatMap(i -> Collections.list(i.getInetAddresses()).stream())
+                    .filter(ip -> ip instanceof Inet4Address && ip.isSiteLocalAddress())
+                    .findFirst().orElseThrow(RuntimeException::new)
+                    .getHostAddress();
+        } catch (SocketException e) {
+            return null;
+        }
+    }
+
+    public static String getIP2(){
+        String ipAddress = null;
+        Enumeration<NetworkInterface> net = null;
+        try {
+            net = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
+        while(net.hasMoreElements()){
+            NetworkInterface element = net.nextElement();
+            Enumeration<InetAddress> addresses = element.getInetAddresses();
+            while (addresses.hasMoreElements()){
+                InetAddress ip = addresses.nextElement();
+                if (ip instanceof Inet4Address){
+
+                    if (ip.isSiteLocalAddress()){
+                        ipAddress = ip.getHostAddress();
+                    }
+
+                }
+
+            }
+        }
+        return ipAddress;
+    }
+
+    public String getPrivateIP() {
+        String ip = null;
+        BufferedReader in = null;
+        try {
+            URL whatismyip = new URL("http://checkip.amazonaws.com");
+            in = new BufferedReader(new InputStreamReader(
+                    whatismyip.openStream()));
+
+            ip = in.readLine(); //you get the IP as a String
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return ip;
     }
 }

@@ -8,8 +8,12 @@ import at.bbm.core.objects.bombs.BombFactory;
 import at.bbm.core.objects.bombs.BombType;
 import at.bbm.core.map.Location;
 import at.bbm.core.map.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Player extends GameObject {
+
+    public static final Logger LOGGER = LogManager.getLogger(Player.class.getName());
 
     private int bombRange = Bomb.DEFAULT_RANGE;
     private double bombTimeAmplifier = 1.0;
@@ -56,7 +60,7 @@ public class Player extends GameObject {
         this.bombRange = paramBombRange;
     }
 
-    public void placeBomb() {
+    public synchronized void placeBomb() {
         final Bomb bomb = BombFactory.getBomb(this.bombType);
         Map.getInstance().placeObject(this.location, bomb);
         // TODO
@@ -70,8 +74,18 @@ public class Player extends GameObject {
 
     }
 
-    public void die() {
+    public synchronized void die() {
 
+    }
+
+    public synchronized void move(final String paramDirection) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Moved player {} to direction {}", this.name, paramDirection);
+        }
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     @Override

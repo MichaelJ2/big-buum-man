@@ -1,5 +1,7 @@
 package at.bbm.core;
 
+import java.util.UUID;
+
 public class GlobalProperties {
 
     /***************************************************************************************************************
@@ -31,4 +33,11 @@ public class GlobalProperties {
     public static final String TEXTURE_PLAYER_6 = "";
     public static final String TEXTURE_PLAYER_7 = "";
     public static final String TEXTURE_PLAYER_8 = "";
+
+    /***************************************************************************************************************
+     *  DEFAULT TEXTURES
+     ***************************************************************************************************************/
+
+    public static final String UNREGISTERED_UUID = "00000000-0000-0000-0000-000000000000";
+    public static String UUID = "00000000-0000-0000-0000-000000000000";
 }
